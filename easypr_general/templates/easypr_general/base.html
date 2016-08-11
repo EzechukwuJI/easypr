@@ -1,0 +1,1046 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<!-- Basic Page Needs
+	================================================== -->
+	<meta charset="utf-8">
+   <title>Easypr.ng - {% block title %}{% endblock title %} </title>
+
+	<!-- Mobile Specific Metas
+	================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'easypr/img/favicon/favicon-144x144.png' %}">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'easypr/img/favicon/favicon-72x72.png' %}">
+	<link rel="apple-touch-icon-precomposed" href="{% static 'easypr/img/favicon/favicon-54x54.png' %}">
+	
+	<!-- CSS
+	================================================== -->
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="{% static "easypr/css/bootstrap.min.css" %}">
+	<!-- Template styles-->
+	<link rel="stylesheet" href="{% static "easypr/css/style.css" %}">
+
+	<link rel="stylesheet" href="{% static "easypr/css/easypr.css" %}">
+	<!-- Responsive styles-->
+	<link rel="stylesheet" href="{% static 'easypr/css/responsive.css' %}">
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="{% static 'easypr/css/font-awesome.min.css' %}">
+	<!-- Animation -->
+	<link rel="stylesheet" href="{% static 'easypr/css/animate.css' %}">
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="{% static 'easypr/css/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'easypr/css/owl.theme.default.min.css' %}">
+	<!-- Colorbox -->
+	<link rel="stylesheet" href="{% static 'easypr/css/colorbox.css' %}">
+
+</head>
+	
+<body>
+
+	<div class="body-inner">
+{% block header %}
+	<div id="top-bar" class="top-bar">
+		<div class="container">
+			<div class="row">
+				
+				<div class="col-md-6 col-sm-6 col-xs-12 top-social">
+					<ul class="unstyled">
+						<li>
+							<a title="Facebook" href="#">
+								<span class="social-icon"><i class="fa fa-facebook"></i></span>
+							</a>
+							<a title="Twitter" href="#">
+								<span class="social-icon"><i class="fa fa-twitter"></i></span>
+							</a>
+							<a title="Google+" href="#">
+								<span class="social-icon"><i class="fa fa-google-plus"></i></span>
+							</a>
+							<a title="Linkdin" href="#">
+								<span class="social-icon"><i class="fa fa-linkedin"></i></span>
+							</a>
+							<a title="Rss" href="#">
+								<span class="social-icon"><i class="fa fa-rss"></i></span>
+							</a>
+						</li>
+					</ul>
+				</div><!--/ Top social end -->
+
+				<div class="col-md-6 col-sm-6 col-xs-12 top-menu ">
+					<ul class="unstyled">
+						<!-- <li><a href="#">About</a></li> -->
+						<li><a href="#">How It Works</a></li>
+						<li><a href="{% url 'general:faq' %}">FAQs</a></li>
+						{% if user.is_authenticated %}
+							<li><a href="{% url 'general:logout' %}">Logout</a></li>
+						{% else %}
+							<li><a href="#" data-target="#login-modal" data-dismiss="modal" data-toggle="modal">Login</a></li>
+							<li><a href="#" data-target="#sign-up-modal" data-dismiss="modal" data-toggle="modal">Sign up</a></li>
+						{% endif %}
+
+					</ul>
+				</div><!--/ Top menu end -->
+
+			</div><!--/ Content row end -->
+		</div><!--/ Container end -->
+	</div><!--/ Topbar end -->
+
+	<!-- Header start -->
+	<header id="header" class="header-white">
+		<div class="container">
+			<div class="row">
+				<div class="navbar-header">
+					<div class="logo">
+	                <a href="{% url 'general:homepage' %}">
+	                	<img src="{% static 'easypr/images/logo.png' %}" alt="">
+	                </a>
+         		</div><!-- logo end -->
+				</div>
+
+				<div class="site-nav-inner">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				        <span class="sr-only">Toggle navigation</span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+	    			</button>
+
+	    			<nav class="collapse navbar-collapse navbar-responsive-collapse navbar-right">
+	    				<ul class="nav navbar-nav">
+						   <li class="dropdown active">
+			                  <a href="{% url 'general:homepage' %}">Home</a>
+			               </li>
+
+			               <li class="dropdown">
+			                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Who We Are <i class="fa fa-angle-down"></i></a>
+								<ul class="dropdown-menu" role="menu">
+		                           <li><a href="{% url 'general:who-we-are'%}#about-us">About Us</a></li>
+		                           <li><a href="{% url 'general:who-we-are'%}#the-team">The Team</a></li>
+		                           <li><a href="{% url 'general:who-we-are'%}#reviews">Client Reviews</a></li>
+		                           <li><a href="{% url 'general:who-we-are'%}#our-partners">Our Partners</a></li>
+		                           <li><a href="{% url 'general:careers' %}">Join Us</a></li>
+		                      	   <li><a href="{% url 'easypr_ng:request-service' %}">Let us work for you</a></li>
+			                    </ul>
+			               </li>
+
+			               <li class="dropdown">
+			                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">What We Do <i class="fa fa-angle-down"></i></a>
+							   <ul class="dropdown-menu" role="menu">
+		                           <li><a href="{% url 'general:services' %}">Content Writing</a></li>
+		                           <li><a href="{% url 'general:services' %}">Press Release Syndication</a></li>
+		                           <li><a href="{% url 'general:services' %}">Media Relations Consulting</a></li>
+		                           <li><a href="{% url 'general:services' %}">Digital Marketing</a></li>
+		                           <li><a href="{% url 'general:services' %}">Brand Promotion</a></li>
+		                           <li><a href="{% url 'general:services' %}">General Media Services</a></li>
+			                   </ul>
+			               </li>
+
+			               <li class="dropdown">
+			                  <a href="{% url 'easypr_ng:our-works' %}" >Our Works </a>
+			               </li>
+			               <li class="dropdown">
+			                  <a href="{% url 'easypr_ng:newsroom' %}">Newsroom</a>
+			               </li>
+						   <li class="dropdown">
+			                  <a href="{% url 'general:contact-us' %}">Contact </a>
+			                  <!-- <a href="{% url 'general:contact-us' %}" class="dropdown-toggle" data-toggle="dropdown">Contact </a> -->
+			               </li>
+
+		            </ul><!--/ Nav ul end -->
+
+	    			</nav><!--/ Collapse end -->
+
+				</div><!-- Site nav inner end -->
+
+			</div><!-- Row end -->
+		</div><!-- Container end -->
+	</header><!--/ Header end -->
+{% endblock header %}
+
+{% block inner_content %}
+	<div id="box-slide" class="owl-carousel owl-theme page-slider">
+		<div class="item" style="background-image:url({% static 'easypr/images/slider-main/bg1.jpg' %})">
+			<div class="container">
+				<div class="box-slider-content">
+					<div class="box-slider-text">
+						<h2 class="box-slide-title">Helping You</h2>
+						<h6 class="box-slide-sub-title">Take Care of all your individual and corporate PR concerns</h6>	
+                	<p class="box-slide-description">You don't need a whole department to take care of your PR concerns. Let us do it for you on a pay as you use basis, On any media of your choice.</p>
+                	<p>
+                   	<a href = "#packages" class="slider btn btn-primary">Submit your Content</a>
+                   	<a href="{% url 'easypr_ng:request-service' %}" class="slider btn btn-secondary">Request A Service</a>
+                   </p>	 
+					</div>    
+        		</div>
+			</div>
+		</div><!-- Item 1 end -->
+
+		<div class="item" style="background-image:url({% static 'easypr/images/slider-main/bg2.jpg' %})">
+			<div class="container">
+				<div class="box-slider-content">
+					<div class="box-slider-text">
+						<h2 class="box-slide-title">Press Release Syndication</h2>
+						<h3 class="box-slide-sub-title">Professional Press Content Editing and Publication.</h3>	
+                	<p class="box-slide-description">You have a press release or any company related information for the public,let us edit and publish it on any media of your choice with ease.</p>
+                	<p>
+                   	<a href="#" class="slider btn btn-primary">Our Service</a>
+                   </p>	 
+					</div>    
+        		</div>
+			</div>
+		</div><!-- Item 2 end -->
+
+		<div class="item" style="background-image:url({% static 'easypr/images/slider-main/bg3.jpg' %})">
+			<div class="container">
+				<div class="box-slider-content">
+					<div class="box-slider-text">
+						<h2 class="box-slide-title">Meet Our Advisor</h2>
+						<h3 class="box-slide-sub-title">Get Affordable Advice</h3>	
+                	<p class="box-slide-description">You have ideas, goals, and dreams. We have a culturally diverse, forward thinking team looking for talent like.</p>
+                	<p>
+                   	<a href="#" class="slider btn btn-primary">Consultation</a>
+                   </p>	 
+					</div>    
+        		</div>
+			</div>
+		</div><!-- Item 3 end -->
+	</div><!-- Owl carousel -->
+
+
+
+	{% include 'easypr_snippets/bouquet.html' %}
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <section id="ts-features" class="features-area">
+		<div class="container">
+			<div class="row">
+				
+				<div class="col-md-4">
+				   <div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          	<i class="fa fa-lightbulb-o"></i>
+			        	</div>
+			        	<div class="ts-service-box-info">
+			          	<h3><a href="#">Start An Idea</a></h3>
+			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+			        </div>
+			      </div><!-- Service 1 end -->
+				</div><!-- Col 1 end -->
+
+				<div class="col-md-4">
+				   <div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          	<i class="fa fa-user"></i>
+			        	</div>
+			        	<div class="ts-service-box-info">
+			          	<h3><a href="#">Professional Advisor</a></h3>
+			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+			        </div>
+			      </div><!-- Service 2 end -->
+				</div><!-- Col 2 end -->
+
+				<div class="col-md-4">
+				   <div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          	<i class="fa fa-thumbs-up"></i>
+			        	</div>
+			        	<div class="ts-service-box-info">
+			          	<h3><a href="#">Success on Business</a></h3>
+			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+			        </div>
+			      </div><!-- Service 3 end -->
+				</div><!-- Col 3 end -->
+
+			</div><!--/ Content row end -->
+		</div><!--/ Container end -->
+	</section><!-- Feature end -->
+
+	<section class="call-to-action no-padding bg-overlay">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="action-icon pull-left">
+						<i class="fa fa-paper-plane-o"></i>
+					</div>
+					<div class="call-to-action-text">
+						<h3 class="action-title">We will always help you to grow your business</h3>
+						<p class="action-sub-title">Our mission is to provide you the highest quality of service and solution</p>
+					</div>
+					<div class="call-to-action-btn">
+						<a href = "#packages" class="slider btn btn-primary btn-white">Submit your Content</a>
+                   	<a href="{% url 'easypr_ng:request-service' %}" class="slider btn btn-secondary">Request A Service</a>
+					</div>
+				</div>
+			</div>
+		</div><!--/ Container end -->
+   </section><!-- Call to Action end -->
+
+
+	<section id="ts-service-area" class="ts-service-area">
+		<div class="container">
+			<div class="row text-center">
+				<h2 class="title-border">We Want to Help You
+					<span>Best Services</span>
+				</h2>
+			</div><!--/ Title row end -->
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          	<i class="fa fa-line-chart"></i>
+			        	</div>
+			        	<div class="ts-service-box-info">
+			          	<h3><a href="#">Financial Planning</a></h3>
+			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+			        </div>
+			      </div><!-- Service 1 end -->
+
+			      <div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          	<i class="fa fa-money"></i>
+			        	</div>
+			        	<div class="ts-service-box-info">
+			          	<h3><a href="#">Saving Strategy</a></h3>
+			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+			        </div>
+			      </div><!-- Service 2 end -->
+
+			      <div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          	<i class="fa fa-calculator"></i>
+			        	</div>
+			        	<div class="ts-service-box-info">
+			          	<h3><a href="#">Tax Planning</a></h3>
+			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+			        </div>
+			      </div><!-- Service 3 end -->
+
+				</div><!-- Col end -->
+
+				<div class="col-md-4 text-center">
+					<img class="service-single-img" src="{% static 'easypr/images/services/service-single.png' %}" alt="" />
+				</div><!-- Col end -->
+
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          	<i class="fa fa-university"></i>
+			        	</div>
+			        	<div class="ts-service-box-info">
+			          	<h3><a href="#">Mutual Funds</a></h3>
+			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+			        </div>
+			      </div><!-- Service 1 end -->
+
+			      <div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          	<i class="fa fa-briefcase"></i>
+			        	</div>
+			        	<div class="ts-service-box-info">
+			          	<h3><a href="#">Business Loan</a></h3>
+			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+			        </div>
+			      </div><!-- Service 2 end -->
+
+			      <div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          	<i class="fa fa-umbrella"></i>
+			        	</div>
+			        	<div class="ts-service-box-info">
+			          	<h3><a href="#">Insurance Consulting</a></h3>
+			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+			        </div>
+			      </div><!-- Service 3 end -->
+				</div><!-- Col end -->
+			</div><!-- Content row end -->
+
+		</div><!--/ Container end -->
+	</section><!-- Service end -->
+
+	<section id="facts" class="facts no-padding">
+		<div class="container">
+			<div class="row">
+					<div class="facts-wrapper">
+						<div class="col-md-3 ts-facts">
+							<div class="ts-facts-icon">
+								<i class="fa fa-umbrella"></i>
+							</div>
+							<div class="ts-facts-content">
+								<h2 class="ts-facts-num"><span class="counterUp">3298</span></h2>
+								<h3 class="ts-facts-title">Case Solved</h3>
+							</div>
+						</div><!-- Col end -->
+
+						<div class="col-md-3 ts-facts">
+							<div class="ts-facts-icon">
+								<i class="fa fa-users"></i>
+							</div>
+							<div class="ts-facts-content">
+								<h2 class="ts-facts-num"><span class="counterUp">337</span></h2>
+								<h3 class="ts-facts-title">Advisors</h3>
+							</div>
+						</div><!-- Col end -->
+
+						<div class="col-md-3 ts-facts">
+							<div class="ts-facts-icon">
+								<i class="fa fa-bar-chart"></i>
+							</div>
+							<div class="ts-facts-content">
+								<h2 class="ts-facts-num"><span class="counterUp">2321</span></h2>
+								<h3 class="ts-facts-title">Loan Processed</h3>
+							</div>
+						</div><!-- Col end -->
+
+						<div class="col-md-3 ts-facts">
+							<div class="ts-facts-icon">
+								<i class="fa fa-globe"></i>
+							</div>
+							<div class="ts-facts-content">
+								<h2 class="ts-facts-num"><span class="counterUp">109</span></h2>
+								<h3 class="ts-facts-title">Locations</h3>
+							</div>
+						</div><!-- Col end -->
+
+					</div> <!-- Facts end -->
+			</div><!--/ Content row end -->
+		</div><!--/ Container end -->
+	</section><!-- Facts end -->
+
+
+	<section id="project-area" class="project-area">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="title-border-left">Projects</h2>
+					<div id="project-slide" class="owl-carousel owl-theme project-slide">
+						<div class="item">
+					      <div class="project-item">
+								<a href="#"><img class="img-responsive" src="{% static 'easypr/images/projects/project1.jpg' %}" alt=""></a>
+								<div class="project-item-content">
+									<h4 class="project-title"><a href="#">Financial Planning</a></h4>
+								</div>
+							</div><!-- Project item end -->
+			      	</div><!-- Item 1 end -->
+
+			      	<div class="item">
+					      <div class="project-item">
+								<a href="#"><img class="img-responsive" src="{% static 'easypr/images/projects/project2.jpg' %}" alt=""></a>
+								<div class="project-item-content">
+									<h4 class="project-title"><a href="#">Financial Statement</a></h4>
+								</div>
+							</div><!-- Project item end -->
+			      	</div><!-- Item 2 end -->
+
+			      	<div class="item">
+					      <div class="project-item">
+								<a href="#"><img class="img-responsive" src="{% static 'easypr/images/projects/project3.jpg' %}" alt=""></a>
+								<div class="project-item-content">
+									<h4 class="project-title"><a href="#">Retirement Plan</a></h4>
+								</div>
+							</div><!-- Project item end -->
+			      	</div><!-- Item 3 end -->
+
+			      	<div class="item">
+					      <div class="project-item">
+								<a href="#"><img class="img-responsive" src="{% static 'easypr/images/projects/project4.jpg' %}" alt=""></a>
+								<div class="project-item-content">
+									<h4 class="project-title"><a href="#">Insurance Plan</a></h4>
+								</div>
+							</div><!-- Project item end -->
+			      	</div><!-- Item 4 end -->
+
+			      	<div class="item">
+					      <div class="project-item">
+								<a href="#"><img class="img-responsive" src="{% static 'easypr/images/projects/project5.jpg' %}" alt=""></a>
+								<div class="project-item-content">
+									<h4 class="project-title"><a href="#">Business Solution</a></h4>
+								</div>
+							</div><!-- Project item end -->
+			      	</div><!-- Item 5 end -->
+
+			      	<div class="item">
+					      <div class="project-item">
+								<a href="#"><img class="img-responsive" src="{% static 'easypr/images/projects/project6.jpg' %}" alt=""></a>
+								<div class="project-item-content">
+									<h4 class="project-title"><a href="#">Enterprise Loan</a></h4>
+								</div>
+							</div><!-- Project item end -->
+			      	</div><!-- Item 6 end -->
+
+			      	<div class="item">
+					      <div class="project-item">
+								<a href="#"><img class="img-responsive" src="{% static 'easypr/images/projects/project7.jpg' %}" alt=""></a>
+								<div class="project-item-content">
+									<h4 class="project-title"><a href="#">Business Loan</a></h4>
+								</div>
+							</div><!-- Project item end -->
+			      	</div><!-- Item 7 end -->
+
+			      	<div class="item">
+					      <div class="project-item">
+								<a href="#"><img class="img-responsive" src="{% static 'easypr/images/projects/project8.jpg' %}" alt=""></a>
+								<div class="project-item-content">
+									<h4 class="project-title"><a href="#">Money Market</a></h4>
+								</div>
+							</div><!-- Project item end -->
+			      	</div><!-- Item 8 end -->
+
+			      	<div class="item">
+					      <div class="project-item">
+								<a href="#"><img class="img-responsive" src="{% static 'easypr/images/projects/project9.jpg' %}" alt=""></a>
+								<div class="project-item-content">
+									<h4 class="project-title"><a href="#">Expert Consultation</a></h4>
+								</div>
+							</div><!-- Project item end -->
+			      	</div><!-- Item 9 end -->
+
+					</div><!-- Project slide -->
+				</div><!-- Col end -->
+			</div><!--/ Content row end -->
+		</div><!--/ Container end -->
+	</section><!-- Project area end -->
+
+
+	<section id="ts-content" class="ts-content no-padding">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6 ts-padding left">
+					<div class="featured-tab">
+						<ul class="nav nav-tabs">
+						  	<li class="active">
+						  		<a class="animated fadeIn" href="#tab_a" data-toggle="tab">
+						  			<span class="tab-head">
+										<span class="tab-text-title">Who We Are</span>					
+									</span>
+						  		</a>
+						  	</li>
+						  	<li>
+							  	<a class="animated fadeIn" href="#tab_b" data-toggle="tab">
+							  		<span class="tab-head">
+										<span class="tab-text-title">Core Values</span>					
+									</span>
+							  	</a>
+							</li>
+						 	<li>
+							  	<a class="animated fadeIn" href="#tab_c" data-toggle="tab">
+							  		<span class="tab-head">
+										<span class="tab-text-title">Diversity &amp; Inclusion</span>					
+									</span>
+							  	</a>
+							</li>
+						</ul>
+
+						<div class="tab-content">
+					      <div class="tab-pane active animated fadeInRight" id="tab_a">
+					        	<div class="tab-wrapper">
+						         <p class="lead">We have been providing stability and reliability to our clients since 1859 to help them live their lives with confidence, to give them peace of mind, and enable them to realize their dreams.</p>
+						         
+									<div class="ts-service-box icon-left">
+							        	<div class="ts-service-box-icon">
+							          	<i class="fa fa-clock-o"></i>
+							        	</div>
+							        	<div class="ts-service-box-info">
+							          	<h3>Anytime, Anywhere</h3>
+							          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+							        </div>
+							      </div><!-- Service 1 end -->
+
+							      <div class="ts-service-box icon-left">
+							        	<div class="ts-service-box-icon">
+							          	<i class="fa fa-heart"></i>
+							        	</div>
+							        	<div class="ts-service-box-info">
+							          	<h3>Keep Getting Better</h3>
+							          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+							        </div>
+							      </div><!-- Service 2 end -->
+
+					        	</div>
+					      </div><!-- Tab pane end -->
+
+				        <div class="tab-pane animated fadeInRight" id="tab_b">
+				            <div class="ts-service-box icon-left">
+						        	<div class="ts-service-box-icon">
+						          	<i class="fa fa-balance-scale"></i>
+						        	</div>
+						        	<div class="ts-service-box-info">
+						          	<h3>Integrity, above all</h3>
+						          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+						        </div>
+						      </div><!-- Service 1 end -->
+
+						      <div class="ts-service-box icon-left">
+						        	<div class="ts-service-box-icon">
+						          	<i class="fa fa-heartbeat"></i>
+						        	</div>
+						        	<div class="ts-service-box-info">
+						          	<h3>We are prudent</h3>
+						          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+						        </div>
+						      </div><!-- Service 2 end -->
+
+						      <div class="ts-service-box icon-left">
+						        	<div class="ts-service-box-icon">
+						          	<i class="fa fa-thumbs-up"></i>
+						        	</div>
+						        	<div class="ts-service-box-info">
+						          	<h3>We are responsible</h3>
+						          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
+						        </div>
+						      </div><!-- Service 3 end -->				 
+				        </div><!-- Tab pane end -->
+
+				        	<div class="tab-pane animated fadeInLeft" id="tab_c">
+				            <p class="tab-icon pull-left"><i class="fa fa-universal-access">&nbsp;</i></p>
+				            <h3>"We promote diversity because we can’t deliver on our strategy without it"</h3>
+								<p>None quis nibh vel erat tincidunt pretium. In sit amet massa sapien. Vestibulum diam turpis, gravida in lobortis id, ornare a eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sagittis nulla non elit dignissim suscipit. Duis lorem nulla, eleifend.</p>
+								<p>Ut urna dui, interdum non blandit sed, hendrerit ultricies mi. Aliquam at scelerisque ligula. Curabitur id laoreet velit.</p>
+				        	</div>	
+						</div><!-- tab content -->
+					</div><!-- Featured tab end -->
+					
+				
+				</div><!-- Content left -->
+
+				<div class="col-md-6 ts-padding right" style="height:600px;background:url({% static 'easypr/images/content-bg.jpg) 50% 50% / cover no-repeat;">
+					<a class='popup' href="http://player.vimeo.com/video/100195272?autoplay=1&amp;loop=1" style="position: relative;">
+                  <div class="video-icon">
+                  	<i class="fa fa-play-circle"></i>
+               	</div>
+            	</a>
+				</div><!-- Content right -->
+
+			</div><!--/ Content row end -->
+		</div><!--/ Container end -->
+	</section><!-- Content end -->
+
+	<section id="testimonial" class="testimonial">
+		<div class="container">
+			<div class="row text-center">
+				<h3 class="title-border">
+					We Give Trusts
+					<span>Testimonials</span>
+				</h3>
+			</div><!--/ Title row end -->
+
+			<div class="row">
+				<div id="testimonial-slide" class="owl-carousel owl-theme testimonial-slide">
+				  <div class="item">
+				     <div class="quote-item">
+				         <span class="quote-text">
+				           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inci done idunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitoa tion ullamco laboris nisi ut aliquip commodo.
+				         </span>
+
+				         <div class="quote-item-footer">
+				         	<img class="testimonial-thumb" src="{% static 'easypr/images/clients/testimonial1.png' %}" alt="testimonial">
+				         	<div class="quote-item-info">
+				         		<span class="quote-author">Deslie Telley</span>
+					         	<span class="quote-subtext">Manager</span>
+				         	</div>
+				         </div>
+				     </div><!-- Quote item end -->
+				  </div><!--/ Item 1 end -->
+
+				   <div class="item">
+				     <div class="quote-item">
+				         <span class="quote-text">
+				           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inci done idunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitoa tion ullamco laboris nisi aliquip consequat.
+				         </span>
+
+				         <div class="quote-item-footer">
+				         	<img class="testimonial-thumb" src="{% static 'easypr/images/clients/testimonial2.png' %}" alt="testimonial">
+				         	<div class="quote-item-info">
+				         		<span class="quote-author">Mavin Dixon</span>
+					         	<span class="quote-subtext">Director</span>
+				         	</div>
+				         </div>
+				     </div><!-- Quote item end -->
+				  </div><!--/ Item 2 end -->
+
+				  	<div class="item">
+				     <div class="quote-item">
+				         <span class="quote-text">
+				           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inci done idunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitoa tion ullamco laboris nisi ut commodo consequat.
+				         </span>
+
+				         <div class="quote-item-footer">
+				         	<img class="testimonial-thumb" src="{% static 'easypr/images/clients/testimonial3.png' %}" alt="testimonial">
+				         	<div class="quote-item-info">
+				         		<span class="quote-author">Minter Puchan</span>
+					         	<span class="quote-subtext">Official</span>
+				         	</div>
+				         </div>
+				     </div><!-- Quote item end -->
+				  	</div><!--/ Item 3 end -->
+
+				  	<div class="item">
+				     <div class="quote-item">
+				         <span class="quote-text">
+				           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inci done idunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitoa tion ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				         </span>
+
+				         <div class="quote-item-footer">
+				         	<img class="testimonial-thumb" src="{% static 'easypr/images/clients/testimonial4.png' %}" alt="testimonial">
+				         	<div class="quote-item-info">
+				         		<span class="quote-author">Tian Gray</span>
+					         	<span class="quote-subtext">Accountant</span>
+				         	</div>
+				         </div>
+				     </div><!-- Quote item end -->
+				  	</div><!--/ Item 4 end -->
+
+				  	<div class="item">
+				     <div class="quote-item">
+				         <span class="quote-text">
+				           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inci done idunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitoa tion ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				         </span>
+
+				         <div class="quote-item-footer">
+				         	<img class="testimonial-thumb" src="{% static 'easypr/images/clients/testimonial5.png' %}" alt="testimonial">
+				         	<div class="quote-item-info">
+				         		<span class="quote-author">Jeroge Tinker</span>
+					         	<span class="quote-subtext">Official</span>
+				         	</div>
+				         </div>
+				     </div><!-- Quote item end -->
+				  	</div><!--/ Item 5 end -->
+				</div><!--/ Testimonial carousel end-->
+			</div><!--/ Content row end -->
+		</div><!--/ Container end -->
+	</section><!--/ Testimonial end -->
+
+	
+	<section id="news" class="news">
+		<div class="container">
+			<div class="row text-center">
+				<h3 class="title-border">
+					Get Up to Date
+					<span>Company News</span>
+				</h3>
+			</div><!--/ Title row end -->
+
+			<div class="gap-40"></div>
+
+			<div class="row">
+				<div class="col-md-4 col-xs-12">
+					<div class="latest-post">
+						<div class="latest-post-media">
+							<img class="img-responsive" src="{% static 'easypr/images/news/news1.jpg' %}" alt="img">
+							<span class="post-item-date">
+								<i class="fa fa-clock-o"></i> May 29, 2016
+							</span>
+						</div>
+						
+						<div class="post-body">
+							<h4 class="post-title">
+								<a href="#">Toyota Dumps Prius Inventory as Sales Collapse</a>
+							</h4>
+							<div class="post-text">
+								<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some  Ut urna dui, interdum non blandit sed.</p>
+							</div>
+						</div>	
+						<a class="learn-more" href="#">
+		         		<i class="fa fa-caret-right"></i> Read More
+                  </a>
+					</div><!-- Latest post end -->
+				</div><!-- 1st post col end -->
+
+				<div class="col-md-4 col-xs-12">
+					<div class="latest-post">
+						<div class="latest-post-media">
+							<img class="img-responsive" src="{% static 'easypr/images/news/news2.jpg' %}" alt="img">
+							<span class="post-item-date">
+								<i class="fa fa-clock-o"></i> June 17, 2016
+							</span>
+						</div>
+						
+						<div class="post-body">
+							<h4 class="post-title">
+								<a href="#">Brexit is political crisis, not financial one: Says Analr</a>
+							</h4>
+							<div class="post-text">
+								<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some  Ut urna dui, interdum non blandit sed.</p>
+							</div>
+						</div>	
+						<a class="learn-more" href="#">
+		         		<i class="fa fa-caret-right"></i> Read More
+                  </a>
+					</div><!-- Latest post end -->
+				</div><!-- 2nd post col end -->
+
+				<div class="col-md-4 col-xs-12">
+					<div class="latest-post">
+						<div class="latest-post-media">
+							<img class="img-responsive" src="{% static 'easypr/images/news/news3.jpg' %}" alt="img">
+							<span class="post-item-date">
+								<i class="fa fa-clock-o"></i> June 24, 2016
+							</span>
+						</div>
+						
+						<div class="post-body">
+							<h4 class="post-title">
+								<a href="#">Waging America’s wars using renewable energy</a>
+							</h4>
+							<div class="post-text">
+								<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some  Ut urna dui, interdum non blandit sed.</p>
+							</div>
+						</div>	
+						<a class="learn-more" href="#">
+		         		<i class="fa fa-caret-right"></i> Read More
+                  </a>
+					</div><!-- Latest post end -->
+				</div><!-- 3rd post col end -->
+
+			</div><!--/ Content row end -->
+		</div><!--/ Container end -->
+	</section><!--/ News end -->
+
+
+   <!-- Partners start -->
+	<section id="partners-area" class="partners-area">
+		<div class="container">
+			<div class="row text-center">
+				<h3 class="title-border">
+					We Love Clients
+					<span>Our Partners</span>
+				</h3>
+			</div> <!-- Title row end -->
+
+			<div class="row">
+		      <div id="partners-carousel" class="col-sm-12 owl-carousel owl-theme text-center partners">
+		        <figure class="item partner-logo">
+		          <a href="#">
+		            <img class="img-responsive" src="{% static 'easypr/images/partners/logo1.jpg' %}" alt="client">
+		          </a>
+		        </figure>
+
+		        <figure class="item partner-logo">
+		          <a href="#">
+		            <img class="img-responsive" src="{% static 'easypr/images/partners/logo2.jpg' %}" alt="client">
+		          </a>
+		        </figure>
+
+		        <figure class="item partner-logo">
+		          <a href="#">
+		            <img class="img-responsive" src="{% static 'easypr/images/partners/logo3.jpg' %}" alt="client">
+		          </a>
+		        </figure>
+
+		        <figure class="item partner-logo">
+		          <a href="#">
+		            <img class="img-responsive" src="{% static 'easypr/images/partners/logo4.jpg' %}" alt="client">
+		          </a>
+		        </figure>
+
+		        <figure class="item partner-logo">
+		          <a href="#">
+		            <img class="img-responsive" src="{% static 'easypr/images/partners/logo5.jpg' %}" alt="client">
+		          </a>
+		        </figure>
+
+		        <figure class="item partner-logo">
+		          <a href="#">
+		            <img class="img-responsive" src="{% static 'easypr/images/partners/logo6.jpg' %}" alt="client">
+		          </a>
+		        </figure>
+		        
+		      </div><!--/ Owl carousel end -->
+
+	    	</div><!--/ Content row end -->
+		</div><!--/ Container end -->
+	</section><!--/ Partners end -->
+{% endblock inner_content %}
+
+{% block footer %}
+	<footer id="footer" class="footer">
+		<div class="footer-main">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-3 col-sm-12 footer-widget footer-about">
+						<h3 class="widget-title">About Azurex</h3>
+						<p>We are Azurex Finance Advisor Company. Phasellus et nisl tellus. Etiam facilisis eu nisi scelerisque faucibus. Proin semper suscipit magna, nec imperdiet lacus semper vitae. Sed hendrerit enim non justo posuere placerat.</p>
+						<div class="gap-20"></div>
+						<p><a href="#" class="btn btn-primary">Read More</a></p>
+					</div><!-- Col end -->
+
+					<div class="col-md-3 col-sm-12 footer-widget">
+						<h3 class="widget-title">Quick Links</h3>
+
+						<ul class="list-arrow">
+							<li><a href="#">Investments</a></li>
+							<li><a href="#">Tax Help</a></li>
+							<li><a href="#">Mortgage</a></li>
+							<li><a href="#">Business Loans</a></li>
+							<li><a href="#">Credit Cards</a></li>
+							<li><a href="#">Tax Planning</a></li>
+							<li><a href="#">Mutual Funds</a></li>
+							<li><a href="#">Stock Holders</a></li>
+							<li><a href="#">Deposits</a></li>
+							<li><a href="#">Careers</a></li>
+							<li><a href="#">Stock Trading</a></li>
+							<li><a href="#">Consultation</a></li>
+						</ul>
+					</div><!-- Col end -->
+
+					<div class="col-md-3 col-sm-12 footer-widget">
+						<h3 class="widget-title">Subscribe us</h3>
+						<div class="newsletter-introtext">
+							Subscribe with our newsletters and receive news about our discounts.
+						</div>
+						<form action="#" method="post" id="newsletter-form" class="newsletter-form">
+							<div class="form-group">
+								<input type="email" name="email" id="newsletter-form-email" class="form-control form-control-lg" placeholder="Your Email Here" autocomplete="off">
+								<button class="btn btn-primary">Subscribe</button>
+							</div>
+						</form>
+
+						<div class="footer-social">
+							<h3 class="widget-title">Follow Us</h3>
+							<ul>
+								<li><a href="#"><i class="fa fa-rss"></i></a></li>
+								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+							</ul>
+						</div><!-- Footer social end -->
+					</div><!-- Col end -->
+
+					<div class="col-md-3 col-sm-12 footer-widget">
+						<h3 class="widget-title">Contact Us</h3>
+
+						<div class="contact-info-box">
+							<i class="fa fa-map-marker">&nbsp;</i>
+							<div class="contact-info-box-content">
+								<h4>Visit Us</h4>
+								<p>Easy PR Nigeria</p>
+							</div>
+						</div>
+
+						<div class="contact-info-box">
+							<i class="fa fa-envelope-o">&nbsp;</i>
+							<div class="contact-info-box-content">
+								<h4>Mail Us</h4>
+								<p>info@easypr.ng</p>
+							</div>
+						</div>
+
+						<div class="contact-info-box">
+							<i class="fa fa-phone">&nbsp;</i>
+							<div class="contact-info-box-content">
+								<h4>Call Us</h4>
+								<p>+91 0331 3421 213</p>
+							</div>
+						</div>
+						
+					</div><!-- Col end -->
+
+
+				</div><!-- Row end -->
+			</div><!-- Container end -->
+		</div><!-- Footer main end -->
+
+
+		<div class="copyright">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 col-sm-5">
+						<div class="copyright-info">
+							<div class="footer-logo pull-left">
+								<img src="{% static 'easypr/images/footer-logo.png' %}" alt="">
+							</div>
+							
+							<span>Copyright © {% now "Y" %} Easypr. All Rights Reserved.</span> 
+
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-6 col-md-push-1">
+						<div class="footer-menu">
+							<ul class="nav unstyled">
+								<li><a href="#">About</a></li>
+								<li><a href="#">Privacy Policy</a></li>
+								<li><a href="#">Legal</a></li>
+								<li><a href="{% url 'general:contact-us' %}">Contact</a></li>
+							</ul>
+						</div>
+					</div>
+				</div><!-- Row end -->
+
+				<div id="back-to-top" data-spy="affix" data-offset-top="10" class="back-to-top affix">
+					<button class="btn btn-primary" title="Back to Top">
+						<i class="fa fa-angle-double-up"></i>
+					</button>
+				</div>
+
+			</div><!-- Container end -->
+		</div><!-- Copyright end -->
+
+	</footer><!-- Footer end -->
+{% endblock footer %}
+
+{% block modal %}
+	{% include 'easypr_snippets/login-modal.html' %}
+{% endblock modal %}
+
+{% block scripts %}
+{% endblock scripts %}
+
+	<!-- Javascript Files
+	================================================== -->
+
+	<!-- initialize jQuery Library -->
+	<script type="text/javascript" src="{% static 'easypr/js/jquery.js' %}"></script>
+	<!-- Bootstrap jQuery -->
+	<script type="text/javascript" src="{% static 'easypr/js/bootstrap.min.js' %}"></script>
+	<!-- Owl Carousel -->
+	<script type="text/javascript" src="{% static 'easypr/js/owl.carousel.min.js' %}"></script>
+	<!-- Counter -->
+	<script type="text/javascript" src="{% static 'easypr/js/jquery.counterup.min.js' %}"></script>
+	<!-- Waypoints -->
+	<script type="text/javascript" src="{% static 'easypr/js/waypoints.min.js' %}"></script>
+	<!-- Color box -->
+	<script type="text/javascript" src="{% static 'easypr/js/jquery.colorbox.js' %}"></script>
+	<!-- Isotope -->
+	<script type="text/javascript" src="{% static 'easypr/js/isotope.js' %}"></script>
+	<script type="text/javascript" src="{% static 'easypr/js/ini.isotope.js' %}"></script>
+
+	<!-- Template custom -->
+	<script type="text/javascript" src="{% static 'easypr/js/custom.js' %}"></script>
+	
+	</div><!-- Body inner end -->
+</body>
+</html>

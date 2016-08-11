@@ -1,0 +1,130 @@
+<div class="modal fade" id = "login-modal" tabindex="-1" role="dialog" aria-labelledby="login-modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width:400px; border-radius: 0px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title"><strong>Log in</strong></h5>
+      </div>
+      <div class="modal-body">
+        <span id="social_login">
+          <div class="row" style="margin-bottom:5px;" id="fb_login">
+            <div class="col-sm-12">
+              <a href="#" class="btn btn-primary btn-custom-lg-blue" id="g_login">Log in with Facebook </a>
+            </div>
+          </div>
+         
+          <div class="row" style="margin-bottom:5px;">
+            <div class="col-sm-12">
+              <a href="#" class="btn btn-default btn-custom-lg-red">Log in with Google </a>
+            </div>
+          </div>
+
+          <div class="text-center" style="margin:5px;"> ---------- Or ---------- </div>
+        
+          <div class="row" style="margin-bottom:5px;">
+            <div class="col-sm-12">
+              <a id = "log_in_with_email" class="btn btn-default btn-custom-lg-red" onclick = 'return show_hidden_form("id_login_form","social_login")'>Log in with Email </a>
+            </div>
+          </div>
+          <br/>
+        </span>
+        
+        <form action="{% url 'general:login' %}" method="post" class="hidden" id="id_login_form">
+          <strong class="text-center"> Log in with email <span class="pull-right" id="close_signup_form" style="cursor:pointer; "onclick = 'return hide_form("id_login_form","social_login")'>&times;</span></strong><br/>
+          {% csrf_token %}
+          <input type="email" name="email" placeholder="Email" class="form-control" style="border-radius:0px;" required/><br/>
+          <input type="password" name="password" placeholder="Password" class="form-control" style="border-radius:0px;" required/><br/>
+          <!-- <div class="row"> -->
+            <span class="pull-left"><input type="checkbox" name="remember-me"> Remember me </a></span>
+            <span class="pull-right"><a href="{% url 'general:forgot-password' %}"> Forgot Password? </a></span><br/><br/>
+          <!-- </div> -->
+          <input type="submit" class="btn btn-default btn-custom-lg-blue" value="Sign In" style=" border: thin solid blue; border-radius:0px;"/><br/>
+           <!-- <p> &nbsp; </p> -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span class="pull-left">Don't have an account yet? </span> <button type="button" class="btn btn-default" data-toggle="modal" data-target="#sign-up-modal" data-dismiss="modal">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id ="sign-up-modal" tabindex="-1" role="dialog" aria-labelledby="sign-up-modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width:400px; border-radius: 0px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title"><strong>Sign Up</strong></h5>
+      </div>
+      <div class="modal-body">
+        <span id="social_signup">
+          <div class="row" style="margin-bottom:5px;" id="fb_signup">
+            <div class="col-sm-12">
+              <a href="#" class="btn btn-primary btn-custom-lg-blue">Sign up with Facebook </a>
+            </div>
+          </div>
+         
+          <div class="row" style="margin-bottom:5px;" id="g_signup">
+            <div class="col-sm-12">
+              <a href="#" class="btn btn-default btn-custom-lg-red">Sign up with Google </a>
+            </div>
+          </div>
+          
+          <div class="text-center" style="margin:5px;"> ---------- Or ---------- </div>
+        <!-- </span> -->
+          <div class="row" style="margin-bottom:5px;">
+            <div class="col-sm-12">
+              <a id = "log_in_with_email" class="btn btn-default btn-custom-lg-red" onclick = 'return show_hidden_form("id_signup_form","social_signup")'>Sign up with Email </a>
+            </div>
+          </div>
+          <br/>
+        </span>
+
+
+        <form action="{% url 'general:sign_up' %}" method="post" class="hidden" id="id_signup_form">
+          <strong class="text-center"> Sign up with email <span class="pull-right" id="close_signup_form" style="cursor:pointer;" onclick = 'return hide_form("id_signup_form","social_signup")'>&times;</span></strong><br/>
+          {% csrf_token %}
+          <span id= "user_details_form">
+            <input type="text" name="first_name" placeholder="First Name" class="form-control" style="border-radius:0px;" required/><br/>
+            <input type="text" name="last_name" placeholder="Last Name" class="form-control" style="border-radius:0px;" required/><br/>
+            <input type="email" name="email" placeholder="Email" class="form-control" style="border-radius:0px;" required/><br/>
+            <input type="password" name="password" id="id_password" placeholder="Password" class="form-control" style="border-radius:0px;" required/><br/>
+            <input type="password" name="confirm-password" id = "id_confirm_password" placeholder="Confirm Password" class="form-control" style="border-radius:0px;" required onblur = 'return compare_passwords("id_password","id_confirm_password")'/><br/>
+
+            <input type="submit" class="btn btn-primary btn-custom-lg-blue" id="id_signup" value="Sign Up" style="border-radius:0px; cursor:pointer;" onclick = 'return compare_passwords("id_password","id_confirm_password")'/> <br/>
+
+
+          <!-- </span>
+
+          <span class="hidden" id = "id_useraccount_form">
+            <input type="text" name="company_name" placeholder="Company Name" class="form-control" style="border-radius:0px;" /><br/>
+            <textarea name="address" cols="12" rows="5" placeholder="Address" class="form-control" style="border-radius:0px;" /></textarea><br/>
+            <input type="number" name="phone_no" placeholder="Phone Number" class="form-control" style="border-radius:0px;" required/><br/>
+            <select name="economy_sector" class="form-control">
+              <option value = "">Economic Sector</option>
+              <option value="finance"> finance</option>
+              <option value="sports"> sports</option>
+              <option value = "entertainment"> entertainment</option>
+            </select>
+          </span> -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span class="pull-left">Already signed up? </span> 
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login-modal" data-dismiss="modal">Log in</button>
+        
+      </div>
+    </div>
+  </div>
+</div>

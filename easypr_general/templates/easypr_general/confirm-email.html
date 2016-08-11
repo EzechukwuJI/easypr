@@ -1,0 +1,19 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}Success{% endblock title %}
+{% block inner_content %}
+	
+	<header id="head" class="secondary"></header>
+	<!-- container -->
+	<div class="container">
+		<div class="row">
+			<article class="col-xs-12 maincontent">
+				<h1> Sorry! </h1>
+				{% for msg in messages %}
+					<p> {{ msg }} </p>
+				{% endfor %}
+			</article>
+		</div>
+	</div>	<!-- /container -->
+{% endblock inner_content %}

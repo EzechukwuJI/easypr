@@ -1,0 +1,407 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %} Newsroom {% endblock title %}
+
+
+
+{% block inner_content %}
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner1.jpg' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12">
+	        			<div class="banner-heading">
+	        				<h1 class="banner-title title-border-left">News</h1>
+	        				<p class="banner-desc">We are a established fact that a reader  be distracted 
+							by the reable content of a page when looking at its layout layout.</p>
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       	</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
+
+
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				{% if show_news_list %}
+					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+						<div class="post">
+							<div class="post-media post-image">
+								<img src="{% static 'easypr/images/news/news1.jpg' %}" class="img-responsive" alt="">
+								<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> June 14, 2016</span>
+							</div>
+							<div class="post-body">
+								<div class="entry-header">
+						 			<div class="post-meta">
+										<span class="post-author">
+	   									Posted By <a href="#">Admin</a>
+	   								</span>
+										<span class="post-cat">
+	   									Posted In: <a href="#">Investment, Policy</a>
+	   								</span>
+										<span class="post-comment">03<a href="#" class="comments-link">Comments</a></span>
+									</div>
+									<h2 class="entry-title">
+						 				<a href="#">Toyota Dumps Prius Inventory as Sales Collapse</a>
+						 			</h2>
+								</div><!-- header end -->
+
+								<div class="entry-content">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur  ...</p>
+								</div>
+
+								<div class="post-footer">
+									<a href="{% url 'easypr_ng:news-details' 5 "title_slug" %}" class="btn btn-primary">Continue Reading</a>
+								</div>
+
+							</div><!-- post-body end -->
+						</div><!-- 1st post end -->
+
+						<div class="post">
+
+							<div class="post-media post-video">
+								<div class="embed-responsive">
+									<!-- Change the url -->
+									<iframe src="//player.vimeo.com/video/153089270?title=0&amp;byline=0&amp;portrait=0&amp;color=8aba56" width="500" height="281" allowfullscreen></iframe>
+								</div>
+								<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> June 19, 2016</span>
+
+							</div>
+
+							<div class="post-body">
+								<div class="entry-header">
+						 			<div class="post-meta">
+										<span class="post-author">
+	   									Posted By <a href="#">Admin</a>
+	   								</span>
+										<span class="post-cat">
+	   									Posted In: <a href="#">Finance</a>
+	   								</span>
+										<span class="post-comment">03<a href="#" class="comments-link">Comments</a></span>
+									</div>
+									<h2 class="entry-title">
+						 				<a href="#">Brexit is political crisis, not financial one: Says Analr</a>
+						 			</h2>
+								</div><!-- header end -->
+
+								<div class="entry-content">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur  ...</p>
+								</div>
+
+								<div class="post-footer">
+									<a href="{% url 'easypr_ng:news-details' 5 "title_slug" %}" class="btn btn-primary">Continue Reading</a>
+								</div>
+
+							</div><!-- post-body end -->
+						</div><!-- 2nd post end -->
+
+						<div class="post">
+							<div class="post-media post-image">
+								<img src="{% static 'easypr/images/news/news3.jpg' %}" class="img-responsive" alt="">
+								<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> June 24, 2016</span>
+							</div>
+
+							<div class="post-body">
+								<div class="entry-header">
+						 			<div class="post-meta">
+										<span class="post-author">
+	   									Posted By <a href="#">Admin</a>
+	   								</span>
+										<span class="post-cat">
+	   									Posted In: <a href="#">Investment, Policy</a>
+	   								</span>
+										<span class="post-comment">03<a href="#" class="comments-link">Comments</a></span>
+									</div>
+									<h2 class="entry-title">
+						 				<a href="#">Waging America’s wars using renewable energy</a>
+						 			</h2>
+								</div><!-- header end -->
+
+								<div class="entry-content">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur  ...</p>
+								</div>
+
+								<div class="post-footer">
+									<a href="{% url 'easypr_ng:news-details' 5 "title_slug" %}" class="btn btn-primary">Continue Reading</a>
+								</div>
+
+							</div><!-- post-body end -->
+						</div><!-- 3rd post end -->
+
+
+						<div class="paging">
+			            <ul class="pagination">
+			              <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+			              <li class="active"><a href="#">1</a></li>
+			              <li><a href="#">2</a></li>
+			              <li><a href="#">3</a></li>
+			              <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+			            </ul>
+		          	</div>
+
+					</div><!-- Content Col end -->
+				{% endif %}
+
+
+				<!--  display single post -->
+				{% if show_news_details %}
+					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+
+					<div class="post-content">
+						<div class="post-media post-image">
+							<img src="images/news/news1.jpg" class="img-responsive" alt="">
+							<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> June 14, 2016</span>
+						</div>
+
+						<div class="post-body">
+							<div class="entry-header">
+					 			<div class="post-meta">
+									<span class="post-author">
+   									Posted By <a href="#">Admin</a>
+   								</span>
+									<span class="post-cat">
+   									Posted In: <a href="#">Investment, Policy</a>
+   								</span>
+									<span class="post-comment">03<a href="#" class="comments-link">Comments</a></span>
+								</div>
+								<h2 class="entry-title">
+					 				<a href="#">Toyota Dumps Prius Inventory as Sales Collapse</a>
+					 			</h2>
+							</div><!-- header end -->
+
+							<div class="entry-content">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+
+								<p>Kucididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do</p>
+
+								<p>Eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. </p>
+
+								<blockquote>
+								<p>Eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.<cite>- Anger Mathe</cite></p>
+
+								</blockquote>
+
+								<p>Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos quira tione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ue magnam aliquam quaerat voluptatem.</p>
+							</div>
+
+							<div class="tags-area clearfix">
+								<div class="post-tags pull-left">
+		   						<a href="#">Tax</a>
+		   						<a href="#">Investment</a>
+		   						<a href="#">Policy</a>
+	   						</div>
+	   						<div class="share-items pull-right">
+	   							<ul class="post-social-icons unstyled">
+	   								<li class="social-icons-head">Share:</li>
+	   								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+	   								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+	   								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+	   								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+	   							</ul>
+	   						</div>
+							</div>
+							
+						</div><!-- post-body end -->
+					</div><!-- post content end -->
+
+					<div class="author-box">
+						<div class="author-img pull-left">
+							<img src="images/news/avator1.jpg" alt="">
+						</div>
+						<div class="author-info">
+							<h3>Thiemo Anton <span>Finance Advisor</span></h3>
+							<p>Lisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad vene minim veniam, quis nostrud exercitation ullamco laboris nisi ex ea commodo.</p>
+							<p class="author-url">Website: <span><a href="#">http://www.azurex.com</a></span></p>
+
+						</div>
+					</div> <!-- Author box end -->
+
+					<!-- Post comment start -->
+					<div id="comments" class="comments-area">
+						<h3 class="comments-heading">19 Comments</h3>
+
+						<ul class="comments-list">
+							<li>
+								<div class="comment">
+									<img class="comment-avatar pull-left" alt="" src="images/news/avator2.jpg">
+									<div class="comment-body">
+										<div class="meta-data">
+											<span class="comment-author">Michelle Aimber</span>
+											<span class="comment-date pull-right">January 17, 2016 at 1:38 pm</span>
+										</div>
+										<div class="comment-content">
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehen.</p></div>
+										<div class="text-left">
+											<a class="comment-reply" href="#">Reply</a>
+										</div>	
+									</div>
+								</div><!-- Comments end -->
+
+								<ul class="comments-reply">
+									<li>
+										<div class="comment">
+											<img class="comment-avatar pull-left" alt="" src="images/news/avator3.jpg">
+											<div class="comment-body">
+												<div class="meta-data">
+													<span class="comment-author">Tom Harnandez</span>
+													<span class="comment-date pull-right">January 17, 2016 at 1:38 pm</span>
+												</div>
+												<div class="comment-content">
+												<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehen.</p></div>
+												<div class="text-left">
+													<a class="comment-reply" href="#">Reply</a>
+												</div>	
+											</div>
+										</div><!-- Comments end -->
+									</li>
+								</ul><!-- comments-reply end -->
+									<div class="comment last">
+										<img class="comment-avatar pull-left" alt="" src="images/news/avator4.jpg">
+										<div class="comment-body">
+											<div class="meta-data">
+												<span class="comment-author">Genelia Dusteen</span>
+												<span class="comment-date pull-right">January 17, 2016 at 1:38 pm</span>
+											</div>
+											<div class="comment-content">
+											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehen.</p></div>
+											<div class="text-left">
+												<a class="comment-reply" href="#">Reply</a>
+											</div>	
+										</div>
+									</div><!-- Comments end -->
+							</li><!-- Comments-list li end -->
+						</ul><!-- Comments-list ul end -->
+					</div><!-- Post comment end -->
+
+					<div class="comments-form border-box">
+						<h3 class="title-normal">Add a comment</h3>
+
+						<form role="form">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<textarea class="form-control required-field" id="message" placeholder="Your Comment" rows="8" required></textarea>
+									</div>
+								</div><!-- Col 6 end -->
+								<div class="col-md-6">
+									<div class="form-group">
+										<input class="form-control" name="name" id="name" placeholder="Your Name" type="text" required>
+									</div>
+
+									<div class="form-group">
+										<input class="form-control" name="email" id="email" placeholder="Your Email" type="email" required>
+									</div>
+
+									<div class="form-group">
+										<input class="form-control" placeholder="Your Website" type="text" required>
+									</div>
+
+								</div><!-- Col 6 end -->
+							</div><!-- Form row end -->
+							<div class="clearfix">
+								<button class="btn btn-primary" type="submit">Post Comment</button> 
+							</div>
+						</form><!-- Form end -->
+					</div><!-- Comments form end -->
+				</div><!-- Content Col end -->
+				{% endif %}
+
+
+
+
+				<!-- Sidebar right  -->
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+					<div class="sidebar sidebar-right">
+						<div class="widget recent-posts">
+							<h3 class="widget-title">Recent Posts</h3>
+							<ul class="unstyled clearfix">
+		               	<li>
+		                    <div class="posts-thumb pull-left"> 
+		                    		<a href="#"><img alt="img" src="{% static 'easypr/images/news/news1.jpg' %}"></a>
+		                    </div>
+		                    <div class="post-info">
+		                        <h4 class="entry-title">
+		                        	<a href="#">Toyota Dumps Prius Inventory As Sales Collapse</a>
+		                        </h4>
+										<span class="post-date">May 29, 2016</span>
+		                    </div>
+		                    <div class="clearfix"></div>
+		                  </li><!-- 1st post end-->
+
+		                  <li>
+		                    <div class="posts-thumb pull-left"> 
+		                    		<a href="#"><img alt="img" src="{% static 'easypr/images/news/news2.jpg' %}"></a>
+		                    </div>
+		                    <div class="post-info">
+		                        <h4 class="entry-title">
+		                        	<a href="#">Brexit is political crisis, not financial one: Says Analr</a>
+		                        </h4>
+										<span class="post-date">June 17, 2016</span>
+		                    </div>
+		                    <div class="clearfix"></div>
+		                  </li><!-- 1st post end-->
+
+		                  <li>
+		                    <div class="posts-thumb pull-left"> 
+		                    		<a href="#"><img alt="img" src="{% static 'easypr/images/news/news3.jpg' %}"></a>
+		                    </div>
+		                    <div class="post-info">
+		                        <h4 class="entry-title">
+		                        	<a href="#">Waging America’s wars using renewable energy</a>
+		                        </h4>
+										<span class="post-date">June 24, 2016</span>
+		                    </div>
+		                    <div class="clearfix"></div>
+		                  </li><!-- 1st post end-->
+		               </ul>
+							
+						</div><!-- Recent post end -->
+
+						<div class="widget">
+							<h3 class="widget-title">Categories</h3>
+							<ul class="arrow nav nav-tabs nav-stacked">
+		                  <li><a href="#">Financial</a></li>
+		                  <li><a href="#">Insurance</a></li>
+		                  <li><a href="#">Tax</a></li>
+		                  <li><a href="#">Investment</a></li>
+		                  <li><a href="#">Mortgage</a></li>
+		              	</ul>
+						</div><!-- Categories end -->
+
+						<div class="widget">
+							<h3 class="widget-title">Archives </h3>
+							<ul class="arrow nav nav-tabs nav-stacked">
+			              	<li><a href="#">Feburay 2016</a></li>
+		                  <li><a href="#">January 2016</a></li>
+		                  <li><a href="#">December 2015</a></li>
+		                  <li><a href="#">November 2015</a></li>
+		                  <li><a href="#">October 2015</a></li>
+			            </ul>
+						</div><!-- Archives end -->
+
+						<div class="widget widget-tags">
+							<h3 class="widget-title">Tags </h3>
+
+							<ul class="unstyled clearfix">
+			              	<li><a href="#">Advisor</a></li>
+		                  <li><a href="#">Tax</a></li>
+		                  <li><a href="#">Mortgage</a></li>
+		                  <li><a href="#">Consulting</a></li>
+		                  <li><a href="#">Finance</a></li>
+		                  <li><a href="#">Insurance</a></li>
+		                  <li><a href="#">Savings</a></li>
+		                  <li><a href="#">Planning</a></li>
+			            </ul>
+						</div><!-- Tags end -->
+					</div><!-- Sidebar end -->
+				</div><!-- Sidebar Col end -->
+
+
+			</div><!-- Main row end -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}	

@@ -1,0 +1,144 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}Contact Us{% endblock title %}
+
+{% block inner_content %}
+
+<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner1.jpg' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12">
+	        			<div class="banner-heading">
+	        				<h1 class="banner-title title-border-left">Drop us a note below, We'd love to hear from you.</h1>
+	        				<p class="banner-desc">We are a established fact that a reader  be distracted 
+							by the reable content of a page when looking at its layout layout.</p>
+	        			</div>
+	        			<div class="pull-right"> 
+	        				<strong style="font-weight:125px;">OR &nbsp; </strong> <a href="{% url 'easypr_ng:request-service' %}" class="slider btn btn-secondary pull-right">Request A Service</a>
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       	</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
+
+	<section id="main-container" class="main-container">
+		{% for msg in messages %}
+			<div class="text-{{ msg.tag }} text-center"><h4> {{ msg|capfirst }} </h4></div>
+		{% endfor %}
+		<div class="container">
+			<div class="row">
+
+				<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+
+					<div id="map" class="map"></div>
+
+				</div><!-- Content col end -->
+
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+					<div class="sidebar sidebar-right">
+						<div class="widget">
+							<h3 class="widget-title">Contact us</h3>
+
+							<div class="contact-info-box">
+								<i class="fa fa-map-marker">&nbsp;</i>
+								<div class="contact-info-box-content">
+									<h4>Visit Us</h4>
+									<p>Easy PR Nigeria</p>
+								</div>
+							</div>
+
+							<div class="contact-info-box">
+								<i class="fa fa-envelope-o">&nbsp;</i>
+								<div class="contact-info-box-content">
+									<h4>Mail Us</h4>
+									<p>info@easypr.ng</p>
+								</div>
+							</div>
+
+							<div class="contact-info-box">
+								<i class="fa fa-phone">&nbsp;</i>
+								<div class="contact-info-box-content">
+									<h4>Call Us</h4>
+									<p>+91 0331 3421 213</p>
+								</div>
+							</div>
+
+						</div><!-- Widget end -->
+
+					</div><!-- Sidebar end -->
+				</div><!-- Sidebar Col end -->
+			
+			</div><!-- Content row -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+
+
+	<section id="contact" class="contact2">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					
+	    			<h3 class="contact-form-title">Contact Form</h3>
+
+	    			<form id="contact-form" action="{% url 'general:contact-us' %}" method="post" role="form">
+	    				{% csrf_token %}
+	    				<div class="error-container"></div>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Name</label>
+								<input class="form-control form-control-name" name="sender" id="name" placeholder="" type="text" required>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Email</label>
+									<input class="form-control form-control-email" name="sender_email" id="email" 
+									placeholder="" type="email" required>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Subject</label>
+									<input class="form-control form-control-subject" name="subject" id="subject" 
+									placeholder="" required>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Message</label>
+							<textarea class="form-control form-control-message" name="message" id="message" placeholder="" rows="10" required></textarea>
+						</div>
+						<div class="text-right"><br>
+							<input type="submit" class="btn btn-primary solid blank" value="Send Message" onclick='this.form.submit()'>
+						</div>
+					</form>
+	    		</div>
+			</div>
+		</div>
+	</section><!-- Cotact form end -->
+	
+	<section class="call-to-action no-padding bg-overlay">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="action-icon pull-left">
+						<i class="fa fa-paper-plane-o"></i>
+					</div>
+					<div class="call-to-action-text">
+						<h3 class="action-title">We will always help you to grow your business</h3>
+						<p class="action-sub-title">Our mission is to provide you the highest quality of service and solution</p>
+					</div>
+					<div class="call-to-action-btn">
+						<a href = "/" class="slider btn btn-primary">Submit your Content</a>
+                   	<a href="{% url 'easypr_ng:request-service' %}" class="slider btn btn-secondary">Request A Service</a>
+					</div>
+				</div>
+			</div>
+		</div><!--/ Container end -->
+   </section><!-- Call to Action end -->
+
+{% endblock inner_content %}
