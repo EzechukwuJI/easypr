@@ -8,6 +8,9 @@ from models_field_choices import TITLE, COUNTRIES, FEEDBACK_STATUS
 from easypr.settings import VAT
 
 
+# class User(User):
+#   username   =    models.CharField(max_length = 75, unique = True)
+
 
 
 class UserAccount(models.Model):
