@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from easypr_ng.models import *
 from easypr_general.models import *
 from easypr_general.models_field_choices import *
-from multiupload.fields import MultiFileField
+# from multiupload.fields import MultiFileField
 
 
 
@@ -49,3 +49,8 @@ class LoginForm(forms.ModelForm):
 		# Associate form with a model
 		model = User
 		fields = ('email','password',)
+
+
+
+
+		

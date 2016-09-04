@@ -62,7 +62,7 @@ def  createUserAccount(request):
                 
                 notify  = EmailMessage(subject= '[Easypr.ng] Confirm your registration', body = message, to =[rp['email']])
                 notify.content_subtype = 'html'
-                notify.send(fail_silently = False)
+                # notify.send(fail_silently = False)
                 context['user_is_created']  =    True
                 context['email']            =    rp['email']
                 print "user creation for %s successful" %(user)

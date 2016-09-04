@@ -18,7 +18,8 @@ class Migration(migrations.Migration):
             name='Bouquet',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=75, choices=[(b'Flat', b'Flat'), (b'Bronze', b'Bronze'), (b'Silver', b'Silver'), (b'Gold', b'Gold')])),
+                ('name', models.CharField(max_length=75, choices=[(b'Single', b'Single'), (b'Basic', b'Basic'), (b'Maxi', b'Maxi'), (b'Super Maxi', b'Super Maxi')])),
+                ('name_slug', models.CharField(max_length=75)),
                 ('price_per_media_N', models.FloatField(default=0.0, verbose_name=b'Price in Naira')),
                 ('price_per_media_D', models.FloatField(default=0.0, verbose_name=b'Price in Dollar')),
                 ('Num_of_media', models.IntegerField(default=0)),
@@ -42,6 +43,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
+                ('name_slug', models.CharField(max_length=200)),
                 ('date_added', models.DateTimeField(auto_now_add=True)),
                 ('platform', models.CharField(max_length=25, choices=[(b'Newspaper', b'Newspaper'), (b'Blog', b'Blog')])),
                 ('contact_persons', models.ManyToManyField(to='easypr_ng.MediaContact', blank=True)),
@@ -64,6 +66,7 @@ class Migration(migrations.Migration):
             name='PressMaterial',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name_slug', models.CharField(max_length=150)),
                 ('media_type', models.CharField(max_length=150)),
                 ('price_per', models.FloatField(default=0.0)),
                 ('date_added', models.DateTimeField(auto_now_add=True)),

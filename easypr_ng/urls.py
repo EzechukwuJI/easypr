@@ -9,11 +9,17 @@ from easypr_ng import views
 urlpatterns  =  [
 
              
-	url(r'^$',                         					                views.indexView,             name='index'),
-	url(r'^request-a-service/$',      				                    views.requestServiceView,    name='request-service'),
-	url(r'^news/(?P<post_id>[-\d]+)/(?P<title_slug>[-\w]+)/$',  		views.readnewsView,   name = 'news-details'),
-	url(r'^newsroom/$',                				                    views.newsroomView,   name = 'newsroom'),
-	url(r'^our-works/$',                				                views.ourWorksView,   name = 'our-works'),
+	url(r'^$',                         					                views.indexView,               name='index'),
+	url(r'^request-a-service/$',      				                    views.requestServiceView,      name='request-service'),
+	url(r'^news/(?P<post_id>[-\d]+)/(?P<title_slug>[-\w]+)/$',  		views.readnewsView,            name = 'news-details'),
+	url(r'^newsroom/$',                				                    views.newsroomView,            name = 'newsroom'),
+	url(r'^our-works/$',                				                views.ourWorksView,            name = 'our-works'),
+	url(r'^buy-package/press_material=(?P<press_material>[-\w]+)/package=(?P<package>[-\w]+)/$', views.buy_packageView, name = "buy-package"),
+	url(r'^content-upload/preview/ref=(?P<transaction_id>[-\w]+)$',        views.previewPublicationView,  name = "preview-content"),
+	url(r'^fetch-media-houses/$',                                          views.get_media_houses,        name = 'get-media-houses'),
+	url(r'^payment/ref=(?P<transaction_id>[-\w]+)$',                       views.Payment,                 name = 'payment'),
+	url(r'^payment/save-details/ref=(?P<transaction_id>[-\w]+)$',          views.savePayInfo,                 name = 'save-pay-info'),
+	# url(r'^fetch-media-houses/(?P<platform>[-\w]+)/$',                  views.get_media_houses,      name = 'get-media-houses'),
 
 
 	# url(r'^about_us/$',                					views.aboutUsView,        name='about_us'),

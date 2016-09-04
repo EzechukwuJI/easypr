@@ -14,3 +14,132 @@
 	text-transform: none; 
 	padding:15px;"
 }
+
+.no-border-radius {
+	border-radius:0px;
+}
+
+.title {
+	color:#000000; 
+	font-weight:bold; 
+	font-size:18px; 
+	text-transform:capitalize;"
+}
+
+
+.post-body {
+	color:#000000;
+	font-family: verdana helvetica arial garamond;
+	font-size: 14px;
+}
+
+
+.bg-white {
+	background-color: #ffffff;
+}
+
+.text-dark {
+	color: #000000;
+}
+
+
+
+.box {
+	min-height: 155px;
+}
+
+
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+  display: none;
+}
+
+
+.box.has-advanced-upload {
+	background-color:white;
+	outline: 2px dashed black;
+	outline-offset: -10px;
+}
+
+.box.has-advanced-upload .box__dragndrop {
+	display: inline;
+}
+
+
+
+.box.is-dragover {
+  background-color: #a0a0a0;
+}
+
+
+.box.is-uploading .box__input {
+  visibility: none;
+}
+.box.is-uploading .box__uploading {
+  display: block;
+}
+
+
+.box__button {
+  display: none;
+}
+.no-js .box__button {
+  display: block;
+}
+
+.hidden-file-input {
+	width: 0.1px;
+	height: 0.1px;
+	z-index: -3;
+	visibility: 0.1;
+}
+
+.active-file-label {
+	cursor: pointer;
+	text-align: center;
+}
+
+
+.payment-box {
+	height: 165px;
+	width: 100%;
+	min-width: 225px;
+	border-radius: 5px;
+	cursor: pointer;
+	padding:20px;
+	background-color: hsla(195, 53%, 79%, 0.34);
+	/*background-color: lightblue;*/
+	margin:10px;
+	border: 2px dashed #080008;
+}
+
+.payment-box:hover{
+	border: 2px solid #a0a0a0;
+}
+
+.payment-box .thumbnail {
+	max-width: 80px;
+	max-height: 80px;
+	left: 0px;
+	top: 0px;
+	position: relative;
+	display: inline;
+	margin-right: 5px;
+}
+
+.payment-box.selected {
+	border: 2px solid green;
+	background-color: lightgreen !important;
+	color:  #ffffff !important;
+
+}
+
+
+
+
+
+
+
+

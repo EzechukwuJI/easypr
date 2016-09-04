@@ -1,0 +1,6 @@
+{% for media in available_media %}
+	<option value="{{ media.pk }}">{{ media.name }}</option>
+{% empty %}
+	<option value="">No media available </option>
+{% endfor %}
+								

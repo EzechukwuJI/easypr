@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 
 	<!-- Basic Page Needs
@@ -38,10 +38,18 @@
 	<link rel="stylesheet" href="{% static 'easypr/css/owl.theme.default.min.css' %}">
 	<!-- Colorbox -->
 	<link rel="stylesheet" href="{% static 'easypr/css/colorbox.css' %}">
-
+	
+	<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
 </head>
 	
 <body>
+
+
+
+
+
+
+	
 
 	<div class="body-inner">
 {% block header %}
@@ -74,7 +82,7 @@
 				<div class="col-md-6 col-sm-6 col-xs-12 top-menu ">
 					<ul class="unstyled">
 						<!-- <li><a href="#">About</a></li> -->
-						<li><a href="#">How It Works</a></li>
+						<li><a href="{% url 'general:how-it-works' %}">How It Works</a></li>
 						<li><a href="{% url 'general:faq' %}">FAQs</a></li>
 						{% if user.is_authenticated %}
 							<li><a href="{% url 'general:logout' %}">Logout</a></li>
@@ -97,7 +105,7 @@
 				<div class="navbar-header">
 					<div class="logo">
 	                <a href="{% url 'general:homepage' %}">
-	                	<img src="{% static 'easypr/images/logo.png' %}" alt="">
+	                	<img src="{% static 'easypr/images/easyprlogo.png' %}" alt="easypr Nigeria">
 	                </a>
          		</div><!-- logo end -->
 				</div>
@@ -160,6 +168,13 @@
 			</div><!-- Row end -->
 		</div><!-- Container end -->
 	</header><!--/ Header end -->
+	{% if messages %}
+		<div class="row">
+			{% for msg in messages %}
+				<div class="bg-{{ msg.level_tag }}" style="color:#000000;"> {{ msg }} </div>
+			{% endfor %}
+		</div>
+	{% endif %}
 {% endblock header %}
 
 {% block inner_content %}
@@ -210,38 +225,10 @@
 			</div>
 		</div><!-- Item 3 end -->
 	</div><!-- Owl carousel -->
-
-
-
-	{% include 'easypr_snippets/bouquet.html' %}
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   <section id="ts-features" class="features-area">
+	{% block bouquets %}
+		
+	{% endblock bouquets %}
+    <section id="ts-features" class="features-area">
 		<div class="container">
 			<div class="row">
 				
@@ -1016,9 +1003,10 @@
 	{% include 'easypr_snippets/login-modal.html' %}
 {% endblock modal %}
 
-{% block scripts %}
-{% endblock scripts %}
+{% block inline_scripts %}
+{% endblock inline_scripts %}
 
+{% block scripts %}
 	<!-- Javascript Files
 	================================================== -->
 
@@ -1037,10 +1025,12 @@
 	<!-- Isotope -->
 	<script type="text/javascript" src="{% static 'easypr/js/isotope.js' %}"></script>
 	<script type="text/javascript" src="{% static 'easypr/js/ini.isotope.js' %}"></script>
+	<script type="text/javascript" src="{% static 'easypr/js/easypr.js' %}"></script>
 
 	<!-- Template custom -->
 	<script type="text/javascript" src="{% static 'easypr/js/custom.js' %}"></script>
-	
+{% endblock scripts %}
+
 	</div><!-- Body inner end -->
 </body>
 </html>

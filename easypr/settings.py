@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'easypr_general',
     'easypr_ng',
     'easypr_admin',
+   
 )
 
 MIDDLEWARE_CLASSES = (

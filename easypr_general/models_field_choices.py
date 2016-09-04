@@ -29,10 +29,10 @@ MEDIA_PLATFORM = (
 	)
 
 BOUQUET  =  (
-			("Flat", "Flat"),
-			("Bronze", "Bronze"),
-			("Silver", "Silver"),
-			("Gold", "Gold"),
+			("Single", "Single"),
+			("Basic", "Basic"),
+			("Maxi", "Maxi"),
+			("Super Maxi", "Super Maxi"),
 	)
 
 

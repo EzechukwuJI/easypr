@@ -6,7 +6,7 @@ def transaction_ref(transaction_type, model):
 	prefix = transaction_type[:2].upper()
 	random_chars = "".join([random.choice(string.ascii_uppercase + string.digits) for n in range(10)])
 	trx_id = prefix + str(random_chars)
-	return trx_id if not model.objects.filter(transaction_id = trx_id).exists() else get_transaction_ref(transaction_type,model)	
+	return trx_id if not model.objects.filter(transaction_id = trx_id).exists() else transaction_ref(transaction_type,model)	
 
 
 

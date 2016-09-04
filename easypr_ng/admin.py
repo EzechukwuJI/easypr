@@ -1,10 +1,10 @@
 from django.contrib import admin
 from easypr_ng.models import  MediaHouse, MediaContact,PressMaterial, Redirect_url, \
-Publication,PubDocument,Purchase,PayDetails,PurchaseInvoice, Bouquet
+Publication,PublicationImage,Purchase,PayDetails,PurchaseInvoice, Bouquet,MediaPlatform, Sector
 
 
 class MediaHouseAdmin(admin.ModelAdmin):
-	list_display = ('name','platform',)
+	list_display = ('name',)
 
 
 class PublicationAdmin(admin.ModelAdmin):
@@ -13,8 +13,17 @@ class PublicationAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'title_slug':('post_title',)}
 
 
+
+class SectorAdmin(admin.ModelAdmin):
+	prepopulated_fields = {'name_slug':('name',)}
+
+
+class MediaPlatformAdmin(admin.ModelAdmin):
+	prepopulated_fields = {'name_slug':('name',)}
+
+
 class BouquetAdmin(admin.ModelAdmin):
-	list_display = ('name', 'press_material','Num_of_media','amount_payable_N','amount_payable_D','percentage_commission',)
+	list_display = ('name', 'press_material','num_of_media','amount_payable_N','amount_payable_D','percentage_commission',)
 
 
 class PayDetailsAdmin(admin.ModelAdmin):
@@ -28,12 +37,19 @@ class PurchaseAdmin(admin.ModelAdmin):
 
 
 
+
+
+
+
+
 admin.site.register(MediaHouse, MediaHouseAdmin)
 admin.site.register(MediaContact)
+admin.site.register(MediaPlatform, MediaPlatformAdmin)
+admin.site.register(Sector, SectorAdmin)
 admin.site.register(PressMaterial)
 admin.site.register(Redirect_url)
 admin.site.register(Publication, PublicationAdmin)
-admin.site.register(PubDocument)
+admin.site.register(PublicationImage)
 admin.site.register(Bouquet, BouquetAdmin)
 admin.site.register(Purchase, PurchaseAdmin)
 admin.site.register(PayDetails, PayDetailsAdmin)

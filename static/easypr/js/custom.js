@@ -262,44 +262,6 @@ jQuery(function($) {
 });
 
 
-function show_hidden_form(form_id,social_btn){
-  $sc   =   $('#' + social_btn);
-  $this = $('#' + form_id );
-
-  $sc.addClass('hidden');
-  $this.removeClass('hidden');
-}
-
-function hide_form(form_id,social_btn){
-  $sc   =   $('#' + social_btn);
-  $this = $('#' + form_id );
-
-  $sc.removeClass('hidden');
-  $this.addClass('hidden');
-}
-
-
-
-function compare_passwords(field_name, confirm_field){
-      // evt.preventDefault();
-      var confirm_field   =   $('#' + confirm_field);
-      var password        =   $('#' + field_name);
-      if (confirm_field.val() != password.val()){
-          alert('The password you entered did not match.');
-        return false;
-      } else {
-        return true;
-      }
-}
-
-function swap_reg_form(user_form, details_form){
-  $user_form   =   $('#' + user_form);
-  $details     =   $('#' + details_form );
-
-  $user_form.addClass('hidden');
-  $details.removeClass('hidden');
-}
-
 
 
 

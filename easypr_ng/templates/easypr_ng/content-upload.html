@@ -1,0 +1,181 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}content upload section{% endblock title %}
+{% block inner_content %}
+	
+	<section id="main-container" class="main-container">
+		<div class="container">
+
+			<div class="row">
+				<form action = "" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<!-- content upload panel -->
+					<div class="col-md-9">
+						<div class="error-message">
+							<h3>Content Upload Section</h3>
+						</div>
+						<div class="well well-default no-border-radius" role = "Public alert">
+							<span class="text-danger">
+								<strong>PLEASE NOTE:</strong>
+							</span>
+							<br/>
+							<span class="text-primary" style="font-size:16px;"> Content publication on selected media .... <br/>Learn more about <a href="{% url 'general:how-it-works' %}">How It Works</a></span>
+						</div>
+						<!-- content upload form div -->
+						<div class="well well-default no-border-radius">
+							<!-- <input type="text" name="post_title" class="form-control no-border-radius title bg-white"  placeholder="Enter post title" required/> -->
+							{{ form.post_title }}
+						</div>
+						<div class="well well-default no-border-radius" style="color:#000000;">
+							<strong>UPLOAD IMAGES</strong><hr style ="margin-top:2px;"/>
+							<div class="row" role="file-upload and title section">
+								<div class="col-sm-3">
+									{% include 'snippets/file_upload.html' with file_id="image_1" %}
+								</div>
+								<div class="col-sm-3">
+									{% include 'snippets/file_upload.html' with file_id="image_2" %}
+								</div>
+								<div class="col-sm-3">
+									{% include 'snippets/file_upload.html' with file_id="image_3" %}
+								</div>
+								<div class="col-sm-3">
+									{% include 'snippets/file_upload.html' with file_id="image_4" %}
+								</div>
+							</div>
+						</div>
+						
+						<div class="well well-default no-border-radius" style="color:#000000;" role = "title">
+							<div class="row">
+								<div class="col-md-6">
+									<table class="">
+										<!-- <thead><strong>Information</strong></thead> -->
+										<tbody>
+											<tr>
+												<td><strong>Selected Category:</strong></td>
+												<td><strong>{{ press_material|title }}</strong></td>
+											</tr>
+											<tr>
+												<td><strong>Platform:</strong></strong></td>
+												<td>
+													<select name="platform" class="form-control bg-white no-border-radius" id="id_media_platform" placeholder="media platform" onchange = 'return fetch_media("id_media_platform", "selected_media")' required>
+														<option value = "">select</option>
+														{% for platform in platforms %}
+															<option value = "{{ platform.pk }}" >{{ platform.name }}</option>
+														{% endfor %}
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><strong>Sector</strong></td>
+												<td>
+													<select name = "sector" class="form-control bg-white no-border-radius" id="id_sector" placeholder ="Sector"required>
+														<option value="">select</option>
+														{% for sector in sectors %}
+															<option value = "{{ sector.pk }}">{{ sector.name }}</option>
+														{% endfor %}
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><strong>Person to quote:</strong></td>
+												<td>
+													{{ form.person_to_quote }}
+													<!-- <input type="text" class="form-control no-border-radius bg-white" name="person_to_quote" /> -->
+												</td>
+											</tr>
+											<tr>
+												<td><strong>Position:</strong></td>
+												<td>{{ form.persons_position }}
+													<!-- <input type="text" class="form-control no-border-radius bg-white" name="persons_position"placeholder="person's position"/> -->
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="col-md-6">
+									<strong> Select Media</strong><br/>
+									<select name="selected_media[]" multiple style="height:155px; min-height: 120px; padding:5px; width:100%;" class="form-control bg-white" id="selected_media" required>
+										<!-- ajax populated media list -->
+									</select>
+									<small>
+										Hold down the control key to select multiple media
+									</small><br/>
+									<span class="text-danger">
+										Max Allowed: {{ package.num_of_media }} med{{ package.num_of_media|pluralize:"ium,ia" }} 
+										<a href="/#packages" >Add More</a>
+									</span>
+								</div>
+							</div>
+							<p> &nbsp; </p>
+							<div class="row">
+								<div class="col-md-12">
+									<!-- <textarea name="post_body" class="form-control no-border-radius bg-white" rows=20 placeholder ="Type or copy and paste content here" = 20 required></textarea> -->
+									{{ form.post_body }}
+									<span class="text-danger pull-right">
+										500 characters 
+									</span>
+
+									<br/>
+									<!-- <input type="checkbox" name="publish_online" value="false"/> -->
+									{{ form.publish_online }} <strong>Do you want this post to be published online also?</strong>
+									<p> &nbsp; </p>
+									<input type ="submit" value = "proceed" class="btn btn-primary pull-right" />
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<!-- Right panel -->
+					<div class="col-md-3">
+						<div class="well well-default no-border-radius" role = "right panel">
+							something here
+						</div>
+					</div>
+				</form>
+			</div><!-- Content row -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+
+	
+{% endblock inner_content %}
+
+
+
+{% block inline_scripts %}
+<script>
+	function fetch_media(select_input_id, div_to_populate){	
+		$("#" + div_to_populate).html('<option value="" style="color:green;">Fetching media ...</option>');
+		var platform      = $("#" + select_input_id).find(':selected').attr('value');
+		if (platform.length == 0){
+			alert ('select a media platform');
+			return false;
+		}
+		var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
+		function csrfSafeMethod(method){
+			// these HTTP methods do not require CSRF protection
+			return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings){
+				if (!csrfSafeMethod(settings.type) && !this.crossDomain){
+					xhr.setRequestHeader("X-CSRFToken", csrf_token);
+				}
+			}
+		});
+		$.ajax({
+			url: "{% url 'easypr_ng:get-media-houses' %}",
+			type: "POST",
+			data: {media_platform: platform, csrfmiddlewaretoken: csrf_token},
+			success: function(data){
+				$("#" + div_to_populate).html(data);
+			},
+			error: function(data){
+				$("#" + div_to_populate).html('<option value="" style="color:#6734ee;">An error occured while fetching media! Please reload the page.</option>');	
+			}
+		})
+	}
+</script>
+{% endblock inline_scripts %}

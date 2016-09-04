@@ -1,0 +1,101 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}content upload section{% endblock title %}
+{% block inner_content %}
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				<h3>Content Preview Section</h3>
+				<!-- <hr style="margin:0px;" /> -->
+				<div class="col-md-9" style="color:#000000;">
+
+					<div class="well well-default no-border-radius">
+						<h3> {{ post.post_title|title }} </h3>
+						<div class="row">
+							<div class="col-md-6">
+								<strong>PLATFORM:  </strong> {{ post.platform }}<br/>
+								<strong>SECTOR:  </strong> {{ post.sector }}<br/>
+								<strong>PERSON/POSITION:  </strong> {{ post.person_to_quote|title }} - {{ post.persons_position|title  }}
+							</div>
+							<div class="col-md-6">
+								<strong>SELECTED MEDIA: </strong> {{ post.get_media_houses }} <br/>
+								<strong>SELECTED CATEGORY: </strong> {{ post.press_material }}
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						{% for image in post.get_publication_pictures %}
+							<div class="col-md-3">
+								<img src="{{ image.image.url }}" class="thumbnail" style="height:165px; width:185px;" alt="Easypr Nigeria" /> <br/>
+								<span>{{ image.caption }}</span>
+							</div>
+						{% endfor %}
+					</div>
+					<p> &nbsp; </p>
+
+					<div class="well well-default no-border-radius bg-white">
+						{{ post.post_body }}
+					</div>
+
+
+
+					<hr/>
+					<div class="row no-border-radius bg-white">
+						<a href="{% url 'easypr_ng:payment' transaction_id=post.transaction_id %}" class="btn btn-primary pull-right"> Proceed </a>
+
+						
+
+						<a href="{% url 'easypr_ng:buy-package' press_material=post.press_material|slugify package="single" %}" class="btn btn-primary pull-left"> Back </a>
+					
+					
+					</div>
+
+
+				</div>
+				<div class="col-md-3">
+					right side note
+				</div>
+			</div><!-- Content row -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+	
+{% endblock inner_content %}
+
+
+
+{% block inline_scripts %}
+<script>
+	function fetch_media(select_input_id, div_to_populate){	
+		$("#" + div_to_populate).html('<option value="" style="color:green;">Fetching media ...</option>');
+		var platform      = $("#" + select_input_id).find(':selected').attr('value');
+		if (platform.length == 0){
+			alert ('select a media platform');
+			return false;
+		}
+		var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
+		function csrfSafeMethod(method){
+			// these HTTP methods do not require CSRF protection
+			return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings){
+				if (!csrfSafeMethod(settings.type) && !this.crossDomain){
+					xhr.setRequestHeader("X-CSRFToken", csrf_token);
+				}
+			}
+		});
+		$.ajax({
+			url: "{% url 'easypr_ng:get-media-houses' %}",
+			type: "POST",
+			data: {media_platform: platform, csrfmiddlewaretoken: csrf_token},
+			success: function(data){
+				$("#" + div_to_populate).html(data);
+			},
+			error: function(data){
+				$("#" + div_to_populate).html('<option value="" style="color:#6734ee;">An error occured while fetching media! Please reload the page.</option>');	
+			}
+		})
+	}
+</script>
+{% endblock inline_scripts %}

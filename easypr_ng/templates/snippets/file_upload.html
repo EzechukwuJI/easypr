@@ -1,0 +1,7 @@
+<label class="active-file-label" for="id_{{ file_id }}">
+	<img src="" class="thumbnail" id = "img_{{ file_id }}" style="height:165px; width:185px;" alt="click to upload" /> 
+</label>
+<input class="hidden-file-input" type="file" name="{{ file_id }}" id="id_{{ file_id }}"  onchange = 'return load_image("id_{{ file_id }}", "img_{{ file_id }}", "cap_{{ file_id }}")' accept=".jpg,.png,.JPG,.jpeg,.PNG" />
+<div>
+	<input type="text" id= "cap_{{file_id}}" name = "cap_{{ file_id }}" class="form-control no-border-radius bg-white text-dark" placeholder = "image caption" />
+</div>
