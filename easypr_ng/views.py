@@ -1,7 +1,7 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
@@ -9,13 +9,13 @@ from django.contrib.auth.models import User
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.db.models import F
 from django.contrib import messages
-
 from easypr_ng.models import *
 from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list
 from easypr_ng.models import MediaHouse, MediaContact, PressMaterial, Redirect_url, Publication, PublicationImage, \
 Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform
 
 from easypr_ng.forms import ContentUploadForm
+import datetime
 
 
 
@@ -146,6 +146,8 @@ def buy_packageView(request, press_material,package):
 
 @login_required()
 def previewPublicationView(request, **kwargs):
+    # date_paid = datetime.datetime.strptime('2016-09-23', "%Y-%m-%d")
+    print "date paid", date_paid
     context = {}
     post = Publication.objects.get(transaction_id = kwargs['transaction_id'])
 
@@ -155,10 +157,15 @@ def previewPublicationView(request, **kwargs):
 
 
 @login_required()
-def savePayInfo(request):
-    print "save pay details ........."
-    rp = request.POST
-    return redirect(reverse('easypr_ng:payment', kwargs={'transaction_id':rp['ref_id']}))
+def savePayInfo(request, transaction_id):
+    print "transaction_id ", transaction_id
+    if request.method == "POST":
+        rp = request.POST
+        purchased  =   get_object_or_404(Purchase, transaction_id = transaction_id)
+        pay_details = purchased.payment_details
+        PayDetails.objects.filter(pk = pay_details.pk).update(payment_method = rp['method'].replace("_"," ").title(), amount_paid = rp['amount'], date_paid = rp['date'], bank_name = rp['bank'], teller_number = rp['teller'])
+        return JsonResponse({'response': 'success'})
+   
 
 
 
@@ -169,6 +176,9 @@ def Payment(request, **kwargs):
     publication = get_object_or_404(Publication, transaction_id = kwargs['transaction_id'])
     pay_info = get_object_or_404(Purchase, publication = publication)
     return render(request, template, {'post':publication, 'pay_info':pay_info})
+
+
+
 
 
 
@@ -183,31 +193,33 @@ def get_media_houses(request):
 
 
 
-
-
 @login_required()
-def createArticleView(request):
-    articles = Publication.objects.filter(posted_by = request.user, deleted=False, status = "published").order_by('-date_posted')
-    article_form = PublicationForm()
-    article_doc_form = DocumentUploadForm()
-    media_categories  =  MediaCategory.objects.all()
-    media_names = MediaNames.objects.all()
-    if request.method == "POST":
-        rp = request.POST
-        form = PublicationForm(request.POST, request.FILES)
-        doc_form = DocumentUploadForm(request.POST, request.FILES)
-        if form.is_valid() and doc_form.is_valid():
-            article = form.save(commit = False)
-            article.posted_by = request.user
-            article.status = "new"
-            article.save()
-            upload_doc = PubDocument(document = request.FILES['document'], publication = article)
-            upload_doc.save()
-            messages.success(request, "Thank You. Your article has been submitted for publication, We will notify you as soon as this article is published")
-        else:
-            # print form.errors
-            return render(request, 'yadel/general/submit-article.html', {'article_form':article_form, 'doc_form':article_doc_form, 'media_names':media_names, 'media_categories':media_categories,'articles':articles})
-    return render(request, 'yadel/general/submit-article.html', {'article_form':article_form,'doc_form':article_doc_form, 'media_names':media_names, 'media_categories':media_categories, 'articles':articles})
+def confirmationView(request):
+    return render(request, 'easypr_ng/confirmation.html', {})
+
+# @login_required()
+# def createArticleView(request):
+#     articles = Publication.objects.filter(posted_by = request.user, deleted=False, status = "published").order_by('-date_posted')
+#     article_form = PublicationForm()
+#     article_doc_form = DocumentUploadForm()
+#     media_categories  =  MediaCategory.objects.all()
+#     media_names = MediaNames.objects.all()
+#     if request.method == "POST":
+#         rp = request.POST
+#         form = PublicationForm(request.POST, request.FILES)
+#         doc_form = DocumentUploadForm(request.POST, request.FILES)
+#         if form.is_valid() and doc_form.is_valid():
+#             article = form.save(commit = False)
+#             article.posted_by = request.user
+#             article.status = "new"
+#             article.save()
+#             upload_doc = PubDocument(document = request.FILES['document'], publication = article)
+#             upload_doc.save()
+#             messages.success(request, "Thank You. Your article has been submitted for publication, We will notify you as soon as this article is published")
+#         else:
+#             # print form.errors
+#             return render(request, 'yadel/general/submit-article.html', {'article_form':article_form, 'doc_form':article_doc_form, 'media_names':media_names, 'media_categories':media_categories,'articles':articles})
+#     return render(request, 'yadel/general/submit-article.html', {'article_form':article_form,'doc_form':article_doc_form, 'media_names':media_names, 'media_categories':media_categories, 'articles':articles})
 
 
 

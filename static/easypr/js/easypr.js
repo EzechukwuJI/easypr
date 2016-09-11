@@ -62,6 +62,7 @@ function load_image(pic_id, img_placeholder_id,cap_id){
 
 var div_ids = ['bank_deposit','debit_card','bank_transfer','ewallet'];
   function select_payment(div_id){
+    $('#id_proceed').attr('disabled', true);
     var chosen_box  =   $('#' + div_id);
     var option   =   $('#check_' + div_id);
     if (option.is(':checked')){
@@ -78,12 +79,16 @@ var div_ids = ['bank_deposit','debit_card','bank_transfer','ewallet'];
         $('#' + div_ids[id]).removeClass('selected');
       }
     }
-    if ($('#check_bank_deposit').is(':checked') || $('#check_bank_transfer').is(':checked'))  {
+    if ($('#check_bank_deposit').is(':checked') || $('#check_bank_transfer').is(':checked')){
       $('#pay-details').removeClass('hidden');
+      $("#id_payment_method").val(div_id); 
     } else {
       $('#pay-details').addClass('hidden');
     }
   }
+
+
+
 
 
 // var isAdvancedUpload = function(){

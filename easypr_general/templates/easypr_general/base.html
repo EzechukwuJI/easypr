@@ -171,7 +171,7 @@
 	{% if messages %}
 		<div class="row">
 			{% for msg in messages %}
-				<div class="bg-{{ msg.level_tag }}" style="color:#000000;"> {{ msg }} </div>
+				<div class="well well-{{ msg.level_tag }} bg-{{ msg.level_tag }}" style="color:#000000;"> {{ msg }} </div>
 			{% endfor %}
 		</div>
 	{% endif %}
@@ -179,17 +179,17 @@
 
 {% block inner_content %}
 	<div id="box-slide" class="owl-carousel owl-theme page-slider">
-		<div class="item" style="background-image:url({% static 'easypr/images/slider-main/bg1.jpg' %})">
+		<div class="item" style="background-image:url({% static 'easypr/images/slider-main/bg1.jpg' %});background-size:cover;">
 			<div class="container">
-				<div class="box-slider-content">
-					<div class="box-slider-text">
+				<div class="box-slider-content" >
+					<div class="box-slider-text" style="background-color:orange;">
 						<h2 class="box-slide-title">Helping You</h2>
 						<h6 class="box-slide-sub-title">Take Care of all your individual and corporate PR concerns</h6>	
-                	<p class="box-slide-description">You don't need a whole department to take care of your PR concerns. Let us do it for you on a pay as you use basis, On any media of your choice.</p>
-                	<p>
-                   	<a href = "#packages" class="slider btn btn-primary">Submit your Content</a>
-                   	<a href="{% url 'easypr_ng:request-service' %}" class="slider btn btn-secondary">Request A Service</a>
-                   </p>	 
+	                	<p class="box-slide-description">You don't need a whole department to take care of your PR concerns. Let us do it for you on a pay as you use basis, On any media of your choice.</p>
+	                	<p>
+	                   	<a href = "#packages" class="slider btn btn-primary">Submit your Content</a>
+	                   	<a href="{% url 'easypr_ng:request-service' %}" class="slider btn btn-secondary">Request A Service</a>
+	                   </p>	 
 					</div>    
         		</div>
 			</div>
@@ -308,7 +308,7 @@
 			          	<i class="fa fa-line-chart"></i>
 			        	</div>
 			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">Financial Planning</a></h3>
+			          	<h3><a href="#">Content Writing</a></h3>
 			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
 			        </div>
 			      </div><!-- Service 1 end -->
@@ -318,7 +318,7 @@
 			          	<i class="fa fa-money"></i>
 			        	</div>
 			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">Saving Strategy</a></h3>
+			          	<h3><a href="#">Press Release Syndication</a></h3>
 			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
 			        </div>
 			      </div><!-- Service 2 end -->
@@ -328,7 +328,7 @@
 			          	<i class="fa fa-calculator"></i>
 			        	</div>
 			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">Tax Planning</a></h3>
+			          	<h3><a href="#">Media Relations Consulting</a></h3>
 			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
 			        </div>
 			      </div><!-- Service 3 end -->
@@ -345,7 +345,7 @@
 			          	<i class="fa fa-university"></i>
 			        	</div>
 			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">Mutual Funds</a></h3>
+			          	<h3><a href="#">Brand Promotion</a></h3>
 			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
 			        </div>
 			      </div><!-- Service 1 end -->
@@ -355,7 +355,7 @@
 			          	<i class="fa fa-briefcase"></i>
 			        	</div>
 			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">Business Loan</a></h3>
+			          	<h3><a href="#">Digital Marketing</a></h3>
 			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
 			        </div>
 			      </div><!-- Service 2 end -->
@@ -365,7 +365,7 @@
 			          	<i class="fa fa-umbrella"></i>
 			        	</div>
 			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">Insurance Consulting</a></h3>
+			          	<h3><a href="#">Content Distribution</a></h3>
 			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
 			        </div>
 			      </div><!-- Service 3 end -->
@@ -385,7 +385,7 @@
 							</div>
 							<div class="ts-facts-content">
 								<h2 class="ts-facts-num"><span class="counterUp">3298</span></h2>
-								<h3 class="ts-facts-title">Case Solved</h3>
+								<h3 class="ts-facts-title">Published content</h3>
 							</div>
 						</div><!-- Col end -->
 
@@ -395,7 +395,7 @@
 							</div>
 							<div class="ts-facts-content">
 								<h2 class="ts-facts-num"><span class="counterUp">337</span></h2>
-								<h3 class="ts-facts-title">Advisors</h3>
+								<h3 class="ts-facts-title">Media partners</h3>
 							</div>
 						</div><!-- Col end -->
 
@@ -405,7 +405,7 @@
 							</div>
 							<div class="ts-facts-content">
 								<h2 class="ts-facts-num"><span class="counterUp">2321</span></h2>
-								<h3 class="ts-facts-title">Loan Processed</h3>
+								<h3 class="ts-facts-title">happy clients</h3>
 							</div>
 						</div><!-- Col end -->
 
@@ -415,7 +415,7 @@
 							</div>
 							<div class="ts-facts-content">
 								<h2 class="ts-facts-num"><span class="counterUp">109</span></h2>
-								<h3 class="ts-facts-title">Locations</h3>
+								<h3 class="ts-facts-title">contents written $ distributed</h3>
 							</div>
 						</div><!-- Col end -->
 

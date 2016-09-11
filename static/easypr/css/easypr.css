@@ -7,6 +7,7 @@
 }
 
 
+
 .btn-custom-lg-blue {
 	/*border: thin solid red; */
 	border-radius: 0px; 
@@ -42,6 +43,15 @@
 	color: #000000;
 }
 
+
+h4.heading {
+	color: #428bca;
+	text-transform: uppercase;
+}
+
+.pad-left-10 {
+	padding-left: 10px;
+}
 
 
 .box {

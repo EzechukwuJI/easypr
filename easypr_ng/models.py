@@ -222,7 +222,7 @@ class PayDetails(models.Model):
 	transaction_id          =     models.CharField(max_length = 25, null = True)
 	payment_method    		  =     models.CharField(max_length = 75, choices = PAYMENT_OPTIONS, default = "")
 	amount_paid             =     models.FloatField(default = 0.0)
-	date_paid               =     models.DateTimeField(null = True, blank = True)
+	date_paid               =     models.CharField(max_length = 100, null = True, blank = True, )
 	bank_name               =     models.CharField(max_length = 100, null = True, blank = True, choices = BANKS)
 	teller_number           =     models.CharField(max_length = 15, null = True, blank = True)
 

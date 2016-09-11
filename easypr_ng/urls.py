@@ -18,7 +18,8 @@ urlpatterns  =  [
 	url(r'^content-upload/preview/ref=(?P<transaction_id>[-\w]+)$',        views.previewPublicationView,  name = "preview-content"),
 	url(r'^fetch-media-houses/$',                                          views.get_media_houses,        name = 'get-media-houses'),
 	url(r'^payment/ref=(?P<transaction_id>[-\w]+)$',                       views.Payment,                 name = 'payment'),
-	url(r'^payment/save-details/ref=(?P<transaction_id>[-\w]+)$',          views.savePayInfo,                 name = 'save-pay-info'),
+	url(r'^payment/save-details/ref=(?P<transaction_id>[-\w]+)/$',          views.savePayInfo,            name = 'save-pay-details'),
+	url(r'^content-submission/success/$',                                views.confirmationView,          name = 'confirmation'),
 	# url(r'^fetch-media-houses/(?P<platform>[-\w]+)/$',                  views.get_media_houses,      name = 'get-media-houses'),
 
 

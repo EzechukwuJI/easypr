@@ -27,6 +27,7 @@ urlpatterns  =  [
 	url(r'^services/$',                             TemplateView.as_view(template_name = "easypr_general/services.html"),  name='services'),
 	url(r'^frequently-asked-questions/$',          	TemplateView.as_view(template_name = "easypr_general/faq.html"),  name='faq'),
 	url(r'^how-it-works/$',          	            TemplateView.as_view(template_name = "easypr_general/how-it-works.html"),  name='how-it-works'),
+	url(r'^terms-and-conditions/$',          	    TemplateView.as_view(template_name = "easypr_general/terms-and-conditions.html"),  name='terms-and-conditions'),
 
 
 	# url(r'^news/(?P<pk>[-\d]+)/(?P<news_title>[-\w]+)/$',  views.loadExternalNews, name = 'news-details')

@@ -1,7 +1,7 @@
 {% extends 'easypr_general/base.html' %}
 {% load staticfiles %}
 
-{% block title %}content upload section{% endblock title %}
+{% block title %}payment section{% endblock title %}
 {% block inner_content %}
 	<section id="main-container" class="main-container">
 		<form action="" method="post">
@@ -21,6 +21,7 @@
 							<div class="col-md-6 bg-danger" style="background-color:lightblue; padding:15px; border-radius:5px;">
 								<!-- <div><strong>Press Material</strong> <span class="pull-right">{{ post.press_material }}</span></div> -->
 								<div><strong>Bouquet:</strong><span class="pull-right">{{ pay_info.bouquet }}</span></div>
+
 								<div><strong>Number of Media:</strong><span class="pull-right">{{ pay_info.bouquet.num_of_media }}</span></div>
 								<div><strong>Price per Medium:</strong><span class="pull-right"> $ {{ pay_info.bouquet.price_per_media_N }}</span></div>
 								<div><strong>VAT:</strong><span class="pull-right"> ${{ pay_info.bouquet.price_per_media_N }}</span></div>
@@ -62,7 +63,6 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="payment-box" id = "bank_transfer" onclick='return select_payment("bank_transfer");'>
-									<!-- <img class="thumbnail" src="{% static 'easypr/images/payment/visa.png' %}" alt="Easypr Nigeria" /> -->
 									<input type="checkbox" class="hidden" name="payment-type" id="check_bank_transfer"/>
 									<div class="text-center">
 										<h4>Pay with bank transfer</h4>
@@ -71,104 +71,139 @@
 								</div>
 							</div>
 							<div class="col-md-6">
-								<!-- <div class="payment-box" id = "ewallet" onclick='return select_payment("ewallet");'>
-									<input type="checkbox"  class="hidden" name="payment-type" id="check_ewallet" />
-								</div> -->
 							</div>
 						</div>
 					</div>
+				</form>
 
-					<div class="row hidden" id="pay-details">
-						<div class="col-md-6" style="background-color: lightblue;">
-							<h5> Enter Payment Details </h5><hr style="margin-top:20px;"/>
-							<div class="row">
-								<div class="col-md-4">
-									<strong>Teller Number: </strong>
-								</div>							
-								<div class="col-md-8">
-									<input class="form-control no-border-radius bg-white" type="text" name="teller_number" />
-									<!-- <input class="form-control no-border-radius bg-white" value={{ post.transaction_id }} type="text" name="ref_id" /> -->
+				<form id = "paydetails_form">
+					<span id="id_saved_status"></span>
+					{% csrf_token %}
+						<div class="row hidden" id="pay-details">
+							<div class="col-md-6" style="background-color: lightblue;">
+								<h5> Enter Payment Details </h5><hr style="margin-top:20px;"/>
+								<input type="hidden" name="payment_method" id="id_payment_method" />
+								<div class="row">
+									<div class="col-md-4">
+										<strong>Teller Number: </strong>
+									</div>							
+									<div class="col-md-8">
+										<input class="form-control no-border-radius bg-white" type="text" name="teller_number" id="id_teller_number" />
+									</div>
 								</div>
-							</div>
-							<br/>
-							<div class="row">
-								<div class="col-md-4">
-									<strong>Bank: </strong>
-								</div>							
-								<div class="col-md-8">
-									<select class="form-control no-border-radius bg-white" name="bank">
-										<option value="diamond bank">Diamond Bank</option>
-										<option value="gtb">Guarantee Trust Bank</option>
-									</select>
+								<br/>
+								<div class="row">
+									<div class="col-md-4">
+										<strong>Bank: </strong>
+									</div>							
+									<div class="col-md-8">
+										<select class="form-control no-border-radius bg-white" name="bankname" id="id_bankname">
+											<option value="Diamond Bank">Diamond Bank</option>
+											<option value="GTB">Guarantee Trust Bank</option>
+										</select>
+									</div>
 								</div>
-							</div>
-							<br/>
-							<div class="row">
-								<div class="col-md-4">
-									<strong>Amount Paid: </strong>
-								</div>							
-								<div class="col-md-8">
-									<input class="form-control no-border-radius bg-white" type="number" name="amount" />
+								<br/>
+								<div class="row">
+									<div class="col-md-4">
+										<strong>Amount Paid: </strong>
+									</div>							
+									<div class="col-md-8">
+										<input class="form-control no-border-radius bg-white" type="number" name="amount" id="id_amount"/>
+									</div>
 								</div>
-							</div>
-							<br/>
-							<div class="row">
-								<div class="col-md-4">
-									<strong>Date Paid: </strong>
-								</div>							
-								<div class="col-md-8">
-									<input class="form-control no-border-radius bg-white" type="date" name="amount" />
+								<br/>
+								<div class="row">
+									<div class="col-md-4">
+										<strong>Date Paid: </strong>
+									</div>							
+									<div class="col-md-8">
+										<input class="form-control no-border-radius bg-white" type="date" name="date_paid" id="id_date_paid" />
+									</div>
 								</div>
-							</div>
-							<br/>
-							<div class="row">
-								<div class="col-md-4">
-									<!-- <strong>Date Paid: </strong> -->
-								</div>							
-								<div class="col-md-8">
-									<input type="submit" class="btn btn-success pull-right" onclick='this.form.action = {% url "easypr_ng:save-pay-info" transaction_id=post.transaction_id %}' value="Save Payment"/>
+								<br/>
+								<div class="row">
+									<div class="col-md-4">
+										<!-- <strong>Date Paid: </strong> -->
+									</div>							
+									<div class="col-md-8">
+										<a class="btn btn-success pull-right" id="id_save_payment" onclick='return save_pay_details()' >Save Payment</a>
+										
+									</div>
 								</div>
+								<br/>
 							</div>
-							<br/>
 						</div>
-
-					</div>
-
-
-
+						<br/>
+						<input type="checkbox" name="publish_online" value="false" id="id_tandc" />
+						<strong>Accept <a href="{% url 'general:terms-and-conditions' %}"> Terms and Conditions </a> for content submission and distribution</strong>
+					</form>
 					<hr/>
 					<div class="row no-border-radius bg-white">
-						<a href="#" class="btn btn-primary pull-right" > Proceed </a>
+						<a href="{% url 'easypr_ng:confirmation' %}" class="btn btn-primary pull-right" id="id_proceed" disabled> Proceed </a>
 						<a href="" class="btn btn-primary pull-left"> Back </a>
 					</div>
-
-
 				</div>
 				<div class="col-md-3">
-					
 				</div>
 			</div><!-- Content row -->
 		</div><!-- Conatiner end -->
-	</form>
+	
 </section><!-- Main container end -->
 	
 {% endblock inner_content %}
 
+
+
+
 {% block inline_scripts %}
-
+<script>
+	function save_pay_details() {
+		var form = $('#paydetails_form');
+		var payment_method  =   $('#id_payment_method').val();
+		var teller_number 	=   $('#id_teller_number').val();
+		var amount_paid 	=   $('#id_amount').val();
+		var bankname 		= 	$('#id_bankname').find(':selected').attr('value');
+		var date_paid 		=   $('#id_date_paid').val();
+		var csrf_token      =   $('input[name="csrfmiddlewaretoken"]').val();
+		function csrfSafeMethod(method){
+			// these HTTP methods do not require CSRF protection
+			return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings){
+				if (!csrfSafeMethod(settings.type) && !this.crossDomain){
+					xhr.setRequestHeader("X-CSRFToken", csrf_token);
+				}
+			}
+		});
+		$.ajax({
+			url: "{% url 'easypr_ng:save-pay-details' pay_info.transaction_id %}",
+			type: "POST",
+			data: {method:payment_method, teller:teller_number,amount:amount_paid,date:date_paid,bank:bankname, csrfmiddlewaretoken: csrf_token},
+			success: function(data){
+				$("#id_saved_status").html("<strong class='text-success'> Payment details saved!</strong>");
+				$('#pay-details').addClass('hidden');
+				if ($("#id_tandc").is(':checked')){
+					$('#id_proceed').removeAttr('disabled');
+				}
+			},
+			error: function(data){
+				$("#id_saved_status").html("<strong class='text-danger'> Oops! something went wrong, please try again.</strong>");	
+			}
+		})
+	}
+</script>
+<script>
+ $("#id_tandc").click(function(){
+ 	if ($("#id_tandc").is(':checked')) {
+ 		$('#id_proceed').removeAttr('disabled');  
+ 	}
+ 	$('#id_proceed').attr('disabled',true);
+ })
+	
+</script>
 {% endblock inline_scripts %}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

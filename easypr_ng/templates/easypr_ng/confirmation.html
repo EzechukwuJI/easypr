@@ -1,0 +1,50 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}confirmation page {% endblock title %}
+{% block inner_content %}
+	<section id="main-container" class="main-container">
+		<form action="" method="post">
+		{% csrf_token %}
+		<div class="container">
+			<div class="row">
+				<!-- <h3>Payment</h3> -->
+				<!-- <hr style="margin:0px;" /> -->
+				<div class="col-md-9" style="color:#000000;">
+
+					<div class="well well-success bg-success no-border-radius">
+						<h4>Thank You</h4>
+						<hr style="margin-top:5px;" />
+						<div class="row">
+							We have received your submission
+						</div>
+					</div>
+
+					
+
+
+
+				</div>
+				<div class="col-md-3">
+					
+				</div>
+			</div><!-- Content row -->
+		</div><!-- Conatiner end -->
+	
+</section><!-- Main container end -->
+	
+{% endblock inner_content %}
+
+
+
+
+{% block inline_scripts %}
+
+{% endblock inline_scripts %}
+
+
+
+
+
+
+
