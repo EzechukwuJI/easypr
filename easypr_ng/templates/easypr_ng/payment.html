@@ -195,7 +195,7 @@
 	}
 </script>
 <script>
- $("#id_tandc").click(function(){
+ $("#id_tandc").on('click', function(){
  	if ($("#id_tandc").is(':checked')) {
  		$('#id_proceed').removeAttr('disabled');  
  	}
