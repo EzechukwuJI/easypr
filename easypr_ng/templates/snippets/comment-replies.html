@@ -1,0 +1,14 @@
+<li>
+	<div class="comment">
+		<img class="comment-avatar pull-left" alt="" src="images/news/avator3.jpg">
+		<div class="comment-body">
+			<div class="meta-data">
+				<span class="comment-author">{{ reply.posted_by.get_full_name|title }}</span>
+				<span class="comment-date pull-right">{{ reply.date_posted|date }}</span>
+			</div>
+			<div class="comment-content">
+			<p>{{ reply.reply }}</p></div>
+			
+		</div>
+	</div><!-- Comments end -->
+</li>

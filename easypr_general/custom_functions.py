@@ -1,5 +1,6 @@
 import random
 import string
+from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 
 
 def transaction_ref(transaction_type, model):

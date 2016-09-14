@@ -9,17 +9,26 @@ from django.contrib.auth.models import User
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.db.models import F
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 from easypr_ng.models import *
 from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list
 from easypr_ng.models import MediaHouse, MediaContact, PressMaterial, Redirect_url, Publication, PublicationImage, \
-Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform
+Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform, Comment, CommentReply
 
 from easypr_ng.forms import ContentUploadForm
 import datetime
 
 
 
+# collect all economic sectors for a post
+def get_sectors():
+    post_sectors = Sector.objects.filter(active = True)
+    return post_sectors
 
+
+def get_recent_posts():
+    recent_posts  =  Publication.objects.published_articles().order_by('-date_posted')[:4]
+    return recent_posts
 
 
 def  indexView(request):
@@ -37,9 +46,6 @@ def requestServiceView(request):
     return render(request, 'easypr_ng/request-a-service.html', {})
 
 
-# def  newsroomView(request):
-#     articles = paginate_list(request, Publication.objects.filter(deleted = False, status = "published").order_by('-date_posted'), 5)
-#     return render(request, 'yadel/general/newsroom.html', {'articles':articles})
 
 
 
@@ -47,22 +53,6 @@ def requestServiceView(request):
 def ourWorksView(request):
     return render(request, 'easypr_ng/our-works.html', {})
 
-
-
-
-def  newsroomView(request):
-    context = {}
-    context['show_news_list'] = True
-    context['show_news_details']   =  False
-
-    return render(request, 'easypr_general/newsroom.html', context)
-
-
-def  readnewsView(request, post_id, title_slug):
-    context = {}
-    context['show_news_details']   =  True
-    context['show_news_list'] = False
-    return render(request, 'easypr_general/newsroom.html', context)
 
 
 
@@ -87,9 +77,10 @@ def create_post(request, press_material):
         media_house =   MediaHouse.objects.get(pk = media_pk )
         new_post.media_houses.add(media_house)
     new_post.save()
+
     for image in request.FILES.keys():
-        pub_image = PublicationImage.objects.create(image = request.FILES[image], caption = request.POST["cap_"+ image])
-        new_post.pictures.add(pub_image)
+        pub_image = PublicationImage.objects.create(image = request.FILES[image], caption = request.POST["cap_"+ image], post = new_post)
+        # new_post.pictures.add(pub_image)
     new_post.save()
     return new_post
 
@@ -147,36 +138,50 @@ def buy_packageView(request, press_material,package):
 @login_required()
 def previewPublicationView(request, **kwargs):
     # date_paid = datetime.datetime.strptime('2016-09-23', "%Y-%m-%d")
-    print "date paid", date_paid
+    # print "date paid", date_paid
     context = {}
     post = Publication.objects.get(transaction_id = kwargs['transaction_id'])
-
     return render(request, 'easypr_ng/content-preview.html', {'post':post})
 
-
-
-
-@login_required()
-def savePayInfo(request, transaction_id):
-    print "transaction_id ", transaction_id
-    if request.method == "POST":
-        rp = request.POST
-        purchased  =   get_object_or_404(Purchase, transaction_id = transaction_id)
-        pay_details = purchased.payment_details
-        PayDetails.objects.filter(pk = pay_details.pk).update(payment_method = rp['method'].replace("_"," ").title(), amount_paid = rp['amount'], date_paid = rp['date'], bank_name = rp['bank'], teller_number = rp['teller'])
-        return JsonResponse({'response': 'success'})
-   
 
 
 
 
 @login_required()
 def Payment(request, **kwargs):
-    template = 'easypr_ng/payment.html'
     publication = get_object_or_404(Publication, transaction_id = kwargs['transaction_id'])
-    pay_info = get_object_or_404(Purchase, publication = publication)
-    return render(request, template, {'post':publication, 'pay_info':pay_info})
+    purchase  = get_object_or_404(Purchase, publication = publication)
+    if not publication.completed:
+        template = 'easypr_ng/payment.html'
+        return render(request, template, {'post':publication, 'purchase':purchase})
+    else:
+        request.session['post_id']       =   publication.pk
+        request.session['purchase_id']   =   purchase.pk
+        request.session['pay_info_id']   =   purchase.payment_details.pk
+        return redirect(reverse('easypr_ng:confirmation'))
 
+
+
+
+
+@login_required()
+def savePayInfo(request, transaction_id):
+    #  manual payment processing
+    if request.method == "POST":
+        rp = request.POST
+        purchased  =   get_object_or_404(Purchase, transaction_id = transaction_id)
+        pay_details = purchased.payment_details
+        PayDetails.objects.filter(pk = pay_details.pk).update(payment_method = rp['method'].replace("_"," ").title(), 
+            amount_paid = rp['amount'], date_paid = rp['date'], bank_name = rp['bank'], teller_number = rp['teller'])
+        purchased.publication.ordered = True
+        Publication.objects.filter(pk = purchased.publication.pk).update(completed = True)
+        purchased.ordered = True
+        purchased.save()
+        return JsonResponse({'response': 'success'})
+    else:
+        # card payment processing - pending
+        pass
+   
 
 
 
@@ -195,31 +200,99 @@ def get_media_houses(request):
 
 @login_required()
 def confirmationView(request):
-    return render(request, 'easypr_ng/confirmation.html', {})
+    active_session_keys = ['post','purchase','pay_info']
+    try:
+        post         =   get_object_or_404(Publication, pk = request.session.get('post', ''))
+        purchase     =   get_object_or_404(Purchase, pk = request.session.get('purchase', ''))
+        pay_info     =   get_object_or_404(PayDetails, pk = request.session.get('pay_info', ''))
+    except:
+        post = purchase = pay_info = {}
 
-# @login_required()
-# def createArticleView(request):
-#     articles = Publication.objects.filter(posted_by = request.user, deleted=False, status = "published").order_by('-date_posted')
-#     article_form = PublicationForm()
-#     article_doc_form = DocumentUploadForm()
-#     media_categories  =  MediaCategory.objects.all()
-#     media_names = MediaNames.objects.all()
-#     if request.method == "POST":
-#         rp = request.POST
-#         form = PublicationForm(request.POST, request.FILES)
-#         doc_form = DocumentUploadForm(request.POST, request.FILES)
-#         if form.is_valid() and doc_form.is_valid():
-#             article = form.save(commit = False)
-#             article.posted_by = request.user
-#             article.status = "new"
-#             article.save()
-#             upload_doc = PubDocument(document = request.FILES['document'], publication = article)
-#             upload_doc.save()
-#             messages.success(request, "Thank You. Your article has been submitted for publication, We will notify you as soon as this article is published")
-#         else:
-#             # print form.errors
-#             return render(request, 'yadel/general/submit-article.html', {'article_form':article_form, 'doc_form':article_doc_form, 'media_names':media_names, 'media_categories':media_categories,'articles':articles})
-#     return render(request, 'yadel/general/submit-article.html', {'article_form':article_form,'doc_form':article_doc_form, 'media_names':media_names, 'media_categories':media_categories, 'articles':articles})
+    for key in request.session.keys():
+        if key in active_session_keys:
+            del request.session[key]
+    return render(request, 'easypr_ng/confirmation.html', {'post':post,'purchase':purchase,'pay_info':pay_info})
+
+
+
+
+def newsRoomView(request):
+    context = {}
+    template = 'easypr_general/newsroom.html'
+    context['show_news_list'] = True
+    context['show_news_details']   =  False
+
+    published_articles       =  paginate_list(request, Publication.objects.published_articles().order_by('-date_posted'), 1)
+    context['articles']      =  published_articles
+    context['sectors']       =  get_sectors()
+    context['recent_posts']  =  get_recent_posts()
+    return render(request, template, context)
+
+
+def newsRoomCatView(request, **kwargs):
+    context = {}
+    template = 'easypr_general/newsroom.html'
+    context['show_news_list'] = True
+    context['show_news_details']   =  False
+    context['sectors']   =  get_sectors()
+    cat_article = paginate_list(request, Publication.objects.published_articles().filter(sector__name_slug = kwargs['category']).order_by('-date_posted'), 1)
+    context['articles'] = cat_article
+    context['recent_posts'] = get_recent_posts()
+    return render(request, template, context)
+
+
+
+
+
+
+
+def  readnewsView(request, post_id, title_slug):
+    context = {}
+    context['post'] = Publication.objects.get(title_slug = title_slug, pk = post_id)
+    context['show_news_details']   =  True
+    context['show_news_list'] = False
+    context['sectors']   =  get_sectors()
+    context['recent_posts'] = get_recent_posts()
+    return render(request, 'easypr_general/newsroom.html', context)
+
+
+
+@login_required()
+def postCommentView(request):
+    print "saving comment"
+    context  =   {}
+    if request.user.is_authenticated:
+        if request.method == "POST" and not request.POST['msg'] == "":
+            rp = request.POST
+            post = get_object_or_404(Publication, pk = rp['post_id'])
+            new_comment = Comment.objects.create(post= post, comment = rp['msg'], posted_by = request.user, website=rp['website'])
+            context['comment'] = new_comment
+        return render(request, 'snippets/post-comments.html', context)
+    else:
+        return JsonResponse({'error_msg': 'you have to be logged in to comment.'})
+
+
+
+
+@login_required()
+@csrf_exempt
+def postCommentReplyView(request):
+    context = {}
+    if request.method == "POST" and not request.POST['msg'] == "":
+        comment = get_object_or_404(Comment, pk = request.POST['comment_id'])
+        new_reply = CommentReply.objects.create(comment = comment, posted_by = request.user, reply = request.POST['msg'])
+        context['reply'] = new_reply
+    return render(request, 'snippets/comment-replies.html', context)
+
+
+
+
+
+
+
+
+
+
 
 
 

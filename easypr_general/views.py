@@ -65,8 +65,8 @@ def  createUserAccount(request):
                 # notify.send(fail_silently = False)
                 context['user_is_created']  =    True
                 context['email']            =    rp['email']
-                print "user creation for %s successful" %(user)
-                print confirmation_link
+                # print "user creation for %s successful" %(user)
+                # print confirmation_link
                 return redirect(reverse('general:registration_success'))
             else:
                 return redirect(request.META['HTTP_REFERER'])
@@ -114,20 +114,20 @@ def  loginView(request):
                 if user.is_active:
                     try:
                         if not user.useraccount.is_confirmed:
-                            messages.info(request, "This account has not been activated, click on the link sent to your email to activate your account or request another confirmation link here.")
+                            messages.info(request, "This account has not been activated, click on the link sent to your email to activate your account.") # or request another confirmation link here.")
                             return render(request, 'easypr_general/confirm-email.html', {})
                     except:
                         pass
                     login(request, user) # log user in
                     # #check login source page
-                    if request.POST.get('next')  != "":
+                    if request.POST.has_key('next') and not request.POST['next'] == "":
                         next  =   request.POST.get('next')
                         return redirect(next) # return to the called page
                     if user.is_staff or user.is_superuser:
-                        print "redirecting here."
                         return redirect(reverse('easypr_admin:index'))
                     else:
-                        return redirect(reverse('general:homepage'))
+                        return redirect(reverse('general:user-dashboard'))
+                        # return redirect(reverse('general:homepage'))
                 else:
                     # context['inactive'] = True
                     messages.warning(request, 'This account is inactive, send a mail to activate@easypr.ng to request an activation link.')
@@ -223,7 +223,9 @@ def resetPasswordView(request, **kwargs):
 
 
 
-
+def userDashboard(request):
+    template = "useraccount/user-dashboard.html"
+    return render(request, template, {})
 
 
 def logOutView(request):
@@ -253,12 +255,15 @@ def  contactView(request):
 
 
 
+
+
+
 def  aboutUsView(request):
     return render(request, 'easypr_general/who-we-are.html', {})
 
 
-def  TandCView(request):
-    return render(request, 'yadel/general/tandc.html', {})
+# def  TandCView(request):
+#     return render(request, 'yadel/general/tandc.html', {})
 
 def  servicesView(request):
     return render(request, 'yadel/general/tandc.html', {})

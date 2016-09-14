@@ -4,6 +4,8 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User 
 from easypr_general.models_field_choices import *
 from easypr_general.models import UserAccount
+from django.db.models import Q, Sum
+import random
 
 
 
@@ -100,12 +102,16 @@ class PressMaterial(models.Model):
 
 
 
-class Redirect_url(models.Model):
-  url     =        models.CharField(max_length = 200, blank = True, null = True, default= None)
 
-  def __unicode__(self):
-    return self.url
 
+
+class PublicationManager(models.Manager):
+
+  def published_articles(self):
+    return self.get_queryset().filter(Q(status = "Published"), Q(deleted = False))
+
+  def new_articles(self):
+      return self.get_queryset().filter(status = "New", deleted = False)
 
 
 
@@ -132,15 +138,15 @@ class Publication(models.Model):
     date_published                  =              models.DateTimeField(auto_now_add = False, null=True, blank=True)
     date_posted                     =              models.DateTimeField(auto_now_add = True)
 
-    media_urls                      =              models.ManyToManyField('Redirect_url', )
+    # media_urls                      =              models.ManyToManyField('Redirect_url', )
     site                            =              models.ManyToManyField(Site)
-    pictures                        =              models.ManyToManyField('PublicationImage')
+    # pictures                        =              models.ManyToManyField('PublicationImage')
     media_houses                    =              models.ManyToManyField('MediaHouse')
     
     deleted                         =              models.BooleanField(default = False)
     publish_online                  =              models.BooleanField("Do you also want online publication of the chosen media? ", default = False)
-    ordered                         =              models.BooleanField(default = False)
-
+    completed                       =              models.BooleanField(default = False)
+    objects                         =              PublicationManager()
 
 
     def save(self, *args, **kwargs):
@@ -175,8 +181,18 @@ class Publication(models.Model):
     	return contact_list
 
 
-    def get_publication_pictures(self):
-      return self.pictures.all()
+
+    def get_images(self):
+      return self.publicationimage_set.all()
+
+    def featured_image(self):
+      return self.get_images()[random.choice(range(0, self.get_images().count() -1))]
+
+    def get_post_comments(self):
+      return self.comment_set.all()
+
+
+
 
 
 
@@ -187,15 +203,34 @@ class Publication(models.Model):
 
 
 class PublicationImage(models.Model):
-  image     =    models.FileField(upload_to ='media/publicaton_image/%Y-%M-%D', null = True, blank = True)      
+  post      =    models.ForeignKey('Publication', null = True, blank = True)
+  image     =    models.FileField(upload_to ='media/publicaton_image/%Y/%M/%D', null = True, blank = True)      
   caption   =    models.CharField(max_length = 200, null = True, blank =  True)
 
-  # def __unicode__(self):
-  #   return self.publication.title
+ 
+
+class Redirect_url(models.Model):
+  url     =        models.CharField(max_length = 200, blank = True, null = True, default= None)
+  post    =        models.ForeignKey('Publication', null=True, blank = True)
+
+  def __unicode__(self):
+    return self.url
 
 
+class Comment(models.Model):
+  post            =     models.ForeignKey('Publication')
+  posted_by       =     models.ForeignKey(User)
+  date_posted     =     models.DateTimeField(auto_now_add = True)
+  comment         =     models.TextField(max_length = 1000)
+  website         =     models.CharField(max_length = 150)
 
 
+class CommentReply(models.Model):
+  comment         =     models.ForeignKey('Comment')
+  posted_by       =     models.ForeignKey(User)
+  date_posted     =     models.DateTimeField(auto_now_add = True)
+  reply           =     models.TextField(max_length = 1000)
+  
 
 
 
@@ -204,7 +239,7 @@ class Purchase(models.Model):
 	user              		=     models.ForeignKey(User, verbose_name = "Purchased By")
 	transaction_id   		  =     models.CharField(max_length = 15)
 	bouquet           		=     models.ForeignKey('Bouquet')
-	publication       		=     models.ForeignKey('Publication')
+	publication       		=     models.OneToOneField('Publication')
 	deleted           		=     models.BooleanField(default = False)
 	ordered           		=     models.BooleanField(default = False) # set to true on order submission after payment is made
 	status                =     models.CharField(max_length = 75, choices = PURCHASE_STATUS, default = "New")
@@ -218,17 +253,19 @@ class Purchase(models.Model):
 
 
 class PayDetails(models.Model):
-	user                    =     models.ForeignKey(User, verbose_name = "Payment By")
-	transaction_id          =     models.CharField(max_length = 25, null = True)
-	payment_method    		  =     models.CharField(max_length = 75, choices = PAYMENT_OPTIONS, default = "")
-	amount_paid             =     models.FloatField(default = 0.0)
-	date_paid               =     models.CharField(max_length = 100, null = True, blank = True, )
-	bank_name               =     models.CharField(max_length = 100, null = True, blank = True, choices = BANKS)
-	teller_number           =     models.CharField(max_length = 15, null = True, blank = True)
+    user                    =     models.ForeignKey(User, verbose_name = "Payment By")
+    transaction_id          =     models.CharField(max_length = 25, null = True)
+    payment_method    		  =     models.CharField(max_length = 75, choices = PAYMENT_OPTIONS, default = "")
+    amount_paid             =     models.FloatField(default = 0.0)
+    date_paid               =     models.CharField(max_length = 100, null = True, blank = True,)
+    bank_name               =     models.CharField(max_length = 100, null = True, blank = True, choices = BANKS)
+    teller_number           =     models.CharField(max_length = 15, null = True, blank = True)
+    pay_status              =     models.CharField(max_length = 25, choices = PAYMENT_STATUS, default = "pending")
+    verified_by             =     models.BooleanField(default = False)
+    date_verified           =     models.DateTimeField(auto_now_add = False, null =True, blank = True)
 
-
-	def __unicode__(self):
-		return "%s, %s, %s" %(self.user, self.transaction_id, self.amount_paid)
+    def __unicode__(self):
+      return "%s, %s, %s" %(self.transaction_id, self.amount_paid, self.pay_status)
 
 
 

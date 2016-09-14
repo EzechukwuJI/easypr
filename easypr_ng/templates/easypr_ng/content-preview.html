@@ -25,7 +25,7 @@
 						</div>
 					</div>
 					<div class="row">
-						{% for image in post.get_publication_pictures %}
+						{% for image in post.get_images %}
 							<div class="col-md-3">
 								<img src="{{ image.image.url }}" class="thumbnail" style="height:165px; width:185px;" alt="Easypr Nigeria" /> <br/>
 								<span>{{ image.caption }}</span>

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from easypr_ng.models import  MediaHouse, MediaContact,PressMaterial, Redirect_url, \
-Publication,PublicationImage,Purchase,PayDetails,PurchaseInvoice, Bouquet,MediaPlatform, Sector
+Publication,PublicationImage,Purchase,PayDetails,PurchaseInvoice, Bouquet,MediaPlatform, Sector, \
+Comment, CommentReply
 
 
 class MediaHouseAdmin(admin.ModelAdmin):
@@ -54,6 +55,8 @@ admin.site.register(Bouquet, BouquetAdmin)
 admin.site.register(Purchase, PurchaseAdmin)
 admin.site.register(PayDetails, PayDetailsAdmin)
 admin.site.register(PurchaseInvoice)
+admin.site.register(Comment)
+admin.site.register(CommentReply)
 
 
 

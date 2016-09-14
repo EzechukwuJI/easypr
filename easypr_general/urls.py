@@ -14,6 +14,9 @@ urlpatterns  =  [
 	# url(r'^services/$',                                 views.servicesView,       name='services'),
 	url(r'^contact_us/$',      		   				views.contactView,              name='contact-us'),
 	url(r'^sign_up/$',         		   			    views.createUserAccount,        name='sign_up'),
+	
+	url(r'^user/dashboard$',         		   	     views.userDashboard,        name='user-dashboard'),
+	
 	url(r'^login/$',           		   				views.loginView,          		name='login'),
 	url(r'^logout/$',          		   				views.logOutView,         		name='logout'),
 	url(r'^careers/$',          	                views.careersView,        		name='careers'),

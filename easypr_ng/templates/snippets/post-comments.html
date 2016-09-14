@@ -1,0 +1,48 @@
+
+	<li>
+		<div class="comment">
+			<img class="comment-avatar pull-left" alt="" src="images/news/avator2.jpg">
+			<div class="comment-body">
+				<div class="meta-data">
+					<span class="comment-author">{{ comment.posted_by|title }}</span>
+					<span class="comment-date pull-right">{{ comment.date_posted }}</span>
+				</div>
+				<div class="comment-content">
+				<p>{{ comment.comment }}</p></div>
+				<div class="text-left">
+					<a class="comment-reply" id="showbox_{{ forloop.counter }}" onclick='return show_reply_box("div_reply_{{ forloop.counter }}", "showbox_{{ forloop.counter }}")' style="cursor:pointer;">Reply</a>
+					<br/>
+					<div class="row hidden" style="background-color:#F5F5F5; border: solid thin #b6b6b6;" id="div_reply_{{ forloop.counter }}">
+						<div class="reply-comment"  >
+							<textarea class="form-control no-norder-radius bg-white" name="comment_reply" id="id_reply_{{ forloop.counter }}"></textarea>
+							<br/>
+							<a class="btn btn-mini pull-right" id="post_reply_{{ forloop.counter }}" onclick='return post_reply({{ comment.pk}},"id_reply_{{ forloop.counter }}","div_reply_{{ forloop.counter }}","showbox_{{ forloop.counter }}")'>Reply</a>
+						</div>
+					</div>
+					<br/>
+					<!-- <br/> -->
+				</div>	
+			</div>
+		</div><!-- Comments end -->
+
+		<ul class="comments-reply" id="comment_replies">
+			{% for reply in comment.commentreply_set.all %}
+				<li>
+					<div class="comment">
+						<img class="comment-avatar pull-left" alt="" src="images/news/avator3.jpg">
+						<div class="comment-body">
+							<div class="meta-data">
+								<span class="comment-author">{{ reply.posted_by.get_full_name|title }}</span>
+								<span class="comment-date pull-right">{{ reply.date_posted|date }}</span>
+							</div>
+							<div class="comment-content">
+							<p>{{ reply.reply }}</p></div>
+							<!-- <div class="text-left">
+								<a class="comment-reply" href="#">Reply</a>
+							</div> -->	
+						</div>
+					</div><!-- Comments end -->
+				</li>
+			{% endfor %}
+		</ul><!-- comments-reply end -->
+	</li><!-- Comments-list li end -->

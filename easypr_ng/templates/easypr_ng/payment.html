@@ -20,14 +20,14 @@
 							</div>
 							<div class="col-md-6 bg-danger" style="background-color:lightblue; padding:15px; border-radius:5px;">
 								<!-- <div><strong>Press Material</strong> <span class="pull-right">{{ post.press_material }}</span></div> -->
-								<div><strong>Bouquet:</strong><span class="pull-right">{{ pay_info.bouquet }}</span></div>
+								<div><strong>Bouquet:</strong><span class="pull-right">{{ purchase.bouquet }}</span></div>
 
-								<div><strong>Number of Media:</strong><span class="pull-right">{{ pay_info.bouquet.num_of_media }}</span></div>
-								<div><strong>Price per Medium:</strong><span class="pull-right"> $ {{ pay_info.bouquet.price_per_media_N }}</span></div>
-								<div><strong>VAT:</strong><span class="pull-right"> ${{ pay_info.bouquet.price_per_media_N }}</span></div>
-								<div><strong>Percentage Savings:</strong><span class="pull-right">$ {{ pay_info.bouquet.percentage_savings }}</span></div>
+								<div><strong>Number of Media:</strong><span class="pull-right">{{ purchase.bouquet.num_of_media }}</span></div>
+								<div><strong>Price per Medium:</strong><span class="pull-right"> $ {{ purchase.bouquet.price_per_media_N }}</span></div>
+								<div><strong>VAT:</strong><span class="pull-right"> ${{ purchase.bouquet.price_per_media_N }}</span></div>
+								<div><strong>Percentage Savings:</strong><span class="pull-right">$ {{ purchase.bouquet.percentage_savings }}</span></div>
 								<hr style="margin-bottom: 10px;"/>
-								<div><strong>Total Amount Payable: </strong><span class="pull-right">$ {{ pay_info.bouquet.amount_payable_N }}</span> </div>
+								<div><strong>Total Amount Payable: </strong><span class="pull-right">$ {{ purchase.bouquet.amount_payable_N }}</span> </div>
 							</div>
 						</div>
 					</div>
@@ -135,12 +135,23 @@
 							</div>
 						</div>
 						<br/>
-						<input type="checkbox" name="publish_online" value="false" id="id_tandc" />
-						<strong>Accept <a href="{% url 'general:terms-and-conditions' %}"> Terms and Conditions </a> for content submission and distribution</strong>
+						{% if purchase.ordered %}
+						<div>
+							<input type="checkbox" name="accept_t_n_c" value="{{ purchase.ordered }}" checked= "{{ purchase.ordered }}" id="id_tandc" disabled />
+							<strong>&nbsp; &nbsp; Accept  <a href="{% url 'general:terms-and-conditions' %}"> Terms and Conditions </a> for content submission and distribution</strong>
+						</div>
+
+					  {% else %}
+					  	<div class = "hidden" id="tandc_div">
+							<input type="checkbox" name="accept_t_n_c" value="false" id="id_tandc" onclick='return  accept_TandC()' />
+							<strong> &nbsp; &nbsp; Accept <a href="{% url 'general:terms-and-conditions' %}"> Terms and Conditions </a> for content submission and distribution</strong>
+						</div>
+					  {% endif %}
 					</form>
 					<hr/>
 					<div class="row no-border-radius bg-white">
-						<a href="{% url 'easypr_ng:confirmation' %}" class="btn btn-primary pull-right" id="id_proceed" disabled> Proceed </a>
+						<a href="{% url 'easypr_ng:payment' post.transaction_id %}" class="btn btn-primary pull-right" id="id_proceed" {% if not purchase.ordered %} disabled {% endif %}> Proceed </a>
+						<!-- <a href="{% url 'easypr_ng:confirmation' %}" class="btn btn-primary pull-right" id="id_proceed" {% if not purchase.ordered %} disabled {% endif %}> Proceed </a> -->
 						<a href="" class="btn btn-primary pull-left"> Back </a>
 					</div>
 				</div>
@@ -178,31 +189,31 @@
 			}
 		});
 		$.ajax({
-			url: "{% url 'easypr_ng:save-pay-details' pay_info.transaction_id %}",
+			url: "{% url 'easypr_ng:save-pay-details' purchase.transaction_id %}",
 			type: "POST",
 			data: {method:payment_method, teller:teller_number,amount:amount_paid,date:date_paid,bank:bankname, csrfmiddlewaretoken: csrf_token},
 			success: function(data){
 				$("#id_saved_status").html("<strong class='text-success'> Payment details saved!</strong>");
 				$('#pay-details').addClass('hidden');
-				if ($("#id_tandc").is(':checked')){
-					$('#id_proceed').removeAttr('disabled');
-				}
+				$("#tandc_div").removeClass('hidden');
+				// if ($("#id_tandc").is(':checked')){
+				// 	$('#id_proceed').removeAttr('disabled');
+				// }
 			},
 			error: function(data){
 				$("#id_saved_status").html("<strong class='text-danger'> Oops! something went wrong, please try again.</strong>");	
 			}
 		})
 	}
+
+
+	function accept_TandC(){
+		var $this = $("#id_tandc");
+		$this.is(':checked') ? $('#id_proceed').removeAttr('disabled') : $('#id_proceed').attr('disabled',true);
+	}
 </script>
-<script>
- $("#id_tandc").on('click', function(){
- 	if ($("#id_tandc").is(':checked')) {
- 		$('#id_proceed').removeAttr('disabled');  
- 	}
- 	$('#id_proceed').attr('disabled',true);
- })
-	
-</script>
+
+
 {% endblock inline_scripts %}
 
 

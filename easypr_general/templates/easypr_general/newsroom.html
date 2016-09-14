@@ -5,6 +5,7 @@
 
 
 
+
 {% block inner_content %}
 	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner1.jpg' %})">
 		<div class="banner-text">
@@ -12,9 +13,8 @@
 	        	<div class="row">
 	        		<div class="col-xs-12">
 	        			<div class="banner-heading">
-	        				<h1 class="banner-title title-border-left">News</h1>
-	        				<p class="banner-desc">We are a established fact that a reader  be distracted 
-							by the reable content of a page when looking at its layout layout.</p>
+	        				<h1 class="banner-title title-border-left">News Room</h1>
+	        				<p class="banner-desc">create (introductory) content for this section </p>
 	        			</div>
 	        		</div><!-- Col end -->
 	        	</div><!-- Row end -->
@@ -28,119 +28,75 @@
 			<div class="row">
 				{% if show_news_list %}
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-						<div class="post">
-							<div class="post-media post-image">
-								<img src="{% static 'easypr/images/news/news1.jpg' %}" class="img-responsive" alt="">
-								<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> June 14, 2016</span>
-							</div>
-							<div class="post-body">
-								<div class="entry-header">
-						 			<div class="post-meta">
-										<span class="post-author">
-	   									Posted By <a href="#">Admin</a>
-	   								</span>
-										<span class="post-cat">
-	   									Posted In: <a href="#">Investment, Policy</a>
-	   								</span>
-										<span class="post-comment">03<a href="#" class="comments-link">Comments</a></span>
+						{% for article in articles %}
+							<div class="post">
+								<div class="post-media post-image">
+									<img src="{{ article.featured_image.image.url }}" class="img-responsive" alt="EasyPR Nigeria newsroom">
+									<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> {{ article.date_posted|date }}</span>
+								</div>
+								<div class="post-body">
+									<div class="entry-header">
+							 			<div class="post-meta">
+											<span class="post-author">
+		   									Posted By <a href="#">{{ article.posted_by.get_full_name|title }}</a>
+		   								</span>
+											<span class="post-cat">
+		   									Posted In: <a href="#">{{ article.sector }}</a>
+		   								</span>
+											<span class="post-comment">{{ article.comment_set.count }}<a href="#" class="comments-link">Comment{{ article.comment_set.count|pluralize:"s" }}</a></span>
+										</div>
+										<h2 class="entry-title">
+							 				<a href="{% url 'easypr_ng:news-details' article.pk article.title_slug %}">{{ article.post_title }}</a>
+							 			</h2>
+									</div><!-- header end -->
+
+									<div class="entry-content">
+										<p>{{ article.post_body|truncatewords:75 }} </p>
 									</div>
-									<h2 class="entry-title">
-						 				<a href="#">Toyota Dumps Prius Inventory as Sales Collapse</a>
-						 			</h2>
-								</div><!-- header end -->
 
-								<div class="entry-content">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur  ...</p>
-								</div>
-
-								<div class="post-footer">
-									<a href="{% url 'easypr_ng:news-details' 5 "title_slug" %}" class="btn btn-primary">Continue Reading</a>
-								</div>
-
-							</div><!-- post-body end -->
-						</div><!-- 1st post end -->
-
-						<div class="post">
-
-							<div class="post-media post-video">
-								<div class="embed-responsive">
-									<!-- Change the url -->
-									<iframe src="//player.vimeo.com/video/153089270?title=0&amp;byline=0&amp;portrait=0&amp;color=8aba56" width="500" height="281" allowfullscreen></iframe>
-								</div>
-								<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> June 19, 2016</span>
-
-							</div>
-
-							<div class="post-body">
-								<div class="entry-header">
-						 			<div class="post-meta">
-										<span class="post-author">
-	   									Posted By <a href="#">Admin</a>
-	   								</span>
-										<span class="post-cat">
-	   									Posted In: <a href="#">Finance</a>
-	   								</span>
-										<span class="post-comment">03<a href="#" class="comments-link">Comments</a></span>
+									<div class="post-footer">
+										<a href="{% url 'easypr_ng:news-details' article.pk article.title_slug %}" class="btn btn-primary">Continue Reading</a>
 									</div>
-									<h2 class="entry-title">
-						 				<a href="#">Brexit is political crisis, not financial one: Says Analr</a>
-						 			</h2>
-								</div><!-- header end -->
 
-								<div class="entry-content">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur  ...</p>
-								</div>
+								</div><!-- post-body end -->
+							</div><!-- 1st post end -->
+						{% empty %}	
+							<p> No articles at this time </p>
+						{% endfor %}
 
-								<div class="post-footer">
-									<a href="{% url 'easypr_ng:news-details' 5 "title_slug" %}" class="btn btn-primary">Continue Reading</a>
-								</div>
-
-							</div><!-- post-body end -->
-						</div><!-- 2nd post end -->
-
-						<div class="post">
-							<div class="post-media post-image">
-								<img src="{% static 'easypr/images/news/news3.jpg' %}" class="img-responsive" alt="">
-								<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> June 24, 2016</span>
-							</div>
-
-							<div class="post-body">
-								<div class="entry-header">
-						 			<div class="post-meta">
-										<span class="post-author">
-	   									Posted By <a href="#">Admin</a>
-	   								</span>
-										<span class="post-cat">
-	   									Posted In: <a href="#">Investment, Policy</a>
-	   								</span>
-										<span class="post-comment">03<a href="#" class="comments-link">Comments</a></span>
-									</div>
-									<h2 class="entry-title">
-						 				<a href="#">Waging America’s wars using renewable energy</a>
-						 			</h2>
-								</div><!-- header end -->
-
-								<div class="entry-content">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur  ...</p>
-								</div>
-
-								<div class="post-footer">
-									<a href="{% url 'easypr_ng:news-details' 5 "title_slug" %}" class="btn btn-primary">Continue Reading</a>
-								</div>
-
-							</div><!-- post-body end -->
-						</div><!-- 3rd post end -->
+						<!-- <div class="paging">
+				            <ul class="pagination">
+				              <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+				              <li class="active"><a href="#">1</a></li>
+				              <li><a href="#">2</a></li>
+				              <li><a href="#">3</a></li>
+				              <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+				            </ul>
+		          		</div> -->
 
 
-						<div class="paging">
-			            <ul class="pagination">
-			              <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-			              <li class="active"><a href="#">1</a></li>
-			              <li><a href="#">2</a></li>
-			              <li><a href="#">3</a></li>
-			              <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-			            </ul>
-		          	</div>
+		          		<div class="pagination text-center">
+						{% if articles.has_previous %}
+							<span class="btn btn-sm btn-primary text-white">
+								<a href="?page={{ articles.previous_page_number}}"> Previous</a> 
+							</span>
+						{% endif %}
+						<span class="current">
+				            Page {{ articles.number }} of {{ articles.paginator.num_pages }}.
+				        </span>
+
+				        {% if articles.has_next %}
+					        <span class="btn btn-sm btn-primary text-white">
+					            <a href="?page={{ articles.next_page_number }}">next</a>
+					        {% endif %}
+					    	</span>
+					</div>
+
+
+
+
+
+
 
 					</div><!-- Content Col end -->
 				{% endif %}
@@ -149,50 +105,38 @@
 				<!--  display single post -->
 				{% if show_news_details %}
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-
 					<div class="post-content">
 						<div class="post-media post-image">
-							<img src="images/news/news1.jpg" class="img-responsive" alt="">
-							<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> June 14, 2016</span>
+							<img src="{{ post.featured_image.image.url }}" class="img-responsive" alt="">
+							<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> {{ post.date_posted|date }}</span>
 						</div>
 
 						<div class="post-body">
 							<div class="entry-header">
 					 			<div class="post-meta">
 									<span class="post-author">
-   									Posted By <a href="#">Admin</a>
+   									Posted By <a href="#">{{ post.posted_by.get_full_name|title }}</a>
    								</span>
 									<span class="post-cat">
-   									Posted In: <a href="#">Investment, Policy</a>
+   									Posted In: <a href="#">{{ post.sector|title }}</a>
    								</span>
-									<span class="post-comment">03<a href="#" class="comments-link">Comments</a></span>
+									<span class="post-comment">{{ post.comment_set.count }}<a href="#" class="comments-link">Comment{{ post.comment_set.count|pluralize:"s" }}</a></span>
 								</div>
 								<h2 class="entry-title">
-					 				<a href="#">Toyota Dumps Prius Inventory as Sales Collapse</a>
+					 				<a href="#">{{ post.post_title }}</a>
 					 			</h2>
 							</div><!-- header end -->
 
 							<div class="entry-content">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-
-								<p>Kucididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do</p>
-
-								<p>Eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. </p>
-
-								<blockquote>
-								<p>Eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.<cite>- Anger Mathe</cite></p>
-
-								</blockquote>
-
-								<p>Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos quira tione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ue magnam aliquam quaerat voluptatem.</p>
+								{{ post.post_body }}
 							</div>
 
 							<div class="tags-area clearfix">
-								<div class="post-tags pull-left">
-		   						<a href="#">Tax</a>
-		   						<a href="#">Investment</a>
-		   						<a href="#">Policy</a>
-	   						</div>
+								<!-- <div class="post-tags pull-left">
+			   						<a href="#">Tax</a>
+			   						<a href="#">Investment</a>
+			   						<a href="#">Policy</a>
+		   						</div> -->
 	   						<div class="share-items pull-right">
 	   							<ul class="post-social-icons unstyled">
 	   								<li class="social-icons-head">Share:</li>
@@ -207,58 +151,70 @@
 						</div><!-- post-body end -->
 					</div><!-- post content end -->
 
-					<div class="author-box">
-						<div class="author-img pull-left">
-							<img src="images/news/avator1.jpg" alt="">
-						</div>
-						<div class="author-info">
-							<h3>Thiemo Anton <span>Finance Advisor</span></h3>
-							<p>Lisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad vene minim veniam, quis nostrud exercitation ullamco laboris nisi ex ea commodo.</p>
-							<p class="author-url">Website: <span><a href="#">http://www.azurex.com</a></span></p>
-
-						</div>
-					</div> <!-- Author box end -->
+					
 
 					<!-- Post comment start -->
+					
 					<div id="comments" class="comments-area">
-						<h3 class="comments-heading">19 Comments</h3>
+						<h3 class="comments-heading">{{ post.comment_set.all.count }} Comment{{ post.comment_set.all.count|pluralize:"s" }}</h3>
 
-						<ul class="comments-list">
+						<ul class="comments-list" id="post_comments">
+						{% for comment in post.comment_set.all %}
 							<li>
 								<div class="comment">
 									<img class="comment-avatar pull-left" alt="" src="images/news/avator2.jpg">
 									<div class="comment-body">
 										<div class="meta-data">
-											<span class="comment-author">Michelle Aimber</span>
-											<span class="comment-date pull-right">January 17, 2016 at 1:38 pm</span>
+											<span class="comment-author">{{ comment.posted_by.get_full_name|title }}</span>
+											<span class="comment-date pull-right">{{ comment.date_posted }}</span>
 										</div>
 										<div class="comment-content">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehen.</p></div>
+										<p>{{ comment.comment }}</p></div>
 										<div class="text-left">
-											<a class="comment-reply" href="#">Reply</a>
+											<a class="comment-reply" id="showbox_{{ forloop.counter }}" onclick='return show_reply_box("div_reply_{{ forloop.counter }}", "showbox_{{ forloop.counter }}")' style="cursor:pointer;">Reply</a>
+											<br/>
+											<div class="row hidden" style="background-color:#F5F5F5; border: solid thin #b6b6b6;" id="div_reply_{{ forloop.counter }}">
+												<div class="reply-comment"  >
+													<textarea class="form-control no-norder-radius bg-white" name="comment_reply" id="id_reply_{{ forloop.counter }}"></textarea>
+													<br/>
+													<a class="btn btn-mini pull-right" id="post_reply_{{ forloop.counter }}" onclick='return post_reply({{ comment.pk}},"id_reply_{{ forloop.counter }}","div_reply_{{ forloop.counter }}","showbox_{{ forloop.counter }}","comment_replies_{{forloop.counter}}")'>Reply</a>
+												</div>
+											</div>
+											<br/>
+											<!-- <br/> -->
 										</div>	
 									</div>
 								</div><!-- Comments end -->
 
-								<ul class="comments-reply">
-									<li>
-										<div class="comment">
-											<img class="comment-avatar pull-left" alt="" src="images/news/avator3.jpg">
-											<div class="comment-body">
-												<div class="meta-data">
-													<span class="comment-author">Tom Harnandez</span>
-													<span class="comment-date pull-right">January 17, 2016 at 1:38 pm</span>
+								<ul class="comments-reply" id="comment_replies_{{forloop.counter}}">
+									{% for reply in comment.commentreply_set.all %}
+										<li>
+											<div class="comment">
+												<img class="comment-avatar pull-left" alt="" src="">
+												<div class="comment-body">
+													<div class="meta-data">
+														<span class="comment-author">{{ reply.posted_by.get_full_name|title }}</span>
+														<span class="comment-date pull-right">{{ reply.date_posted|date }}</span>
+													</div>
+													<div class="comment-content">
+													<p>{{ reply.reply }}</p></div>
+													<!-- <div class="text-left">
+														<a class="comment-reply" href="#">Reply</a>
+													</div> -->	
 												</div>
-												<div class="comment-content">
-												<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehen.</p></div>
-												<div class="text-left">
-													<a class="comment-reply" href="#">Reply</a>
-												</div>	
-											</div>
-										</div><!-- Comments end -->
-									</li>
+											</div><!-- Comments end -->
+										</li>
+									{% endfor %}
 								</ul><!-- comments-reply end -->
-									<div class="comment last">
+							</li><!-- Comments-list li end -->
+						{% endfor %}
+						</ul><!-- Comments-list ul end -->
+					</div><!-- Post comment end -->
+
+
+
+
+									<!-- <div class="comment last">
 										<img class="comment-avatar pull-left" alt="" src="images/news/avator4.jpg">
 										<div class="comment-body">
 											<div class="meta-data">
@@ -271,43 +227,45 @@
 												<a class="comment-reply" href="#">Reply</a>
 											</div>	
 										</div>
-									</div><!-- Comments end -->
-							</li><!-- Comments-list li end -->
-						</ul><!-- Comments-list ul end -->
-					</div><!-- Post comment end -->
+									</div> --><!-- Comments end -->
+							
+
+
+
+
 
 					<div class="comments-form border-box">
 						<h3 class="title-normal">Add a comment</h3>
-
-						<form role="form">
+						<form role="form" >
+							{% csrf_token %}
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<textarea class="form-control required-field" id="message" placeholder="Your Comment" rows="8" required></textarea>
+										<textarea class="form-control required-field" id="id_comment" placeholder="Your Comment" rows="8" required></textarea>
 									</div>
 								</div><!-- Col 6 end -->
 								<div class="col-md-6">
 									<div class="form-group">
-										<input class="form-control" name="name" id="name" placeholder="Your Name" type="text" required>
+										<input class="form-control" name="name" id="id_who" value="{{ request.user.get_full_name|title }}" placeholder="Your Name" type="hidden" readonly>
 									</div>
 
 									<div class="form-group">
-										<input class="form-control" name="email" id="email" placeholder="Your Email" type="email" required>
+										<input class="form-control" name="email" id="id_who_email" value="{{ request.user.email }}" placeholder="Your Email" type="hidden" readonly>
 									</div>
 
 									<div class="form-group">
-										<input class="form-control" placeholder="Your Website" type="text" required>
+										<input class="form-control" value ="www."placeholder="Your Website" id="id_who_website" type="hidden" required>
 									</div>
 
 								</div><!-- Col 6 end -->
 							</div><!-- Form row end -->
 							<div class="clearfix">
-								<button class="btn btn-primary" type="submit">Post Comment</button> 
+								<a class="btn btn-primary" id="submit_comment" onclick='return post_comment("{{ post.pk }}")'>Post Comment</a> 
 							</div>
 						</form><!-- Form end -->
 					</div><!-- Comments form end -->
 				</div><!-- Content Col end -->
-				{% endif %}
+			{% endif %}
 
 
 
@@ -319,89 +277,161 @@
 						<div class="widget recent-posts">
 							<h3 class="widget-title">Recent Posts</h3>
 							<ul class="unstyled clearfix">
-		               	<li>
-		                    <div class="posts-thumb pull-left"> 
-		                    		<a href="#"><img alt="img" src="{% static 'easypr/images/news/news1.jpg' %}"></a>
-		                    </div>
-		                    <div class="post-info">
-		                        <h4 class="entry-title">
-		                        	<a href="#">Toyota Dumps Prius Inventory As Sales Collapse</a>
-		                        </h4>
-										<span class="post-date">May 29, 2016</span>
-		                    </div>
-		                    <div class="clearfix"></div>
-		                  </li><!-- 1st post end-->
+								{% for post in recent_posts %}
+				               		<li>
+					                    <div class="posts-thumb pull-left"> 
+					                    	<a href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}"><img alt="img" src="{{ post.featured_image.image.url }}"></a>
+					                    </div>
+					                    <div class="post-info">
+					                        <h4 class="entry-title">
+					                        	<a href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}">{{ post.post_title|title }}</a>
+					                        </h4>
+											<span class="post-date">{{ post.date_posted|date }}</span>
+					                    </div>
+					                    <div class="clearfix"></div>
+				                    </li><!-- 1st post end-->
+			                    {% endfor %}
+			                  <!-- <li>
+			                    <div class="posts-thumb pull-left"> 
+			                    		<a href="#"><img alt="img" src="{% static 'easypr/images/news/news2.jpg' %}"></a>
+			                    </div>
+			                    <div class="post-info">
+			                        <h4 class="entry-title">
+			                        	<a href="#">Brexit is political crisis, not financial one: Says Analr</a>
+			                        </h4>
+											<span class="post-date">June 17, 2016</span>
+			                    </div>
+			                    <div class="clearfix"></div>
+			                  </li><!-- 1st post end-->
 
-		                  <li>
-		                    <div class="posts-thumb pull-left"> 
-		                    		<a href="#"><img alt="img" src="{% static 'easypr/images/news/news2.jpg' %}"></a>
-		                    </div>
-		                    <div class="post-info">
-		                        <h4 class="entry-title">
-		                        	<a href="#">Brexit is political crisis, not financial one: Says Analr</a>
-		                        </h4>
-										<span class="post-date">June 17, 2016</span>
-		                    </div>
-		                    <div class="clearfix"></div>
-		                  </li><!-- 1st post end-->
-
-		                  <li>
-		                    <div class="posts-thumb pull-left"> 
-		                    		<a href="#"><img alt="img" src="{% static 'easypr/images/news/news3.jpg' %}"></a>
-		                    </div>
-		                    <div class="post-info">
-		                        <h4 class="entry-title">
-		                        	<a href="#">Waging America’s wars using renewable energy</a>
-		                        </h4>
-										<span class="post-date">June 24, 2016</span>
-		                    </div>
-		                    <div class="clearfix"></div>
-		                  </li><!-- 1st post end-->
-		               </ul>
+			                  <!-- <li>
+			                    <div class="posts-thumb pull-left"> 
+			                    		<a href="#"><img alt="img" src="{% static 'easypr/images/news/news3.jpg' %}"></a>
+			                    </div>
+			                    <div class="post-info">
+			                        <h4 class="entry-title">
+			                        	<a href="#">Waging America’s wars using renewable energy</a>
+			                        </h4>
+											<span class="post-date">June 24, 2016</span>
+			                    </div>
+			                    <div class="clearfix"></div>
+			                  </li>1st post end--> 
+		                    </ul>
 							
 						</div><!-- Recent post end -->
 
 						<div class="widget">
+
 							<h3 class="widget-title">Categories</h3>
 							<ul class="arrow nav nav-tabs nav-stacked">
-		                  <li><a href="#">Financial</a></li>
-		                  <li><a href="#">Insurance</a></li>
-		                  <li><a href="#">Tax</a></li>
-		                  <li><a href="#">Investment</a></li>
-		                  <li><a href="#">Mortgage</a></li>
-		              	</ul>
+							  {% for sector in sectors %}
+				                  <li><a href="{% url 'easypr_ng:newsroom-cat-view' sector.name_slug %}">{{ sector }}</a></li>
+				              {% endfor %}
+				                  
+				        
+			              	</ul>
 						</div><!-- Categories end -->
 
-						<div class="widget">
-							<h3 class="widget-title">Archives </h3>
-							<ul class="arrow nav nav-tabs nav-stacked">
-			              	<li><a href="#">Feburay 2016</a></li>
-		                  <li><a href="#">January 2016</a></li>
-		                  <li><a href="#">December 2015</a></li>
-		                  <li><a href="#">November 2015</a></li>
-		                  <li><a href="#">October 2015</a></li>
-			            </ul>
-						</div><!-- Archives end -->
+						<!-- <div class="widget">
+								<h3 class="widget-title">Archives </h3>
+								<ul class="arrow nav nav-tabs nav-stacked">
+				              	<li><a href="#">Feburay 2016</a></li>
+			                  <li><a href="#">January 2016</a></li>
+			                  <li><a href="#">December 2015</a></li>
+			                  <li><a href="#">November 2015</a></li>
+			                  <li><a href="#">October 2015</a></li>
+				            </ul>
+						</div> --><!-- Archives end -->
 
-						<div class="widget widget-tags">
-							<h3 class="widget-title">Tags </h3>
-
-							<ul class="unstyled clearfix">
-			              	<li><a href="#">Advisor</a></li>
-		                  <li><a href="#">Tax</a></li>
-		                  <li><a href="#">Mortgage</a></li>
-		                  <li><a href="#">Consulting</a></li>
-		                  <li><a href="#">Finance</a></li>
-		                  <li><a href="#">Insurance</a></li>
-		                  <li><a href="#">Savings</a></li>
-		                  <li><a href="#">Planning</a></li>
-			            </ul>
-						</div><!-- Tags end -->
+						<!-- <div class="widget widget-tags">
+							
 					</div><!-- Sidebar end -->
 				</div><!-- Sidebar Col end -->
-
-
 			</div><!-- Main row end -->
 		</div><!-- Conatiner end -->
 	</section><!-- Main container end -->
 {% endblock inner_content %}	
+
+{% block inline_scripts %}
+	<script>
+		function post_comment(post_id){
+			var comment   =     $("#id_comment").val();
+			var posted_by = 	$("#id_who").val();
+			var email     =  	$("#id_who_email").val();
+			var website   =   	$("#id_who_website").val();
+			var csrf_token  =   $('input[name="csrfmiddlewaretoken"]').val();
+
+			$.ajax({
+				type:"POST",
+				url:"{% url 'easypr_ng:post-comment' %}",
+				data:{msg:comment,by:posted_by,email:email, website:website, post_id:post_id,csrfmiddlewaretoken:csrf_token},
+				success: function(data){
+					$("#post_comments").append(data);
+					$("#id_comment").value = "";
+					
+				},
+				error: function(data){
+
+				}
+
+			});
+
+		}
+		
+	</script>
+
+	<script>
+		function show_reply_box(box_id, btn_id){
+			var $this = $("#" + box_id);
+			var show_box = $("#" + btn_id);
+			$this.removeClass('hidden');
+			show_box.addClass('hidden');
+		}
+
+
+	function post_reply(comment_pk,reply_msg,reply_div,reply_btn,replies_list){
+		var comment_id = comment_pk;
+		var msg        = $("#" + reply_msg).val();
+		var parent_div = $("#" + reply_div);
+		var post_btn   =  $("#" + reply_btn);
+		var replies_list = $("#" + replies_list);
+		
+
+		$.ajax({
+			type: "POST",
+			url: "{% url 'easypr_ng:post-reply' %}",
+			data:{msg:msg, comment_id:comment_id },
+			success: function(data){
+				parent_div.addClass('hidden');
+				post_btn.removeClass('hidden');
+				replies_list.append(data);
+				$("#" + reply_msg).value = "";
+			},
+			error: function(data){
+
+			}
+		})
+	}
+	</script>
+{% endblock inline_scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

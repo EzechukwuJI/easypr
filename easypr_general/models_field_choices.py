@@ -54,6 +54,16 @@ PAYMENT_OPTIONS  =  (
 	)
 
 
+
+PAYMENT_STATUS = (
+			("verified", "verified"),
+			("pending","pending"),
+			("failed","failed"),
+
+	)
+
+
+
 BANKS     =   (
 			("Diamond Bank", "Diamond Bank"),
 			("GTB","GTB")
@@ -62,8 +72,11 @@ BANKS     =   (
 
 
 ECONOMY_SECTOR = (
-	("Finance", "Finance"),
+		("Finance", "Finance"),
 	)
+
+
+
 
 FEEDBACK_STATUS = (
 	("Open","Open"),

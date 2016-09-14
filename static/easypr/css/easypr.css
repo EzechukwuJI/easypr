@@ -146,7 +146,32 @@ h4.heading {
 
 }
 
+.btn-mini {
+	padding: 5px 10px;
+	background-color: #012E5B;
+	font-size: +1;
+	cursor:pointer;
+	color: #ffffff;
+	font-family: verdana helvetica;
+	margin:5px;
+	border: solid thin #a0a0a0;
+}
 
+.btn-mini{
+	background-color: #012E5D;
+	color: #ffffff;
+
+}
+
+.reply-comment {
+	padding: 10px;
+	height: auto;
+}
+/*.img-responsive{
+	max-height: 325px;
+	width:auto;
+}
+*/
 
 
 
