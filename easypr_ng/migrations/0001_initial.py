@@ -31,6 +31,25 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='Comment',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('date_posted', models.DateTimeField(auto_now_add=True)),
+                ('comment', models.TextField(max_length=1000)),
+                ('website', models.CharField(max_length=150)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='CommentReply',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('date_posted', models.DateTimeField(auto_now_add=True)),
+                ('reply', models.TextField(max_length=1000)),
+                ('comment', models.ForeignKey(to='easypr_ng.Comment')),
+                ('posted_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
             name='MediaContact',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -69,6 +88,9 @@ class Migration(migrations.Migration):
                 ('date_paid', models.CharField(max_length=100, null=True, blank=True)),
                 ('bank_name', models.CharField(blank=True, max_length=100, null=True, choices=[(b'Diamond Bank', b'Diamond Bank'), (b'GTB', b'GTB')])),
                 ('teller_number', models.CharField(max_length=15, null=True, blank=True)),
+                ('pay_status', models.CharField(default=b'pending', max_length=25, choices=[(b'verified', b'verified'), (b'pending', b'pending'), (b'failed', b'failed')])),
+                ('verified_by', models.BooleanField(default=False)),
+                ('date_verified', models.DateTimeField(null=True, blank=True)),
                 ('user', models.ForeignKey(verbose_name=b'Payment By', to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -98,17 +120,22 @@ class Migration(migrations.Migration):
                 ('date_posted', models.DateTimeField(auto_now_add=True)),
                 ('deleted', models.BooleanField(default=False)),
                 ('publish_online', models.BooleanField(default=False, verbose_name=b'Do you also want online publication of the chosen media? ')),
-                ('ordered', models.BooleanField(default=False)),
+                ('completed', models.BooleanField(default=False)),
                 ('assigned_to', models.ForeignKey(related_name='Third_party_Editor', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
                 ('media_houses', models.ManyToManyField(to='easypr_ng.MediaHouse')),
+                ('platform', models.ForeignKey(verbose_name=b'Media platform', blank=True, to='easypr_ng.MediaPlatform', null=True)),
+                ('posted_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('press_material', models.ForeignKey(verbose_name=b'Media category', blank=True, to='easypr_ng.PressMaterial', null=True)),
+                ('published_by', models.ForeignKey(related_name='Edited_and_published_by', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
             ],
         ),
         migrations.CreateModel(
             name='PublicationImage',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('image', models.FileField(null=True, upload_to=b'media/publicaton_image/%Y-%M-%D', blank=True)),
+                ('image', models.FileField(null=True, upload_to=b'publicaton_image/%Y/%M/%D', blank=True)),
                 ('caption', models.CharField(max_length=200, null=True, blank=True)),
+                ('post', models.ForeignKey(blank=True, to='easypr_ng.Publication', null=True)),
             ],
         ),
         migrations.CreateModel(
@@ -127,6 +154,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('url', models.CharField(default=None, max_length=200, null=True, blank=True)),
+                ('post', models.ForeignKey(blank=True, to='easypr_ng.Publication', null=True)),
             ],
         ),
         migrations.CreateModel(
@@ -160,42 +188,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='purchase',
             name='publication',
-            field=models.ForeignKey(to='easypr_ng.Publication'),
+            field=models.OneToOneField(to='easypr_ng.Publication'),
         ),
         migrations.AddField(
             model_name='purchase',
             name='user',
             field=models.ForeignKey(verbose_name=b'Purchased By', to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AddField(
-            model_name='publication',
-            name='media_urls',
-            field=models.ManyToManyField(to='easypr_ng.Redirect_url'),
-        ),
-        migrations.AddField(
-            model_name='publication',
-            name='pictures',
-            field=models.ManyToManyField(to='easypr_ng.PublicationImage'),
-        ),
-        migrations.AddField(
-            model_name='publication',
-            name='platform',
-            field=models.ForeignKey(verbose_name=b'Media platform', blank=True, to='easypr_ng.MediaPlatform', null=True),
-        ),
-        migrations.AddField(
-            model_name='publication',
-            name='posted_by',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AddField(
-            model_name='publication',
-            name='press_material',
-            field=models.ForeignKey(verbose_name=b'Media category', blank=True, to='easypr_ng.PressMaterial', null=True),
-        ),
-        migrations.AddField(
-            model_name='publication',
-            name='published_by',
-            field=models.ForeignKey(related_name='Edited_and_published_by', blank=True, to=settings.AUTH_USER_MODEL, null=True),
         ),
         migrations.AddField(
             model_name='publication',
@@ -216,6 +214,16 @@ class Migration(migrations.Migration):
             model_name='mediacontact',
             name='media_house',
             field=models.ForeignKey(to='easypr_ng.MediaHouse'),
+        ),
+        migrations.AddField(
+            model_name='comment',
+            name='post',
+            field=models.ForeignKey(to='easypr_ng.Publication'),
+        ),
+        migrations.AddField(
+            model_name='comment',
+            name='posted_by',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='bouquet',

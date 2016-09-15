@@ -76,21 +76,21 @@
 
 
 		          		<div class="pagination text-center">
-						{% if articles.has_previous %}
-							<span class="btn btn-sm btn-primary text-white">
-								<a href="?page={{ articles.previous_page_number}}"> Previous</a> 
-							</span>
-						{% endif %}
-						<span class="current">
-				            Page {{ articles.number }} of {{ articles.paginator.num_pages }}.
-				        </span>
+							{% if articles.has_previous %}
+								<span class="btn btn-sm btn-primary text-white">
+									<a href="?page={{ articles.previous_page_number}}"> Previous</a> 
+								</span>
+							{% endif %}
+							<span class="current">
+					            Page {{ articles.number }} of {{ articles.paginator.num_pages }}.
+					        </span>
 
-				        {% if articles.has_next %}
-					        <span class="btn btn-sm btn-primary text-white">
-					            <a href="?page={{ articles.next_page_number }}">next</a>
-					        {% endif %}
-					    	</span>
-					</div>
+					        {% if articles.has_next %}
+						        <span class="btn btn-sm btn-primary text-white">
+						            <a href="?page={{ articles.next_page_number }}">next</a>
+						        {% endif %}
+						    	</span>
+						</div>
 
 
 

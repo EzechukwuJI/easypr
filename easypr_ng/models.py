@@ -157,19 +157,13 @@ class Publication(models.Model):
         return '%s' %(self.post_title)
 
 
-
     def get_media_urls(self):
     	return [media.url for media in self.media_urls.all()]
-
-
 
 
     def get_media_houses(self):
       media = [ media.name for media in self.media_houses.all()]
       return ", ".join(media)
-
-
-
 
     def get_media_houses_and_contacts(self):
     	contact_dict =  {}
@@ -181,20 +175,16 @@ class Publication(models.Model):
     	return contact_list
 
 
-
     def get_images(self):
       return self.publicationimage_set.all()
+
 
     def featured_image(self):
       return self.get_images()[random.choice(range(0, self.get_images().count() -1))]
 
+
     def get_post_comments(self):
       return self.comment_set.all()
-
-
-
-
-
 
     def read_uploaded_document(self):
     	pass
@@ -204,7 +194,7 @@ class Publication(models.Model):
 
 class PublicationImage(models.Model):
   post      =    models.ForeignKey('Publication', null = True, blank = True)
-  image     =    models.FileField(upload_to ='media/publicaton_image/%Y/%M/%D', null = True, blank = True)      
+  image     =    models.FileField(upload_to ='publicaton_image/%Y/%M/%D', null = True, blank = True)      
   caption   =    models.CharField(max_length = 200, null = True, blank =  True)
 
  
