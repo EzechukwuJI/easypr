@@ -46,7 +46,7 @@ class MediaHouse(models.Model):
   name                =           models.CharField(max_length = 200)
   name_slug           =           models.CharField(max_length = 200)
   date_added          =           models.DateTimeField(auto_now_add = True)
-  contact_persons     =           models.ManyToManyField('MediaContact', blank = True)
+  # contact_persons     =           models.ManyToManyField('MediaContact', blank = True)
   platform            =           models.ManyToManyField('MediaPlatform', blank = True)
 
 
@@ -61,7 +61,7 @@ class MediaHouse(models.Model):
     return '%s, %s' %(self.name, self.platform)
 
   def get_contacts(self):
-  	return self.contact_persons.all()
+  	return self.mediacontact_set.all()
 
 
 
