@@ -36,6 +36,7 @@ def  indexView(request):
 
 
 def  createUserAccount(request):
+    template = 'easypr_general/sign-up.html'
     form = UserRegistrationForm()
     context = {}
     if  request.method            ==     "POST":
@@ -70,7 +71,8 @@ def  createUserAccount(request):
                 return redirect(reverse('general:registration_success'))
             else:
                 return redirect(request.META['HTTP_REFERER'])
-    return redirect(request.META['HTTP_REFERER'])
+    return render(request, template, {})
+    # return redirect(request.META['HTTP_REFERER'])
 
 
 
@@ -277,7 +279,9 @@ def  careersView(request):
 
 
 
-
+def   productDetails(request):
+    template = 'easypr_general/product-details.html'
+    return render(request, template, {})
 
 
 

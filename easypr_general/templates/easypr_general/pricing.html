@@ -1,0 +1,100 @@
+	<div class="row">
+				<h3>Category: Press Release</h3>
+				{% for pkg in press_release %}
+					<div class="col-md-3">
+					   <ul class="plan">
+					      <li class="plan-name">
+					         <h2>
+					            {{ pkg.name }}                           
+					         </h2>
+					      </li>
+					      <li class="plan-price">
+					         <h5>
+					            <sub class="currency">&#8358; </sub><strong>{{ pkg.amount_payable_N }}</strong>
+					            <!-- <small>Monthly</small>                             -->
+					         </h5>
+					      </li>
+					      <li class="plan-details">
+					         <ul class="list-unstyled">
+					            <li>professional editing</li>
+					            <li>Number of media: &nbsp; <strong>{{pkg.num_of_media }}</strong></li>
+					            <li>Save <span class="text-danger"> 20%</span></li>
+					            <li>Feedback and update</li>
+					            <li>Handpicked media</li>
+					         </ul>
+					      </li>
+					      <li class="plan-action">
+					         <a href="{% url 'easypr_ng:buy-package' press_material=pkg.get_media_type_slug  package=pkg.name_slug %}" class="btn btn-primary">Buy Now</a>                        
+					      </li>
+					   </ul><!-- Plan end -->
+					</div><!-- Col end -->
+				{% endfor %}	
+			</div><!--/ Content row end -->
+
+
+			<div class="row">
+				<h3>Category: Features</h3>
+				{% for pkg in features %}
+					<div class="col-md-3">
+					   <ul class="plan">
+					      <li class="plan-name">
+					         <h2>
+					            {{ pkg.name}}                          
+					         </h2>
+					      </li>
+					      <li class="plan-price">
+					         <h5>
+					            <sub class="currency">&#8358;</sub><strong>{{ pkg.amount_payable_N }} </strong>
+					            <!-- <small>Monthly</small>                             -->
+					         </h5>
+					      </li>
+					      <li class="plan-details">
+					         <ul class="list-unstyled">
+					            <li>professional editing</li>
+					            <li>Number of media: &nbsp; <strong> {{ pkg.num_of_media }} </strong></li>
+					            <li>Save <span class="text-danger"> 20%</span></li>
+					            <li>Feedback and update</li>
+					            <li>Handpicked media</li>
+					         </ul>
+					      </li>
+					      <li class="plan-action">
+					         <a href="{% url 'easypr_ng:buy-package' press_material=pkg.get_media_type_slug  package=pkg.name_slug %}" class="btn btn-primary">Buy Now</a>                      
+					      </li>
+					   </ul><!-- Plan end -->
+					</div><!-- Col end -->
+				{% endfor %}	
+			</div><!--/ Content row end -->
+
+
+			<div class="row">
+				<h3>Category: Photo News</h3>
+				{% for pkg in photo_news %}
+					<div class="col-md-3">
+					   <ul class="plan">
+					      <li class="plan-name">
+					         <h2>
+					            {{ pkg.name }}                        
+					         </h2>
+					      </li>
+					      <li class="plan-price">
+					         <h5>
+					            <sub class="currency">&#8358;</sub><strong>{{ pkg.amount_payable_N }} </strong>
+					            <!-- <small>Monthly</small>                             -->
+					         </h5>
+					      </li>
+					      <li class="plan-details">
+					         <ul class="list-unstyled">
+					            <li>professional editing</li>
+					            <li>Number of media: &nbsp; <strong> {{ pkg.num_of_media }} </strong></li>
+					            <li>Save <span class="text-danger"> 20%</span></li>
+					            <li>Feedback and update</li>
+					            <li>Handpicked media</li>
+					         </ul>
+					      </li>
+					      <li class="plan-action">
+					         <a href="{% url 'easypr_ng:buy-package' press_material=pkg.get_media_type_slug  package=pkg.name_slug %}" class="btn btn-primary">Buy Now</a>                     
+					      </li>
+					   </ul><!-- Plan end -->
+					</div><!-- Col end -->	
+				{% endfor %}
+			</div><!--/ Content row end -->

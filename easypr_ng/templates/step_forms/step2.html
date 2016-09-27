@@ -1,0 +1,104 @@
+<div class="row text-center">
+	<h3> What are your target industries </h3>
+	<br/>
+	<strong> Select all that applies </strong>
+	<div class="row">
+		{% for sector in sectors %}
+			<div class="col-md-3">
+				<!-- <div class="sector"> -->
+					<div class=" sector custom-select-box-lg pull-right" id = "company" onclick='return select_option("business_type", "company");'>
+						<input type="checkbox" class="hidden" name="business_type" id="select_company"/>
+						<div>
+							<strong>Company</strong>
+						</div>
+					</div>
+				</div>
+			<!-- </div> -->
+		{% endfor %}
+
+
+		<!-- <div class="col-md-6 text-center">
+			<div class="sector">
+				<div class="custom-select-box-lg" id = "individual" onclick='return select_option("business_type", "individual");'>
+					<input type="checkbox" class="hidden" name="business_type" id="select_individual"/>
+					<div>
+						<strong>Individual</strong>
+					</div>
+				</div>
+			</div>
+		</div> -->
+	</div>
+</div>
+
+<div class="gap-30"></div>
+
+<!-- <div class="row text-center">
+	<h3> What is your Company type </h3>
+	<div class="col-md-6 text-center">
+		<div class="custom-select-box pull-right" id = "company" onclick='return select_option("company_type", "public");'>
+			<input type="checkbox" class="hidden" name="company_type" id="select_public"/>
+			<div>
+				<strong>Public</strong>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 text-center">
+		<div class="custom-select-box" id = "individual" onclick='return select_option("company_type", "private");'>
+			<input type="checkbox" class="hidden" name="company_type" id="select_private"/>
+			<div>
+				<strong>Private</strong>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="gap-30"></div>
+
+
+<div class="row text-center">
+	<h3> Do you render PR services for companies? </h3>
+	<div class="col-md-6 text-center">
+		<div class="custom-select-box pull-right" id = "company" onclick='return select_option("is_pr_agency", "yes");'>
+			<input type="checkbox" class="hidden" name="is_pr_agency" id="select_yes"/>
+			<div>
+				<strong>Yes</strong>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 text-center">
+		<div class="custom-select-box" id = "individual" onclick='return select_option("is_pr_agency", "no");'>
+			<input type="checkbox" class="hidden" name="is_pr_agency" id="select_no"/>
+			<div>
+				<strong>NO</strong>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="gap-30"></div>
+
+<div class="row text-center">
+	<h3> What is the size of your PR Team </h3>
+	<div class="col-md-4 text-center no-padding">
+		<div class="custom-select-box pull-right" id = "sub_count" onclick='return select_option("company_size", "subtract");'>
+			<input type="checkbox" class="hidden" name="is_pr_agency" id="select_yes"/>
+			<div>
+				<strong><i class="fa fa-minus" ></i></strong>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4 text-center no-padding">
+		<div> -->
+			<!-- <div>
+				<input type="text" class="custom-select-box" value="0"  name="size_of_company" id="size_of_company"/>
+			</div> -->
+		<!-- </div> -->
+	<!-- </div>
+	<div class="col-md-4 text-center no-padding">
+		<div class="custom-select-box" id = "add_count" onclick='return select_option("company_size", "add");'>
+			<div>
+				<strong><i class="fa fa-plus" ></i></strong>
+			</div>
+		</div>
+	</div>
+</div> -->

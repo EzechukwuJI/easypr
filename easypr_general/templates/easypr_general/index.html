@@ -1,5 +1,5 @@
 {% extends 'easypr_general/base.html' %}
-
+{% load staticfiles %}
 
 {% block bouquets %}
 	<section id="main-container" class="main-container">
@@ -12,128 +12,133 @@
 				</h3>
 			</div><!--/ Title row end -->
 
-
-
 			<div class="row">
-				<h3>Category: Press Release</h3>
-				{% for pkg in press_release %}
+				<div class="col-md-12">
+					<!-- left pane -->
 					<div class="col-md-3">
-					   <ul class="plan">
-					      <li class="plan-name">
-					         <h2>
-					            {{ pkg.name }}                           
-					         </h2>
-					      </li>
-					      <li class="plan-price">
-					         <h5>
-					            <sub class="currency">&#8358; </sub><strong>{{ pkg.amount_payable_N }}</strong>
-					            <!-- <small>Monthly</small>                             -->
-					         </h5>
-					      </li>
-					      <li class="plan-details">
-					         <ul class="list-unstyled">
-					            <li>professional editing</li>
-					            <li>Number of media: &nbsp; <strong>{{pkg.num_of_media }}</strong></li>
-					            <li>Save <span class="text-danger"> 20%</span></li>
-					            <li>Feedback and update</li>
-					            <li>Handpicked media</li>
-					         </ul>
-					      </li>
-					      <li class="plan-action">
-					         <a href="{% url 'easypr_ng:buy-package' press_material=pkg.get_media_type_slug  package=pkg.name_slug %}" class="btn btn-primary">Buy Now</a>                        
-					      </li>
-					   </ul><!-- Plan end -->
-					</div><!-- Col end -->
-				{% endfor %}	
-			</div><!--/ Content row end -->
+						<div class="feature-tile-lg">
+							<img class="feature-img-lg" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
+						</div>
+						<div class="view-feature-detail-lg text-center">
+							<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+						</div>
+					</div>
+					<!-- center to right pane  -->
+					<div class="col-md-9">
+						<div class="col-md-12">
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm bg-success">
+									<img class="feature-img-sm" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
+								</div>
+								<div class="view-feature-detail text-center">
+									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+								</div>
+							</div>
 
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm bg-warning">
+								</div>
+								<div class="view-feature-detail text-center">
+									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+								</div>
+							</div>
 
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm bg-info">
+									<img class="feature-img-sm" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
+								</div>
+								<div class="view-feature-detail text-center">
+									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+								</div>
+							</div>
+						</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-			<div class="row">
-				<h3>Category: Features</h3>
-				{% for pkg in features %}
-					<div class="col-md-3">
-					   <ul class="plan">
-					      <li class="plan-name">
-					         <h2>
-					            {{ pkg.name}}                          
-					         </h2>
-					      </li>
-					      <li class="plan-price">
-					         <h5>
-					            <sub class="currency">&#8358;</sub><strong>{{ pkg.amount_payable_N }} </strong>
-					            <!-- <small>Monthly</small>                             -->
-					         </h5>
-					      </li>
-					      <li class="plan-details">
-					         <ul class="list-unstyled">
-					            <li>professional editing</li>
-					            <li>Number of media: &nbsp; <strong> {{ pkg.num_of_media }} </strong></li>
-					            <li>Save <span class="text-danger"> 20%</span></li>
-					            <li>Feedback and update</li>
-					            <li>Handpicked media</li>
-					         </ul>
-					      </li>
-					      <li class="plan-action">
-					         <a href="{% url 'easypr_ng:buy-package' press_material=pkg.get_media_type_slug  package=pkg.name_slug %}" class="btn btn-primary">Buy Now</a>                      
-					      </li>
-					   </ul><!-- Plan end -->
-					</div><!-- Col end -->
-				{% endfor %}	
-			</div><!--/ Content row end -->
-
-
-			<div class="row">
-				<h3>Category: Photo News</h3>
-				{% for pkg in photo_news %}
-					<div class="col-md-3">
-					   <ul class="plan">
-					      <li class="plan-name">
-					         <h2>
-					            {{ pkg.name }}                        
-					         </h2>
-					      </li>
-					      <li class="plan-price">
-					         <h5>
-					            <sub class="currency">&#8358;</sub><strong>{{ pkg.amount_payable_N }} </strong>
-					            <!-- <small>Monthly</small>                             -->
-					         </h5>
-					      </li>
-					      <li class="plan-details">
-					         <ul class="list-unstyled">
-					            <li>professional editing</li>
-					            <li>Number of media: &nbsp; <strong> {{ pkg.num_of_media }} </strong></li>
-					            <li>Save <span class="text-danger"> 20%</span></li>
-					            <li>Feedback and update</li>
-					            <li>Handpicked media</li>
-					         </ul>
-					      </li>
-					      <li class="plan-action">
-					         <a href="{% url 'easypr_ng:buy-package' press_material=pkg.get_media_type_slug  package=pkg.name_slug %}" class="btn btn-primary">Buy Now</a>                     
-					      </li>
-					   </ul><!-- Plan end -->
-					</div><!-- Col end -->	
-				{% endfor %}
-			</div><!--/ Content row end -->
-
-
-
-
+						<div class="col-md-12">
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm bg-info">
+									<!-- <img class="feature-img-sm" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" /> -->
+								</div>
+								<div class="view-feature-detail text-center">
+									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+								</div>
+							</div>
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm bg-info">
+									<img class="feature-img-sm" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
+								</div>
+								<div class="view-feature-detail text-center">
+									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+								</div>
+							</div>
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm bg-info">
+									<!-- <img class="feature-img-sm" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" /> -->
+								</div>
+								<div class="view-feature-detail text-center">
+									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+								</div>
+							</div>
+							
+						</div>
+						
+					</div>
+				</div>
+				<div class="gap-10"></div>
+				<div class="col-md-12 text-center">
+					<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="slider btn btn-orange btn-orange-lg">Not Sure? Find The Right Strategy For Your Brand.</a>
+				</div>
+			</div>
 
 		</div><!-- Conatiner end -->
 	</section><!-- Main container end -->
-
 {% endblock bouquets %}
+
+{% block latest-news %}
+	{% if recent_posts %}
+		<section id="news" class="news">
+			<div class="container">
+				<div class="row text-center">
+					<h3 class="title-border">
+						<!-- Get Up to Date -->
+						<span>Latest News Around The World</span>
+					</h3>
+				</div><!--/ Title row end -->
+
+				<div class="gap-20"></div>
+
+				<div class="row">
+					{% for post in recent_posts %}
+						<div class="col-sm-3">
+							<div style="border: thin solid #c8c8c8;border-radius: 5px; margin-top:5px; padding:8px; display:flex; text-align: left;">
+								<div class="latest-post">
+								{% if post.featured_image %}
+									<div class="latest-post-media">
+										<a href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}">
+											<img class="img-responsive" src="{{ post.featured_image }}" alt="EasyPR Nigeria News">
+										</a>
+									</div>
+								{% endif %}
+									<div class="post-body">
+										<h4 class="post-title">
+											<a href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}">{{ post.post_title|title }}</a>
+											<span class="post-item-date">
+												<br/> <i class="fa fa-clock-o"></i> <small>{{ post.date_posted|date }}</small>
+											</span>
+										</h4>
+										<div class="post-text">
+											<p>{{ post.post_body|truncatewords:35 }}</p>
+										</div>
+									</div>	
+									<a class="learn-more" href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}">
+					         			<i class="fa fa-caret-right"></i> Read More
+			                  		</a>
+								</div><!-- Latest post end -->
+							</div>
+						</div><!-- 3rd post col end -->
+					{% endfor %}
+				</div><!--/ Content row end -->
+
+			</div><!--/ Container end -->
+		</section><!--/ News end -->
+	{% endif %}
+{% endblock latest-news %}

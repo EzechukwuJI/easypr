@@ -84,7 +84,26 @@ FEEDBACK_STATUS = (
 	("Pending","Pending"),
 	)
 
+BUSINESS_TYPE = (('Company', 'Company',),
+                ('Individual', 'Individual',),
+        )
 
+COMPANY_TYPE  = (('Public', 'Public',),
+                ('Private', 'Private',),
+        )
+
+PR_FREQUENCY  = (('monthly', 'Monthly',),
+                ('annually', 'Annually',),
+                ('quartely', 'Quartely',),
+                ('several-times-a-month', 'Several Times a Month',),
+                ('first-time-user', 'first-time-user',),
+                ('first-time-user', 'first-time-user',),
+                ('weekly', 'Weekly',),
+        )
+
+ACTION_STATUS = (('contacted', 'contacted',),
+                 ('closed', 'closed',),  
+        )
 
 
 

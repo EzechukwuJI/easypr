@@ -31,7 +31,7 @@
 						{% for article in articles %}
 							<div class="post">
 								<div class="post-media post-image">
-									<img src="{{ article.featured_image.image.url }}" class="img-responsive" alt="EasyPR Nigeria newsroom">
+									<img src="{{ article.featured_image }}" class="img-responsive" alt="EasyPR Nigeria newsroom">
 									<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> {{ article.date_posted|date }}</span>
 								</div>
 								<div class="post-body">
@@ -75,7 +75,7 @@
 		          		</div> -->
 
 
-		          		<div class="pagination text-center">
+		          		<!-- <div class="pagination text-center">
 							{% if articles.has_previous %}
 								<span class="btn btn-sm btn-primary text-white">
 									<a href="?page={{ articles.previous_page_number}}"> Previous</a> 
@@ -90,14 +90,27 @@
 						            <a href="?page={{ articles.next_page_number }}">next</a>
 						        {% endif %}
 						    	</span>
-						</div>
+						</div> -->
 
+						<div class ="pagination" style="padding-left:20px;">
+			                <span >
+			                    {% if articles.has_previous %}
+			                          <a href="?page={{ articles.previous_page_number }}" >Previous</a>
+			                      {% endif %}
 
+			                     {% for page in articles.paginator.page_range %}
+			                      {% ifequal page articles.number %}
+			                        <span class="current"><b>{{ page }}</b></span>
+			                      {% else %}
+			                        <a href="?page={{ page }}" class="page_nav"> {{ page }}</a>
+			                      {% endifequal %} 
+			                     {% endfor %}
 
-
-
-
-
+			                     {% if articles.has_next %}
+			                          <a href="?page={{ articles.next_page_number }}" class="">Next</a>
+			                    {% endif %}
+			                </span>
+			            </div>
 					</div><!-- Content Col end -->
 				{% endif %}
 
@@ -107,7 +120,7 @@
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 					<div class="post-content">
 						<div class="post-media post-image">
-							<img src="{{ post.featured_image.image.url }}" class="img-responsive" alt="">
+							<img src="{{ post.featured_image }}" class="img-responsive" alt="">
 							<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> {{ post.date_posted|date }}</span>
 						</div>
 
@@ -177,7 +190,7 @@
 												<div class="reply-comment"  >
 													<textarea class="form-control no-norder-radius bg-white" name="comment_reply" id="id_reply_{{ forloop.counter }}"></textarea>
 													<br/>
-													<a class="btn btn-mini pull-right" id="post_reply_{{ forloop.counter }}" onclick='return post_reply({{ comment.pk}},"id_reply_{{ forloop.counter }}","div_reply_{{ forloop.counter }}","showbox_{{ forloop.counter }}","comment_replies_{{forloop.counter}}")'>Reply</a>
+													<a class="btn btn-mini pull-right" id="post_reply_{{ forloop.counter }}" onclick='return post_reply({{ comment.pk}},"id_reply_{{ forloop.counter }}","div_reply_{{ forloop.counter }}","showbox_{{ forloop.counter }}","comment_replies_{{comment.pk}}")'>Reply</a>
 												</div>
 											</div>
 											<br/>
@@ -186,7 +199,7 @@
 									</div>
 								</div><!-- Comments end -->
 
-								<ul class="comments-reply" id="comment_replies_{{forloop.counter}}">
+								<ul class="comments-reply" id="comment_replies_{{comment.pk}}">
 									{% for reply in comment.commentreply_set.all %}
 										<li>
 											<div class="comment">
@@ -280,7 +293,7 @@
 								{% for post in recent_posts %}
 				               		<li>
 					                    <div class="posts-thumb pull-left"> 
-					                    	<a href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}"><img alt="img" src="{{ post.featured_image.image.url }}"></a>
+					                    	<a href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}"><img alt="img" src="{{ post.featured_image }}"></a>
 					                    </div>
 					                    <div class="post-info">
 					                        <h4 class="entry-title">
@@ -353,6 +366,7 @@
 {% endblock inner_content %}	
 
 {% block inline_scripts %}
+	{{ block.super }}
 	<script>
 		function post_comment(post_id){
 			var comment   =     $("#id_comment").val();
@@ -404,7 +418,7 @@
 			success: function(data){
 				parent_div.addClass('hidden');
 				post_btn.removeClass('hidden');
-				replies_list.append(data);
+				replies_list.append(data.response);
 				$("#" + reply_msg).value = "";
 			},
 			error: function(data){

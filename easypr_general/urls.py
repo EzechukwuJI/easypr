@@ -10,12 +10,13 @@ urlpatterns  =  [
 
              
 	url(r'^$',                         				views.indexView,                name='homepage'),
-	url(r'^who-we-are/$',                			views.aboutUsView,              name='who-we-are'),
+	url(r'^who-we-are/$',                			views.aboutUsView,              name='about-us'),
 	# url(r'^services/$',                                 views.servicesView,       name='services'),
 	url(r'^contact_us/$',      		   				views.contactView,              name='contact-us'),
-	url(r'^sign_up/$',         		   			    views.createUserAccount,        name='sign_up'),
+	url(r'^/user/sign-up/$',         		   			    views.createUserAccount,        name='sign_up'),
 	
 	url(r'^user/dashboard$',         		   	     views.userDashboard,        name='user-dashboard'),
+	url(r'^product/detail/product-name/$',         		   	     views.productDetails,        name='product-detail'),
 	
 	url(r'^login/$',           		   				views.loginView,          		name='login'),
 	url(r'^logout/$',          		   				views.logOutView,         		name='logout'),

@@ -9,18 +9,18 @@ from easypr_ng import views
 urlpatterns  =  [
 
              
-	url(r'^$',                         					                views.indexView,               name='index'),
-	url(r'^request-a-service/$',      				                    views.requestServiceView,      name='request-service'),
+	url(r'^$',                         					                views.indexView,                	name='index'),
+	url(r'^planner/step(?P<step>[-\d]+)/aid=(?P<anon_userID>[-\w\d]+)$',      	    views.strategyPlannerView,      	name='strategy-planner'),
+	url(r'^planner/$',      	                                        views.strategyPlannerIntroView,          name='strategy-planner-intro'),
+	# url(r'^planner/$',      	                                        TemplateView.as_view(template_name = "easypr_ng/strategy-planner-info.html"),     name='strategy-planner-intro'),
+	# url(r'^request-a-service/$',      				                views.requestServiceView,      name='request-service'),
 
 	url(r'^news/(?P<post_id>[-\d]+)/(?P<title_slug>[-\w]+)/$',  		views.readnewsView,            name = 'news-details'),
 	url(r'^newsroom/$',                				                    views.newsRoomView,            name = 'newsroom'),
 	url(r'^newsroom/category=(?P<category>[-\w\d]+)$',                	views.newsRoomCatView,         name = 'newsroom-cat-view'),
 	
 	url(r'^post-comment/$',                                 	        views.postCommentView,         name = 'post-comment'),
-
 	url(r'^post/comment/reply/$',                	                    views.postCommentReplyView,    name = 'post-reply'),
-
-
 
 	url(r'^our-works/$',                				                views.ourWorksView,            name = 'our-works'),
 	url(r'^buy-package/press_material=(?P<press_material>[-\w]+)/package=(?P<package>[-\w]+)/$', views.buy_packageView, name = "buy-package"),

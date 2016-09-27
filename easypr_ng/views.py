@@ -12,10 +12,10 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from easypr_ng.models import *
 from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list
-from easypr_ng.models import MediaHouse, MediaContact, PressMaterial, Redirect_url, Publication, PublicationImage, \
-Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform, Comment, CommentReply
+# from easypr_ng.models import MediaHouse, MediaContact, PressMaterial, Redirect_url, Publication, PublicationImage, \
+# Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform, Comment, CommentReply
 
-from easypr_ng.forms import ContentUploadForm
+from easypr_ng.forms import ContentUploadForm, BizInfoForm, TargetAudienceForm
 import datetime
 
 
@@ -26,8 +26,8 @@ def get_sectors():
     return post_sectors
 
 
-def get_recent_posts():
-    recent_posts  =  Publication.objects.published_articles().order_by('-date_posted')[:4]
+def get_recent_posts(post_count, order_by):
+    recent_posts  =  Publication.objects.published_articles().order_by('-date_posted').order_by(order_by)[:post_count]
     return recent_posts
 
 
@@ -37,6 +37,7 @@ def  indexView(request):
     for cate in press_materials:
         search_str = cate.replace("_"," ")
         context[cate] = Bouquet.objects.filter(press_material__media_type = search_str)
+        context['recent_posts'] = get_recent_posts(25,"?")
     return render(request, 'easypr_general/index.html', context)
     
 
@@ -44,7 +45,6 @@ def  indexView(request):
 
 def requestServiceView(request):
     return render(request, 'easypr_ng/request-a-service.html', {})
-
 
 
 
@@ -86,10 +86,7 @@ def create_post(request, press_material):
 
 
 
-
-
-
-def create_package_bundle(request, bouquet,publication):
+def create_purchase_record(request, bouquet,publication):
     tr_id       =  transaction_ref("purchase", Purchase)
     pay_id      =  transaction_ref("payment",  PayDetails)
     pay_details =  PayDetails.objects.create(user = request.user, transaction_id = pay_id)
@@ -97,10 +94,6 @@ def create_package_bundle(request, bouquet,publication):
     new_purchase = Purchase.objects.create(user = request.user, transaction_id = tr_id, bouquet = bouquet,
         publication = publication, payment_details = pay_details)
     return new_purchase
-
-
-
-    
 
 
 
@@ -117,10 +110,8 @@ def buy_packageView(request, press_material,package):
     if request.method == "POST":
         form = ContentUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            new_post   =    create_post(request, press_material)
-
-            new_purchase   =   create_package_bundle(request, bouquet, new_post)
-
+            new_post       =    create_post(request, press_material)
+            new_purchase   =   create_purchase_record(request, bouquet, new_post)
             return redirect(reverse('easypr_ng:preview-content', kwargs={'transaction_id':new_post.transaction_id}))
         else:
             print form.errors
@@ -185,17 +176,12 @@ def savePayInfo(request, transaction_id):
 
 
 
-
-
 def get_media_houses(request):
     media_platform  =   request.POST['media_platform']
     template        =  'snippets/media-options.html'
     platform        =   MediaPlatform.objects.filter(pk = media_platform)
     media_houses    =   MediaHouse.objects.filter(platform__icontains = platform)
     return render(request, template, {'available_media': media_houses})
-
-
-
 
 
 @login_required()
@@ -215,18 +201,18 @@ def confirmationView(request):
 
 
 
-
 def newsRoomView(request):
     context = {}
     template = 'easypr_general/newsroom.html'
     context['show_news_list'] = True
     context['show_news_details']   =  False
 
-    published_articles       =  paginate_list(request, Publication.objects.published_articles().order_by('-date_posted'), 1)
+    published_articles       =  paginate_list(request, Publication.objects.published_articles().order_by('-date_posted'), 10)
     context['articles']      =  published_articles
     context['sectors']       =  get_sectors()
-    context['recent_posts']  =  get_recent_posts()
+    context['recent_posts']  =  get_recent_posts(5,"-date_posted")
     return render(request, template, context)
+
 
 
 def newsRoomCatView(request, **kwargs):
@@ -237,7 +223,7 @@ def newsRoomCatView(request, **kwargs):
     context['sectors']   =  get_sectors()
     cat_article = paginate_list(request, Publication.objects.published_articles().filter(sector__name_slug = kwargs['category']).order_by('-date_posted'), 1)
     context['articles'] = cat_article
-    context['recent_posts'] = get_recent_posts()
+    context['recent_posts'] = get_recent_posts(5,"-date_posted")
     return render(request, template, context)
 
 
@@ -248,18 +234,19 @@ def newsRoomCatView(request, **kwargs):
 
 def  readnewsView(request, post_id, title_slug):
     context = {}
-    context['post'] = Publication.objects.get(title_slug = title_slug, pk = post_id)
+    context['post'] = get_object_or_404(Publication, title_slug = title_slug, pk = post_id)
+    # context['post'] = Publication.objects.get(title_slug = title_slug, pk = post_id)
     context['show_news_details']   =  True
     context['show_news_list'] = False
     context['sectors']   =  get_sectors()
-    context['recent_posts'] = get_recent_posts()
+    context['recent_posts'] = get_recent_posts(5,"-date_posted")
     return render(request, 'easypr_general/newsroom.html', context)
 
 
 
 @login_required()
 def postCommentView(request):
-    print "saving comment"
+    # print "saving comment"
     context  =   {}
     if request.user.is_authenticated:
         if request.method == "POST" and not request.POST['msg'] == "":
@@ -273,19 +260,105 @@ def postCommentView(request):
 
 
 
-
-@login_required()
+# @login_required()
 @csrf_exempt
 def postCommentReplyView(request):
+    if request.user.is_authenticated:
+        context = {}
+        if request.method == "POST" and not request.POST['msg'] == "":
+            comment = get_object_or_404(Comment, pk = request.POST['comment_id'])
+            new_reply = CommentReply.objects.create(comment = comment, posted_by = request.user, reply = request.POST['msg'])
+            context['reply'] = new_reply
+        return render(request, 'snippets/comment-replies.html', context)
+    else:
+        return JsonResponse({'response':"<a href="" class= 'text-danger'><strong>Kindly login to post your comment</strong></a>"})
+
+
+
+
+
+
+
+
+
+
+@csrf_exempt
+def strategyPlannerIntroView(request):
+    if request.POST.has_key('start-strategy'):
+        anon_userID = get_random_code(35).lower()
+        new_strategy = PRStrategy.objects.create(anon_userID = anon_userID)
+        request.session['strategy_in_session']   =  new_strategy.pk
+        return redirect(reverse('easypr_ng:strategy-planner', kwargs={'step':1, 'anon_userID':anon_userID}))
+    return render(request,'easypr_ng/strategy-planner-info.html', {})
+
+
+def get_current_strategy(request):
+    pk = request.session.get('strategy_in_session', "")
+    try:
+        return PRStrategy.objects.get(pk = pk)
+    except:
+        return None
+
+# def validate_step_and_ID(request, step, ID):
+#     print "validating entries . . ."
+#     cstep = int(step)
+#     total_steps = 7
+#     if cstep <= 0 or cstep > total_steps:
+#         message = "The page number your are trying to view does not exist"
+#         return render(request, '404.html', {'response': message})
+#     elif not PRStrategy.objects.filter(anon_userID = ID).exists():
+#         link = '<a href="{% url "easypr_ng:strategy-planner-intro" %}"> Here </a>'
+#         message = "No strategy creation in progress for this ID, you can start a new strategy " + link
+#         return redirect(reverse('easypr_ng:strategy-planner-intro'))
+#     else:
+#         pass
+    
+def do_post_request(request, step, form):
+    pass
+
+
+def strategyPlannerView(request, step,  anon_userID):
+    template = 'easypr_ng/strategy-planner.html'
     context = {}
-    if request.method == "POST" and not request.POST['msg'] == "":
-        comment = get_object_or_404(Comment, pk = request.POST['comment_id'])
-        new_reply = CommentReply.objects.create(comment = comment, posted_by = request.user, reply = request.POST['msg'])
-        context['reply'] = new_reply
-    return render(request, 'snippets/comment-replies.html', context)
+    context['step'] = 1
+    context['anon_userID'] = anon_userID
+    context['form'] = BizInfoForm()
+    context['caption'] = "This is the first step to your greatness - this is just a dummy string"
 
+    current_strategy = get_current_strategy(request)
+    # print "current strategy ", current_strategy
+    step = int(step)
+    total_steps = 7
 
+    if step <= 0 or step > total_steps:
+        message = "The page number your are trying to view does not exist"
+        return render(request, '404.html', {'response': message})
+    elif not PRStrategy.objects.filter(anon_userID = anon_userID).exists():
+        message = "No strategy creation in progress for this ID, you can start a new strategy below."  
+        messages.error(request, message)
+        return redirect(reverse('easypr_ng:strategy-planner-intro'))
 
+    
+    if request.method == "POST": # and "submit_step_1"  in request.POST.keys():    
+        if step == 1:
+            # save selections from step 1
+            # context values for nest step
+            sectors = get_sectors()
+            print "sectors  ", sectors
+            next_caption = "We are creating a unique experience for you!"
+            next_form = TargetAudienceForm()
+            context.update({'step':2,'caption':next_caption, 'form':next_form,'sectors':sectors}) #for next form page
+
+            # return redirect(reverse('easypr_ng:strategy-planner', kwargs=context))
+                # save content       
+        if step == 2:
+            # save selections from step 2
+            next_caption = "Your business is about to experience a great and phenomenal boost"
+            next_form = object()
+
+            context.update({'step':3, 'caption':step_caption, 'form':next_form})
+
+    return render(request, template, context)
 
 
 

@@ -1,0 +1,64 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}media strategy planner{% endblock title %}
+
+
+
+{% block inner_content %}
+
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner2.jpg' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12">
+	        			<div class="banner-heading">
+	        				<h1 class="banner-title title-border-left">EasyPR Planner</h1>
+	        				<p class="banner-desc">{{ caption }}.</p>
+	        			</div>
+	        			<div class="text-center"> <h3><strong class="text-white">Step {{ step }} of 7 </strong></h3></div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       	</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
+
+
+	<section id="main-container" class="main-container">
+		<div class="container">
+
+			<div class="row text-center">
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
+					<form method="post" action="">
+						{% csrf_token %}
+						{% if step == 1 %} 
+							{% include 'step_forms/step1.html' %}
+						{% elif step == 2 %} 
+							{% include 'step_forms/step2.html' %}
+						{% endif %}
+						<div class="gap-30"></div>
+						<div class="row">
+							{% if step > 1 %}
+								<div class="col-md-6">
+									<input type="" class="btn btn-primary btn-lg no-border-radius" name="previous_step_{{ step }}" value = "Back" />
+								</div>
+							{% endif %}
+							<div class="{% if step > 1 %} col-md-6 {% else %} col-md-12 {% endif %}">
+								<input type="submit" class="btn btn-primary btn-lg no-border-radius pull-right" name="submit_step_{{ step }}" value = "Proceed" />
+							</div>
+						</div>
+
+
+					</form>
+
+
+
+				</div>
+				<div class="col-md-2"></div>
+			</div><!-- Main row end -->
+
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+
+{% endblock inner_content %}

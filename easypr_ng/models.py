@@ -180,7 +180,10 @@ class Publication(models.Model):
 
 
     def featured_image(self):
-      return self.get_images()[random.choice(range(0, self.get_images().count() -1))]
+      try:
+        return self.get_images()[random.choice(range(0, self.get_images().count() -1))].image.url
+      except:
+        return None
 
 
     def get_post_comments(self):
@@ -325,6 +328,91 @@ class Bouquet(models.Model):
 
     
     
+
+
+
+class PRStrategy(models.Model):
+  anon_userID                 =       models.CharField('Annonymous user ID', max_length = 75)
+  # company info
+  business_type               =       models.CharField(max_length = 25, choices = BUSINESS_TYPE, default = "Company")
+  company_type                =       models.CharField(max_length = 75, choices = COMPANY_TYPE, default = "Private")
+  is_pr_agent                 =       models.CharField(max_length = 75, choices = (('Yes', 'Yes',),('No','No',),), default = "No")
+  size_of_pr_team             =       models.IntegerField(default = 0)
+  #target
+  target_audience             =      models.TextField(max_length = 1000, null = True) #models.ManyToManyField(Sector, null = True)
+  pr_goals                    =      models.TextField(max_length = 1000, null = True)
+  frequency_of_pr             =      models.CharField(max_length = 100, choices = PR_FREQUENCY, default = "monthly")
+  target_audience_location    =      models.CharField(max_length = 250, null= True)
+  
+  currently_use_pr_db         =      models.BooleanField(default = False)
+  social_media_used           =      models.TextField(max_length = 1000, null = True)
+  pr_db_used                  =      models.TextField(max_length = 1000, null = True)
+  
+  require_pr_writing          =      models.BooleanField(default = False)
+  require_media_pitching      =      models.BooleanField(default = False)
+  do_you_have_newsroom        =      models.BooleanField(default = False)
+  name_pr_newsroom_link       =      models.CharField(max_length = 200)
+
+  date_submitted              =      models.DateTimeField(auto_now_add = True)
+  action_status               =      models.CharField(max_length = 75, choices = ACTION_STATUS, default = "Contacted")
+  # user details
+  company_name                =      models.CharField(max_length = 200, null = True)
+  contact_name                =      models.CharField(max_length = 125, null = True)
+  email                       =      models.CharField(max_length = 125, null = True)
+  phone_number                =      models.CharField(max_length = 25,  null = True)
+
+  # tracking
+  completed                  =       models.BooleanField(default = False)
+
+
+  class Meta():
+    ordering = ['date_submitted']
+    verbose_name_plural = "PR Strategy"
+
+  def __unicode__(self):
+    return '%s | %s | %s' %(self.company_name, self.company_type, self.business_type)
+
+  def get_target_audience(self):
+    audience_list = "".join(self.target_audience.split(','))
+    return audience_list
+
+  def get_pr_goals(self):
+    pr_goals = "".join(self.pr_goals.split(','))
+    return pr_goals
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

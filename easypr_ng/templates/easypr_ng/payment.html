@@ -168,6 +168,7 @@
 
 
 {% block inline_scripts %}
+	{{ block.super }}
 <script>
 	function save_pay_details() {
 		var form = $('#paydetails_form');
