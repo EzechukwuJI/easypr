@@ -1,0 +1,33 @@
+<div class="row">
+	<h3> What are your press release goals </h3>
+	<p> Select all that applies </p>
+	<div class="gap-30"></div>
+	<div class="row">
+		{% for goal in pr_goals %}
+			<div class="col-md-3">
+				<div class="custom-select-box pr_goals" id ="{{ goal|slugify }}" onclick='return select_option("pr_goals","{{ goal|slugify }}","Yes");'>
+					<input type="checkbox" class="hidden"  id = "select_{{ goal|slugify }}" value = "{{ goal }}" name="pr_goals" />
+					<div>
+						<strong>{{ goal|upper }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+<div class="gap-30"></div>
+
+<div class="row">
+	<h3> How often do you send out press release </h3>
+	<div class="gap-30"></div>
+	<div class="row">
+		<div class="col-md-12">
+			<select class="form-control" name="pr_frequency">
+				{% for x, y in pr_frequency %}
+					<option value = "{{ x|slugify }}">{{ y }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+</div>
+<div class="gap-30"></div>

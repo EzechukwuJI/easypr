@@ -1,0 +1,18 @@
+<div class="row">
+	<h3> Which social media platform do you use? </h3>
+	<p> Select all that applies </p>
+	<div class="gap-20"></div>
+	<div class="row">
+		{% for platform in media_platform %}
+			<div class="col-md-3">
+				<div class="custom-select-box-lg media-platform" id ="{{ platform|slugify }}" onclick='return select_option("media-platform","{{ platform|slugify }}","Yes");'>
+					<input type="checkbox" class="hidden"  id = "select_{{ platform|slugify }}" value = "{{ platform }}" name="social_media_platform" />
+					<div>
+						<strong>{{ platform|upper }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+<div class="gap-30"></div>

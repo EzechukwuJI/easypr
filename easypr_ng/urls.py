@@ -10,7 +10,7 @@ urlpatterns  =  [
 
              
 	url(r'^$',                         					                views.indexView,                	name='index'),
-	url(r'^planner/step(?P<step>[-\d]+)/aid=(?P<anon_userID>[-\w\d]+)$',      	    views.strategyPlannerView,      	name='strategy-planner'),
+	url(r'^planner/step(?P<step>[-\d]+)/UID=(?P<anon_userID>[-\w\d]+)$',      	    views.strategyPlannerView,      	name='strategy-planner'),
 	url(r'^planner/$',      	                                        views.strategyPlannerIntroView,          name='strategy-planner-intro'),
 	# url(r'^planner/$',      	                                        TemplateView.as_view(template_name = "easypr_ng/strategy-planner-info.html"),     name='strategy-planner-intro'),
 	# url(r'^request-a-service/$',      				                views.requestServiceView,      name='request-service'),

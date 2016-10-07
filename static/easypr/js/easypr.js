@@ -86,7 +86,6 @@ var div_ids = ['bank_deposit','debit_card','bank_transfer','ewallet'];
   }
 
 
-
 function hide_div(div){
   var div_to_hide = $("#" + div);
   div_to_hide.addClass('hidden');
@@ -105,6 +104,122 @@ function show_search_div(){
         $("#id_search").html("<i class='fa fa-search search text-center'></i>"); 
       }
     }
+
+
+
+
+
+
+// var div_ids = ['bank_deposit','debit_card','bank_transfer','ewallet'];
+  function select_payment(div_id){
+    $('#id_proceed').attr('disabled', true);
+    var chosen_box  =   $('#' + div_id);
+    var option   =   $('#check_' + div_id);
+    if (option.is(':checked')){
+      option.prop('checked', false);
+      chosen_box.removeClass('selected');
+    } else {
+      option.prop('checked', true);
+      chosen_box.addClass('selected');
+    }
+    var selected_div = div_ids.indexOf(div_id);
+    for (id = 0; id < div_ids.length; id++){
+        if (id !== selected_div ){
+        $('#check_' + div_ids[id]).prop('checked',false);
+        $('#' + div_ids[id]).removeClass('selected');
+      }
+    }
+    if ($('#check_bank_deposit').is(':checked') || $('#check_bank_transfer').is(':checked')){
+      $('#pay-details').removeClass('hidden');
+      $("#id_payment_method").val(div_id); 
+    } else {
+      $('#pay-details').addClass('hidden');
+    }
+  }
+
+
+
+
+
+function select_option(option_classname, selected_id, select_multiple){
+  var selected_option_div      = $("#" + selected_id);
+  var selected_option_checkbox = $("#select_" + selected_id).attr('id');
+  var option_id_list  = []; // dynamic option list
+  var option_selector = $("." + option_classname);
+  // build dynamic option list
+  for (var opt = 0; opt < option_selector.length; opt ++){
+    option_id_list.push((option_selector[opt]).id);
+  }
+  if ($("#select_" + selected_id).is(':checked')){
+    $("#select_" + selected_id).prop('checked',false);
+    $("#" + selected_id).removeClass('selected');
+  }
+  else {
+    $("#select_" + selected_id).prop('checked',true); 
+    $("#" + selected_id).addClass('selected');
+  }
+  if (select_multiple === "No") {
+    for (var item = 0; item < option_id_list.length; item++){
+      if (option_id_list[item] !== selected_option_div.attr('id')){
+          $("#select_" + option_id_list[item]).prop('checked', false);
+          $("#" + option_id_list[item]).removeClass('selected');
+        }
+      }
+    } 
+  }
+
+
+
+
+
+ $(".select_business_type").click(function(){
+  if ((this.id === "company") && ($("#company").hasClass('selected'))){
+      $("#company_type").removeClass('hidden');
+   } else {
+      $("#company_type").addClass('hidden'); 
+   }
+ })
+
+
+$(".use-external-db").click(function(){
+  if (this.id === "yes"){
+      $("#external_db").removeClass('hidden');
+   } else {
+      $("#external_db").addClass('hidden'); 
+   }
+ })
+
+
+
+function counter(action, display_id){
+  var display  = $("#" + display_id);
+  var current_count = display.val();
+  if (action === "add"){
+    current_count++;
+    display.val(current_count);
+  } else if ((action === "subtract") && (current_count >= 1)){
+      current_count --;
+      display.val(current_count);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // var isAdvancedUpload = function(){
 // 	var div = document.createElement('div');

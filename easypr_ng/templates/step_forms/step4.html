@@ -1,0 +1,55 @@
+<div class="row">
+	<h3> What are your target audience ? </h3>
+	<p> Select all that applies </p>
+	<div class="gap-10"></div>
+	<div class="row">
+		{% for item in target_audience %}
+			<div class="col-md-3">
+				<div class="custom-select-box target-audience" id ="{{ item|slugify }}" onclick='return select_option("target-audience","{{ item|slugify }}","Yes");'>
+					<input type="checkbox" class="hidden"  id = "select_{{ item|slugify }}" value = "{{ item }}" name="target_audience" />
+					<div>
+						<strong>{{ item|upper }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+<div class="gap-30"></div>
+<div class="row text-center">
+	<h3> Do you currently use an external media database? </h3>
+	<div class="gap-10"></div>
+	<div class="col-md-3"></div>
+	<div class="col-md-3 text-center">
+		<div class="custom-select-box use-external-db" id = "yes" onclick='return select_option("use-external-db","yes","No");'>
+			<input type="checkbox" class="hidden" name="use_external_db" value="true" id="select_yes"/>
+			<div>
+				<strong>Yes</strong>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 text-center">
+		<div class="custom-select-box use-external-db" id = "no" onclick='return select_option("use-external-db","no","No");'>
+			<input type="checkbox" class="hidden" name="use_external_db" value="false" id="select_no"/>
+			<div>
+				<strong>NO</strong>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3"></div>
+</div>
+<div class="gap-30"></div>
+<div class="row hidden" id="external_db">
+	<h3>Which database do you work with? </h3>
+	<div class="gap-10"></div>
+	<div class="row">
+		<div class="col-md-12">
+			<select class="form-control" name = "current_db">
+				<option value="personal"> option 1</option>
+				<option value="personal"> option 1</option>
+				<option value="personal"> option 1</option>
+			</select>
+		</div>
+	</div>
+</div>
+<div class="gap-30"></div>

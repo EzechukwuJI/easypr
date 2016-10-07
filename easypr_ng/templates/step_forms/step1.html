@@ -1,92 +1,106 @@
-<div class="row text-center">
+<div class="row">
 	<h3> What is your Business type </h3>
-	<div class="col-md-6 text-center">
-		<div class="custom-select-box-lg pull-right" id = "company" onclick='return select_option("business_type", "company");'>
-			<input type="checkbox" class="hidden" name="business_type" id="select_company"/>
+	<div class="gap-10"></div>
+	<div class="col-md-3"></div>
+	<div class="col-md-3">
+		<div class="custom-select-box-lg select_business_type" id = "company" onclick='return select_option("select_business_type","company","No");'>
+			<input type="checkbox" class="hidden" name="business_type" value = "Company" id="select_company"/>
 			<div>
 				<strong>Company</strong>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6 text-center">
-		<div class="custom-select-box-lg" id = "individual" onclick='return select_option("business_type", "individual");'>
-			<input type="checkbox" class="hidden" name="business_type" id="select_individual"/>
+	<div class="col-md-3">
+		<div class="custom-select-box-lg select_business_type" id = "individual" onclick='return select_option("select_business_type","individual","No");'>
+			<input type="checkbox" class="hidden" name="business_type" value="Individual" id="select_individual"/>
 			<div>
 				<strong>Individual</strong>
 			</div>
 		</div>
 	</div>
+	<div class="col-md-3"></div>
 </div>
 
 <div class="gap-30"></div>
 
-<div class="row text-center">
+<div class="row text-center hidden" id = "company_type">
 	<h3> What is your Company type </h3>
-	<div class="col-md-6 text-center">
-		<div class="custom-select-box pull-right" id = "company" onclick='return select_option("company_type", "public");'>
-			<input type="checkbox" class="hidden" name="company_type" id="select_public"/>
+	<div class="gap-10"></div>
+	<div class="col-md-3"></div>
+	<div class="col-md-3 text-center">
+		<div class="custom-select-box select_company_type" id = "public" onclick='return select_option("select_company_type","public","No");'>
+			<input type="checkbox" class="hidden" name="company_type" value ="Public" id="select_public"/>
 			<div>
 				<strong>Public</strong>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6 text-center">
-		<div class="custom-select-box" id = "individual" onclick='return select_option("company_type", "private");'>
-			<input type="checkbox" class="hidden" name="company_type" id="select_private"/>
+	<div class="col-md-3 text-center">
+		<div class="custom-select-box select_company_type" id = "private" onclick='return select_option("select_company_type","private","No");'>
+			<input type="checkbox" class="hidden" name="company_type" value = "Private" id="select_private"/>
 			<div>
 				<strong>Private</strong>
 			</div>
 		</div>
 	</div>
+	<div class="col-md-3"></div>
 </div>
+
 
 <div class="gap-30"></div>
 
 
 <div class="row text-center">
 	<h3> Do you render PR services for companies? </h3>
-	<div class="col-md-6 text-center">
-		<div class="custom-select-box pull-right" id = "company" onclick='return select_option("is_pr_agency", "yes");'>
-			<input type="checkbox" class="hidden" name="is_pr_agency" id="select_yes"/>
+	<div class="gap-10"></div>
+	<div class="col-md-3"></div>
+	<div class="col-md-3 text-center">
+		<div class="custom-select-box is_pr_agency" id = "yes" onclick='return select_option("is_pr_agency","yes","No");'>
+			<input type="checkbox" class="hidden" name="is_pr_agency" value="Yes" id="select_yes"/>
 			<div>
 				<strong>Yes</strong>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6 text-center">
-		<div class="custom-select-box" id = "individual" onclick='return select_option("is_pr_agency", "no");'>
-			<input type="checkbox" class="hidden" name="is_pr_agency" id="select_no"/>
+	<div class="col-md-3 text-center">
+		<div class="custom-select-box is_pr_agency" id = "no" onclick='return select_option("is_pr_agency","no","No");'>
+			<input type="checkbox" class="hidden" name="is_pr_agency" value="No" id="select_no"/>
 			<div>
 				<strong>NO</strong>
 			</div>
 		</div>
 	</div>
+	<div class="col-md-3"></div>
 </div>
 
-<div class="gap-30"></div>
 
+<div class="gap-30"></div>
 <div class="row text-center">
 	<h3> What is the size of your PR Team </h3>
-	<div class="col-md-4 text-center no-padding">
-		<div class="custom-select-box pull-right" id = "sub_count" onclick='return select_option("company_size", "subtract");'>
-			<input type="checkbox" class="hidden" name="is_pr_agency" id="select_yes"/>
-			<div>
+	<div class="gap-10"></div>
+	<div class="col-md-4"></div>
+	<div class="col-md-4">
+		<div class="col-md-4 text-center no-padding">
+			<p class="custom-select-box" id = "add_count" onclick='return counter("subtract", "size_of_company");'>
 				<strong><i class="fa fa-minus" ></i></strong>
-			</div>
+			</p>
 		</div>
-	</div>
-	<div class="col-md-4 text-center no-padding">
-		<!-- <div> -->
+		<div class="col-md-4 text-center no-padding" style="margin:0px !important">
 			<div>
 				<input type="text" class="custom-select-box" value="0"  name="size_of_company" id="size_of_company"/>
 			</div>
-		<!-- </div> -->
-	</div>
-	<div class="col-md-4 text-center no-padding">
-		<div class="custom-select-box" id = "add_count" onclick='return select_option("company_size", "add");'>
-			<div>
+		</div>
+		<div class="col-md-4 text-center no-padding">
+			<p class="custom-select-box" id = "add_count" onclick='return counter("add", "size_of_company");'>
 				<strong><i class="fa fa-plus" ></i></strong>
-			</div>
+			</p>
 		</div>
 	</div>
+	<div class="col-md-4"></div>
 </div>
+
+
+
+
+
+

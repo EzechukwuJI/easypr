@@ -16,6 +16,7 @@ from easypr_general.custom_functions import transaction_ref, get_random_code, pa
 # Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform, Comment, CommentReply
 
 from easypr_ng.forms import ContentUploadForm, BizInfoForm, TargetAudienceForm
+from easypr_general.models_field_choices import PR_FREQUENCY
 import datetime
 
 
@@ -295,7 +296,7 @@ def strategyPlannerIntroView(request):
 def get_current_strategy(request):
     pk = request.session.get('strategy_in_session', "")
     try:
-        return PRStrategy.objects.get(pk = pk)
+        return PRStrategy.objects.filter(pk = pk)
     except:
         return None
 
@@ -317,19 +318,35 @@ def do_post_request(request, step, form):
     pass
 
 
+def validate_post_keys(request, keys_dict):
+    rp = request.POST
+    r_dict = {}
+    for key in keys_dict.keys():
+        print "expected type: ", keys_dict[key][0]
+        if rp.has_key(key):
+            if keys_dict[key][0] == "unit":
+                r_dict[key]  = rp[key]
+            else:
+                r_dict[key] = rp.getlist(key)
+        else:
+            r_dict[key] = keys_dict[key][1]
+    return r_dict
+
+
 def strategyPlannerView(request, step,  anon_userID):
     template = 'easypr_ng/strategy-planner.html'
     context = {}
     context['step'] = 1
+    context['step_template'] = 'step_forms/step1.html'
     context['anon_userID'] = anon_userID
     context['form'] = BizInfoForm()
     context['caption'] = "This is the first step to your greatness - this is just a dummy string"
 
     current_strategy = get_current_strategy(request)
-    # print "current strategy ", current_strategy
+
     step = int(step)
     total_steps = 7
-
+   
     if step <= 0 or step > total_steps:
         message = "The page number your are trying to view does not exist"
         return render(request, '404.html', {'response': message})
@@ -338,34 +355,86 @@ def strategyPlannerView(request, step,  anon_userID):
         messages.error(request, message)
         return redirect(reverse('easypr_ng:strategy-planner-intro'))
 
-    
-    if request.method == "POST": # and "submit_step_1"  in request.POST.keys():    
+    if request.method == "POST":
+        rp = request.POST  
         if step == 1:
-            # save selections from step 1
-            # context values for nest step
+            fields_dict_and_defaults = {'business_type':['unit', 'NA'],'company_type':['unit', 'NA'],'is_pr_agency':['unit','No'],'size_of_company':['unit',0]}
+            valid_dict = validate_post_keys(request, fields_dict_and_defaults)
+            print "current strategy object: ", current_strategy
+            current_strategy.update(business_type = valid_dict['business_type'], company_type = valid_dict['company_type'],
+                is_pr_agent = valid_dict['is_pr_agency'], size_of_pr_team = valid_dict['size_of_company'])
+            
+            # context values for next step
             sectors = get_sectors()
-            print "sectors  ", sectors
             next_caption = "We are creating a unique experience for you!"
             next_form = TargetAudienceForm()
-            context.update({'step':2,'caption':next_caption, 'form':next_form,'sectors':sectors}) #for next form page
-
-            # return redirect(reverse('easypr_ng:strategy-planner', kwargs=context))
-                # save content       
+            next_step = 2
+            context.update({'step':next_step,'caption':next_caption, 'form':next_form,'sectors':sectors, 'anon_userID':anon_userID, 'step_template':'step_forms/step2.html'}) #for next form page
+             
         if step == 2:
-            # save selections from step 2
+            fields_dict_and_defaults = {'target_audience':['list', 'NA']}
+            valid_dict = validate_post_keys(request, fields_dict_and_defaults)
+        
+            current_strategy.update(target_audience = ",".join(valid_dict['target_audience']))
+            
             next_caption = "Your business is about to experience a great and phenomenal boost"
-            next_form = object()
+            next_step = 3
+            pr_goals =  ['Lead generation','Traffic', 'Engagement', 'SEO', 'Sales', 'Social']
+            context.update({'step':next_step, 'caption':next_caption, 'pr_goals':pr_goals, 'pr_frequency':PR_FREQUENCY, 'step_template':'step_forms/step3.html'})
 
-            context.update({'step':3, 'caption':step_caption, 'form':next_form})
+        if step == 3:
+            fields_dict_and_defaults = {'pr_goals':['list', 'NA'],'pr_frequency':['unit','NA']}
+            valid_dict = validate_post_keys(request, fields_dict_and_defaults)
+        
+            current_strategy.update(pr_goals = ",".join(valid_dict['pr_goals']), frequency_of_pr = valid_dict['pr_frequency'])
+            
+            next_caption = "Simplified and targeted PR services for maximum productivity. "
+            next_step = 4
+            target_audience =  ['Local','Regional', 'State', 'National', 'International']
 
+            context.update({'step':next_step, 'caption':next_caption, 'target_audience':target_audience, 'step_template':'step_forms/step4.html' })
+
+        if step == 4:
+            fields_dict_and_defaults = {'target_audience':['list', '[]'],'use_external_db':['unit','NA'],'current_db':['unit', 'NA']}
+            valid_dict = validate_post_keys(request, fields_dict_and_defaults)
+        
+            current_strategy.update(target_audience_location = ",".join(valid_dict['target_audience']), currently_use_pr_db = valid_dict['use_external_db'], pr_db_used = valid_dict['current_db'])
+            # save selections from step 3
+            next_caption = "create any progressive content for this stage caption."
+            next_step = 5
+            social_media_platform =  ['Facebook','Twitter','Youtube','Instagram','Vimeo','Pinterest','LinkedIn','Google']
+            context.update({'step':next_step, 'caption':next_caption, 'media_platform':social_media_platform, 'step_template':'step_forms/step5.html'})
+
+        if step == 5:
+            fields_dict_and_defaults = {'social_media_platform':['list', '[]']}
+            valid_dict = validate_post_keys(request, fields_dict_and_defaults)
+        
+            current_strategy.update(social_media_used = ",".join(valid_dict['social_media_platform']))
+            next_caption = "create any progressive content for this stage caption."
+            next_step = 6
+            context.update({'step':next_step, 'caption':next_caption, 'step_template':'step_forms/step6.html'})
+
+        if step == 6:
+            fields_dict_and_defaults = {'need_pr_writing':['unit', 'No'], 'need_media_pitching':['unit','No'],'has_newsroom':['unit','No']}
+            valid_dict = validate_post_keys(request, fields_dict_and_defaults)
+        
+            current_strategy.update(require_pr_writing= valid_dict['need_pr_writing'],require_media_pitching = valid_dict['need_media_pitching'], do_you_have_newsroom = valid_dict['has_newsroom'])
+            
+            next_caption = "Hurray! you have successfully created a unique PR strategy for your brand."
+            next_step = 7
+            context.update({'step':next_step, 'caption':next_caption, 'step_template':'step_forms/step7.html'})
+        if step == 7:
+            fields_dict_and_defaults = {'company_name':['unit', 'NA'], 'contact_name':['unit','NA'],'email':['unit','NA'], 'phone_no':['unit','NA']}
+            valid_dict = validate_post_keys(request, fields_dict_and_defaults)
+
+            if valid_dict['company_name'] == "NA" or valid_dict['contact_name'] == "NA" or valid_dict['email']  == "NA":
+                messages.info(request, "You have not made any entries yet, please refresh the page to continue.")
+                return redirect(reverse('easypr_ng:strategy-planner', kwargs={'step':1, 'anon_userID':current_strategy[0].anon_userID}))
+        
+            current_strategy.update(company_name = valid_dict['company_name'],contact_name = valid_dict['contact_name'],email = valid_dict['email'], phone_number = valid_dict['phone_no'], completed = True)
+            messages.success(request, "Thank you!. We have received your submission, A member of the EasyPR team will contact you shortly")
+            return redirect(reverse('easypr_ng:strategy-planner-intro')) 
     return render(request, template, context)
-
-
-
-
-
-
-
 
 
 
