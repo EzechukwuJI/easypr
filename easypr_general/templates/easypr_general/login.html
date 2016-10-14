@@ -30,12 +30,18 @@
 					<div class="top-margin">
 						<label>Username/Email <span class="text-danger">*</span></label>
 						<input type="hidden" name="next" value = "{{ request.GET.next }}" />
-						{{ loginform.email }}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+						    {{ loginform.email }}
+            </div>
 
 					</div>
 					<div class="top-margin">
 						<label>Password <span class="text-danger">*</span></label>
-						{{ loginform.password }}
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
+						  {{ loginform.password }}
+            </div>
 					</div>
 					<div class="gap-20"></div>
 					<div class="row">
@@ -49,7 +55,7 @@
             </div>
             <div class="modal-footer">
               <span class="pull-left text-dark"> Don't have account yet? </span> 
-              <a href="{% url 'general:sign_up' %}" class="btn btn-default"> <i class="fa fa-user-plus"></i> &nbsp; Sign Up</a>
+              <a href="{% url 'general:sign-up' %}" class="btn btn-default"> <i class="fa fa-user-plus"></i> &nbsp; Sign Up</a>
             </div>
               </div>
             </div>

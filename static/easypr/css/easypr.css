@@ -411,11 +411,21 @@ ul.navbar-nav > li > a{
 	border-radius: 0px;
 	margin: 7.5px;
 	padding:0px;
+
+	/*box-shadow: -2px -2px 3px #a0a0a0;*/
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+	/*-webkit-box-shadow: 3px 0px 5px 0px rgba(163, 163, 163, 0.75);
+	-moz-box-shadow:    3px 0px 5px 0px rgba(163, 163, 163, 0.75);
+	box-shadow:         3px 0px 5px 0px rgba(163, 163, 163, 0.75);*/
 }
 
 
 .feature-tile-lg {
-	height: 580px;
+	height: 520px;
+	/*height: 580px;*/
 	width: 260px;
 	min-height:  200px;
 	min-width: 200px;
@@ -423,7 +433,13 @@ ul.navbar-nav > li > a{
 	border-radius: 0px;
 	margin: 7.5px;
 	padding:0px;
+	/*box-shadow: -2px -2px 3px #a0a0a0;*/
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+
 
 
 img.feature-img-sm  {
@@ -435,12 +451,57 @@ img.feature-img-sm  {
 }
 
 img.feature-img-lg {
-	height: 580px;
+	height: 520px;
+	/*height: 580px;*/
 	width: 260px;
 	min-height:  200px;
 	min-width: 200px;
 
 }
+
+
+.feature-tile-sm:hover,
+.feature-tile-sm:focus,
+img.feature-img-sm:hover,
+img.feature-img-sm:focus {
+	width: 260px;
+	height: 265px;
+	margin: 0px;
+
+	-webkit-transition: 400ms;
+    -moz-transition: 400ms;
+    -o-transition: 400ms;
+    transition: 400ms;
+    opacity: 1;
+    -webkit-filter: grayscale(50%);
+    -moz-filter: grayscale(50%);
+    -ms-filter: grayscale(50%);
+    -o-filter: grayscale(50%);
+    filter: grayscale(50%);
+}
+
+
+img.feature-img-lg:hover,
+img.feature-img-lg:focus,
+.feature-tile-lg:hover,
+.feature-tile-lg:focus {
+	margin:0px;
+	width: 275px;
+	height:535px;
+
+	-webkit-transition: 400ms;
+    -moz-transition: 400ms;
+    -o-transition: 400ms;
+    transition: 400ms;
+    opacity: 1;
+    -webkit-filter: grayscale(50%);
+    -moz-filter: grayscale(50%);
+    -ms-filter: grayscale(50%);
+    -o-filter: grayscale(50%);
+    filter: grayscale(50%);
+
+}
+
 
 .view-feature-detail {
 	width: 250px;
@@ -491,6 +552,20 @@ img.feature-img-lg {
 	background-color:#ffffff;
 }
 
+.animate-div {
+	-webkit-transition: 2000ms;
+    -moz-transition: 2000ms;
+    -o-transition: 2000ms;
+    transition: 2000ms;
+    opacity: 1;
+    /*-webkit-filter: grayscale(50%);
+    -moz-filter: grayscale(50%);
+    -ms-filter: grayscale(50%);
+    -o-filter: grayscale(50%);
+    filter: grayscale(50%);*/
+}
+
+
 
 .btn-orange-lg {
 	padding: 10px 75px;
@@ -518,6 +593,8 @@ img.feature-img-lg {
 	position: relative relative;
 	display: inline;
 	clear: none;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 0px;
 }
 
 
@@ -543,33 +620,40 @@ img.feature-img-lg {
 
 
 
-.dashboard .left-nav  dd li {
+.dashboard .left-nav  ul li {
 	line-height:  25px;
-	border-top: thin solid #e0e0e0;
+	border-top: thin solid #e8e8e8;
 	list-style-type: none;
 	padding-top: 10px;
 	padding-bottom: 10px;
+	padding-left:20px;
 }
 
-.dashboard .left-nav  dd li:last-child {
-	border-bottom: thin solid #f0f0f0;
+.dashboard .left-nav  ul li:last-child {
+	border-bottom: thin solid #e8e8e8;
 	list-style-type: none;
 }
 
-.dashboard .left-nav  dd li a {
-	line-height:  25px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	width:235px;
+.dashboard .left-nav ul li:before {
+	content: " ";
+}
+
+.dashboard .left-nav  ul li > a {
+	height:  100%;
+	width:100%;
 	color: #222222;
 	font-size: 16px;
+	font-weight: bold;
+	font-family: 'Roboto', sans-serif;
+	
 }
 
-.dashboard .left-nav  dd li a:hover,
-.dashboard .left-nav  dd li a:active,
-.dashboard .left-nav  dd li a:focus,
-.dashboard .left-nav  dd li:hover {
-	background-color: #ffa500;
+.dashboard .left-nav  ul li a:hover,
+.dashboard .left-nav  ul li a:active,
+.dashboard .left-nav  ul li a:focus,
+.dashboard .left-nav  ul li:hover {
+	background-color: #e8e8e8;
+	/*background-color: #ffa500;*/
 }
 
 

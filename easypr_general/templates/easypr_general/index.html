@@ -8,7 +8,8 @@
 				<h3 class="title-border">
 					<span id="packages"></span>
 					<!-- Best Offer -->
-					<span class="title-head">Choose from any of these exciting packages</span>
+					<span class="title-head">Marketing Made Simple &amp; Affordable.</span><br/>
+					<p>See the plan that suits your needs. Our team is here to help you.</p>
 				</h3>
 			</div><!--/ Title row end -->
 
@@ -17,66 +18,81 @@
 					<!-- left pane -->
 					<div class="col-md-3">
 						<div class="feature-tile-lg">
-							<img class="feature-img-lg" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
+							<a href="">
+								<img class="feature-img-lg" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
+							</a>
 						</div>
-						<div class="view-feature-detail-lg text-center">
+						<!-- <div class="view-feature-detail-lg text-center">
 							<a href= "{% url 'general:product-detail' %}" >View Detail</a>
-						</div>
+						</div> -->
 					</div>
 					<!-- center to right pane  -->
 					<div class="col-md-9">
 						<div class="col-md-12">
 							<div class="col-md-4"> 
-								<div class="feature-tile-sm bg-success">
-									<img class="feature-img-sm" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
+								<div class="feature-tile-sm">
+									<a href="">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/content-marketing.jpg' %}" alt="image content marketing " />
+									</a>
 								</div>
-								<div class="view-feature-detail text-center">
+								<!-- <div class="view-feature-detail text-center">
 									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
-								</div>
+								</div> -->
 							</div>
 
 							<div class="col-md-4"> 
-								<div class="feature-tile-sm bg-warning">
+								<div class="feature-tile-sm">
+									<a href="">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
+									</a>
 								</div>
-								<div class="view-feature-detail text-center">
+								<!-- <div class="view-feature-detail text-center">
 									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
-								</div>
+								</div> -->
 							</div>
 
 							<div class="col-md-4"> 
-								<div class="feature-tile-sm bg-info">
-									<img class="feature-img-sm" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
+								<div class="feature-tile-sm">
+									<a href="">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/sme-marketing.jpg' %}" alt="sme marketing" />
+									</a>
 								</div>
-								<div class="view-feature-detail text-center">
+								<!-- <div class="view-feature-detail text-center">
 									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
-								</div>
+								</div> -->
 							</div>
 						</div>
 
 						<div class="col-md-12">
 							<div class="col-md-4"> 
-								<div class="feature-tile-sm bg-info">
-									<!-- <img class="feature-img-sm" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" /> -->
+								<div class="feature-tile-sm">
+									<a href="">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/sales-marketing.jpg' %}" alt="image events bureau" />
+									</a>
 								</div>
-								<div class="view-feature-detail text-center">
+								<!-- <div class="view-feature-detail text-center">
 									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
-								</div>
+								</div> -->
 							</div>
 							<div class="col-md-4"> 
 								<div class="feature-tile-sm bg-info">
-									<img class="feature-img-sm" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
+									<a href="">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/events-bureau.jpg' %}" alt="image sales marketing" />
+									</a>
 								</div>
-								<div class="view-feature-detail text-center">
+								<!-- <div class="view-feature-detail text-center">
 									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
-								</div>
+								</div> -->
 							</div>
 							<div class="col-md-4"> 
 								<div class="feature-tile-sm bg-info">
-									<!-- <img class="feature-img-sm" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" /> -->
+									<a href="">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/marketing-bundles.jpg' %}" alt=""/>
+									</a>
 								</div>
-								<div class="view-feature-detail text-center">
+								<!-- <div class="view-feature-detail text-center">
 									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
-								</div>
+								</div> -->
 							</div>
 							
 						</div>
@@ -109,7 +125,7 @@
 				<div class="row">
 					{% for post in recent_posts %}
 						<div class="col-sm-3">
-							<div style="border: thin solid #c8c8c8;border-radius: 5px; margin-top:5px; padding:8px; display:flex; text-align: left;">
+							<div style="border: thin solid #c8c8c8;border-radius: 0px; margin-top:5px; padding:8px; display:block; text-align: left; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
 								<div class="latest-post">
 								{% if post.featured_image %}
 									<div class="latest-post-media">

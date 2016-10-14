@@ -92,7 +92,7 @@
         </span>
 
 
-        <form action="{% url 'general:sign_up' %}" method="post" class="hidden" id="id_signup_form">
+        <form action="{% url 'general:sign-up' %}" method="post" class="hidden" id="id_signup_form">
           <strong class="text-center"> Sign up with email <span class="pull-right" id="close_signup_form" style="cursor:pointer;" onclick = 'return hide_form("id_signup_form","social_signup")'>&times;</span></strong><br/>
           {% csrf_token %}
           <span id= "user_details_form">

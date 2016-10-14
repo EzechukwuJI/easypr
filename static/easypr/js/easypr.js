@@ -98,6 +98,7 @@ function show_search_div(){
       $("#id_search").html("<i class='fa fa-times search text-center'></i>"); 
       var search_box = $("#search-box");
       if (search_box.hasClass('hidden')){
+        $("#search-box").addClass('animate-div');
         $("#search-box").removeClass('hidden');
       } else {
         $("#search-box").addClass('hidden');

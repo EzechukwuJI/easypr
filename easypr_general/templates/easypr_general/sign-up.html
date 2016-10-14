@@ -10,8 +10,8 @@
 
   <div class="container">
     <div class="row">
-      <header class="page-header text-center">
-        <h6 class="page-title">Sign up below, It's easy</h6>
+      <header class="page-header">
+        <h3>Sign up below, It's easy</h3>
       </header>
       <!-- form container -->
       <div class="col-md-6">
@@ -24,14 +24,38 @@
                 </h5>
               {% endfor %}
             {% endif %}
-              <form action="{% url 'general:sign_up' %}" method="post" class="" id="id_signup_form">
+              <form action="{% url 'general:sign-up' %}" method="post" class="" id="id_signup_form">
                 {% csrf_token %}
                 <span id= "user_details_form">
-                  <input type="text" name="first_name" placeholder="First Name" class="form-control no-border-radius" required/><br/>
-                  <input type="text" name="last_name" placeholder="Last Name" class="form-control no-border-radius" required/><br/>
-                  <input type="email" name="email" placeholder="Email" class="form-control no-border-radius" required/><br/>
-                  <input type="password" name="password" id="id_password" placeholder="Password" class="form-control no-border-radius" required/><br/>
-                  <input type="password" name="confirm-password" id = "id_confirm_password" placeholder="Confirm Password" class="form-control no-border-radius" required onblur = 'return compare_passwords("id_password","id_confirm_password")'/><br/>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user fa-fw" aria-hidden="true"></i></span>
+                    <input type="text" name="first_name" placeholder="First Name" class="form-control no-border-radius" required/>
+                  </div>
+                  <br/>
+
+
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user fa-fw" aria-hidden="true"></i></span>
+                    <input type="text" name="last_name" placeholder="Last Name" class="form-control no-border-radius" required/>
+                  </div>
+                  <br/>
+
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+                    <input type="email" name="email" placeholder="Email" class="form-control no-border-radius" required/>
+                  </div>
+                  <br/>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
+                    <input type="password" name="password" id="id_password" placeholder="Password" class="form-control no-border-radius" required/>
+                  </div>
+                  <br/>
+
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
+                    <input type="password" name="confirm-password" id = "id_confirm_password" placeholder="Confirm Password" class="form-control no-border-radius" required onblur = 'return compare_passwords("id_password","id_confirm_password")'/>
+                  </div>
+                  <br/>
                   <div class="gap-20"></div>
                   <input type="submit" class="btn btn-primary btn-custom-lg-blue" id="id_signup" value="Sign Up" style="border-radius:0px; cursor:pointer;" onclick = 'return compare_passwords("id_password","id_confirm_password")'/> <br/>
               </form>

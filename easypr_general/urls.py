@@ -13,7 +13,7 @@ urlpatterns  =  [
 	url(r'^who-we-are/$',                			views.aboutUsView,              name='about-us'),
 	# url(r'^services/$',                                 views.servicesView,       name='services'),
 	url(r'^contact_us/$',      		   				views.contactView,              name='contact-us'),
-	url(r'^/user/sign-up/$',         		   			    views.createUserAccount,        name='sign_up'),
+	url(r'^user/sign-up/$',         		   			    views.createUserAccount,        name='sign-up'),
 	
 	url(r'^user/dashboard$',         		   	     views.userDashboard,        name='user-dashboard'),
 	url(r'^product/detail/product-name/$',         		   	     views.productDetails,        name='product-detail'),

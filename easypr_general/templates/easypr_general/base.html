@@ -43,6 +43,7 @@
 	<!-- fonts -->
 	<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300|Roboto+Condensed" rel="stylesheet"> -->
 	<link href="https://fonts.googleapis.com/css?family=Dosis|Lato" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 	
 <body>
@@ -87,7 +88,7 @@
 							<li><a href="{% url 'general:logout' %}"><i class="fa fa-sign-out"> </i> Logout</a></li>
 						{% else %}
 							<li><a href="{% url 'general:login' %}"> Login</a></li>
-							<li><a href="{% url 'general:sign_up' %}" class="btn-orange btn-custom" ><i class="fa fa-user-plus"> </i> SIGN UP</a></li>
+							<li><a href="{% url 'general:sign-up' %}" class="btn-orange btn-custom" ><i class="fa fa-user-plus"> </i> SIGN UP</a></li>
 							
 							<!-- <li><a href="#" data-target="#sign-up-modal" data-dismiss="modal" data-toggle="modal">Sign up</a></li> -->
 							<!-- <li><a href="#" data-target="#sign-up-modal" data-dismiss="modal" data-toggle="modal">Sign up</a></li> -->
@@ -310,11 +311,11 @@
 	{% block bouquets %}
 		
 	{% endblock bouquets %}
-    <section id="ts-features" class="features-area">
+   <!--  <section id="ts-features" class="features-area">
 		<div class="container">
-			<div class="row">
+			<div class="row"> -->
 				
-				<div class="col-md-4">
+				<!-- <div class="col-md-4">
 				   <div class="ts-service-box text-center">
 			        	<div class="ts-service-box-icon">
 			          	<i class="fa fa-lightbulb-o"></i>
@@ -323,10 +324,10 @@
 			          	<h3><a href="#">Start An Idea</a></h3>
 			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
 			        </div>
-			      </div><!-- Service 1 end -->
+			      </div> --><!-- Service 1 end 
 				</div><!-- Col 1 end -->
 
-				<div class="col-md-4">
+				<!-- <div class="col-md-4">
 				   <div class="ts-service-box text-center">
 			        	<div class="ts-service-box-icon">
 			          	<i class="fa fa-user"></i>
@@ -335,10 +336,10 @@
 			          	<h3><a href="#">Professional Advisor</a></h3>
 			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
 			        </div>
-			      </div><!-- Service 2 end -->
-				</div><!-- Col 2 end -->
+			      </div> --><!-- Service 2 end 
+				</div><!-- Col 2 end 
 
-				<div class="col-md-4">
+				<!-- <div class="col-md-4">
 				   <div class="ts-service-box text-center">
 			        	<div class="ts-service-box-icon">
 			          	<i class="fa fa-thumbs-up"></i>
@@ -347,12 +348,12 @@
 			          	<h3><a href="#">Success on Business</a></h3>
 			          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
 			        </div>
-			      </div><!-- Service 3 end -->
-				</div><!-- Col 3 end -->
+			      </div> --><!-- Service 3 end 
+				</div><!-- Col 3 end 
 
-			</div><!--/ Content row end -->
-		</div><!--/ Container end -->
-	</section><!-- Feature end -->
+			</div><!--/ Content row end 
+		</div><!--/ Container end 
+	</section> Feature end -->
 
 	<section class="call-to-action no-padding bg-overlay">
 		<div class="container">
@@ -890,9 +891,9 @@
 						<h3 class="widget-title">Quick Links</h3>
 
 						<ul class="list-arrow">
-							<li><a href="#">FAQs</a></li>
-							<li><a href="#">T &amp; C</a></li>
-							<li><a href="#">Newsroom</a></li>
+							<li><a href="{% url 'general:faq' %}">FAQs</a></li>
+							<li><a href="general:terms-and-conditions">T &amp; C</a></li>
+							<li><a href="{% url 'easypr_ng:newsroom' %}">Newsroom</a></li>
 							<li><a href="#">Pricing</a></li>
 							<li><a href="#">Blog</a></li>
 							<li><a href="#">Tax Planning</a></li>
