@@ -9,7 +9,7 @@ from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.db.models import F
 from django.contrib import messages
 
-from easypr_general.models import UserAccount, Address, LatestNews, ClientFeedback, PwResetRecord
+from easypr_general.models import UserAccount, Address, LatestNews, ClientFeedback, PwResetRecord, ServiceCategory
 from easypr_general.forms import  UserRegistrationForm,LoginForm #LoginForm, UserAccountForm,PublicationForm,DocumentUploadForm
 from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list
 from django.contrib.sites.shortcuts import get_current_site
@@ -267,8 +267,20 @@ def  aboutUsView(request):
 # def  TandCView(request):
 #     return render(request, 'yadel/general/tandc.html', {})
 
-def  servicesView(request):
-    return render(request, 'yadel/general/tandc.html', {})
+def  servicesView(request, service_category):
+    context = {}
+    # service = get_object_or_404(ServiceCategory, name_slug = service_category)
+    service   =   ServiceCategory.objects.filter(name_slug = service_category)
+    if not service.exists():
+        # return redirect('/404.html')
+        message = "service not found"
+        return render(request, '404.html', {'response': message})
+    
+    context['service-list'] = service[0].serviceitem_set.all()
+    context['service'] = service[0]
+    # context['service-name'] = service.name
+    
+    return render(request, 'easypr_general/services-details.html', context)
 
 
 

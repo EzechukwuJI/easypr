@@ -413,9 +413,3 @@ class PRStrategy(models.Model):
 
 
 
-
-
-
-
-
-

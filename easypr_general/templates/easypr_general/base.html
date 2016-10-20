@@ -123,56 +123,192 @@
 
 	    			<nav class="collapse navbar-collapse navbar-responsive-collapse navbar-right">
 	    				<ul class="nav navbar-nav">
-						   <li class="dropdown active">
+						   <li class="dropdown">
 			                  <a href="{% url 'general:homepage' %}">Home</a>
 			               </li>
 
-			               <!-- <li class="dropdown">
-			                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Who We Are <i class="fa fa-angle-down"></i></a>
-								<ul class="dropdown-menu" role="menu">
-		                           <li><a href=" url 'general:who-we-are'%}#about-us">About Us</a></li>
-		                           <li><a href=" url 'general:who-we-are'%}#the-team">The Team</a></li>
-		                           <li><a href=" url 'general:who-we-are'%}#reviews">Client Reviews</a></li>
-		                           <li><a href=" url 'general:who-we-are'%}#our-partners">Our Partners</a></li>
-		                           <li><a href=" url 'general:careers' %}">Join Us</a></li>
-		                      	   <li><a href=" url 'easypr_ng:request-service' %}">Let us work for you</a></li>
-			                    </ul>
-			               </li> -->
-
 			               <li class="dropdown">
-			                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Product / Services 
+			                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Product &amp; Services 
 			                  </a>
 							   <ul class="dropdown-menu" role="menu">
-							   		<!-- <div class="row">
-				               			<div class="col-md-4 thumbnail"> one </div>
-				               			<div class="col-md-4 thumbnail"> one </div>
-				               			<div class="col-md-4 thumbnail"> one </div>
-				               		</div> -->
-		                           <li><a href="{% url 'general:services' %}">Content Writing</a></li>
-		                           <li><a href="{% url 'general:services' %}">Press Release Syndication</a></li>
-		                           <li><a href="{% url 'general:services' %}">Media Relations Consulting</a></li>
-		                           <li><a href="{% url 'general:services' %}">Digital Marketing</a></li>
-		                           <li><a href="{% url 'general:services' %}">Brand Promotion</a></li>
-		                           <li><a href="{% url 'general:services' %}">General Media Services</a></li>
+							   		<div class="row menu-board bg-royal">
+							   			<!-- left panel -->
+							   			<div class="col-md-7 bg-white feature-links">
+							   				<!-- <div class="row"> -->
+							   					<div class="col-md-12">
+							   						<div class="gap-10"></div>
+							   						<div class="row">
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'general:service-details' 'press-release-distribution' %}" class="header-link">Press Distribution</a>
+							   								<ul>
+							   									<li><a href="{% url 'general:service-details' 'press-release-distribution' %}#Press-Release">Press Release</a></li>
+							   									<li><a href="{% url 'general:service-details' 'press-release-distribution' %}#News-Features">News Features</a></li>
+							   									<li><a href="{% url 'general:service-details' 'press-release-distribution' %}#Photo-News">Photo-News</a></li>
+							   									<li><a href="{% url 'general:service-details' 'press-release-distribution' %}#Publish-Interviews">Publish Interviews</a></li>
+							   									<li><a href="{% url 'general:service-details' 'press-release-distribution' %}">Request Interviews</a></li>
+							   									<a href="{% url 'general:service-details' 'press-release-distribution' %}" class="why-link">Why Choose EasyPR Press Distribution</a>
+							   								</ul>
+							   							</div>
+
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'general:service-details' 'advertising' %}" class="header-link">Advertising</a>
+							   								<ul>
+							   									<li><a href="{% url 'general:service-details' 'advertising' %}#Newpapers&amp;Magazines">Newpapers/Magazines</a></li>
+							   									<li><a href="{% url  'general:service-details' 'advertising' %}#Radio">Radio</a></li>
+							   									<li><a href="{% url 'general:service-details' 'advertising' %}#TV">TV</a></li>
+							   									<li><a href="{% url 'general:service-details' 'advertising' %}#scripting&amp;story-boarding">Scripting/Story-Boarding</a></li>
+							   									<li><a href="{% url 'general:service-details' 'advertising' %}#Audio/Visual-content-production">Audio/Visual Content Production</a></li>
+							   									<a href="{% url 'general:service-details' 'advertising' %}" class="why-link">Why Choose EasyPR Advertising</a>
+							   								</ul>
+							   							</div>
+							   						</div>
+							   						
+							   						<div class="gap-10"></div>
+
+							   						<div class="row">
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'general:service-details' 'content-writing-and-marketing' %}" class="header-link">Content Writing/Marketing</a>
+							   								<ul>
+							   									<li><a href="{% url 'general:service-details' 'content-writing-and-marketing' %}#press-release">Press/Release</a></li>
+							   									<li><a href="{% url 'general:service-details' 'content-writing-and-marketing' %}#feature-articles">Feature Articles</a></li>
+							   									<li><a href="{% url 'general:service-details' 'content-writing-and-marketing' %}#speeches">Speeches</a></li>
+							   									<li><a href="{% url 'general:service-details' 'content-writing-and-marketing' %}#product-reviews">Product Reviews</a></li>
+							   									<li><a href="{% url 'general:service-details' 'content-writing-and-marketing' %}#content-marketing">Content Marketing</a></li>
+							   									<a href="{% url 'general:service-details' 'content-writing-and-marketing' %}" class="why-link">Why Choose EasyPR Content Marketing</a>
+							   								</ul>
+							   							</div>
+
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'general:service-details' 'sme-start-up-toolkit' %}" class="header-link">SME Start-Up Toolkit</a>
+							   								<ul>
+							   									<li><a href="{% url 'general:service-details' 'sme-start-up-toolkit' %}#Brand-Design-and-logo">Brand Design &amp; Logo</a></li>
+							   									<li><a href="{% url 'general:service-details' 'sme-start-up-toolkit' %}#Go-to-market-Strategy-and-Consulting">Go-to-market Strategy/Consultancy</a></li>
+							   									<li><a href="{% url 'general:service-details' 'sme-start-up-toolkit' %}#Brand-Collaterals">Brand Collaterals</a></li>
+							   									<li><a href="{% url 'general:service-details' 'sme-start-up-toolkit' %}#Website-Development">Website Development</a></li>
+							   									<a href="#" class="why-link">Why Choose EasyPR Start-Up Toolkit?</a>
+							   								</ul>
+							   							</div>
+							   						</div>
+							   						
+							   						<div class="gap-10"></div>
+
+							   						<div class="row">
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'general:service-details' 'sales-and-marketing' %}" class="header-link">Sales &amp; Marketing</a>
+							   								<ul>
+							   									<li><a href="{% url 'general:service-details' 'sales-and-marketing' %}#Blogger-Distribution">Blogger Distribution</a></li>
+							   									<li><a href="{% url 'general:service-details' 'sales-and-marketing' %}#Social-Media-Influencing">Social Media Influencing</a></li>
+							   									<li><a href="{% url 'general:service-details' 'sales-and-marketing' %}#Social-Media-Ads">Social Media Ads</a></li>
+							   									<li><a href="{% url 'general:service-details' 'sales-and-marketing' %}#Digital-marketing-bundles">Digital Marketing Bundles</a></li>
+							   									<a href="{% url 'general:service-details' 'sales-and-marketing' %}" class="why-link">Why Choose EasyPR Sales &amp; Marketing</a>
+							   								</ul>
+							   							</div>
+
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'general:service-details' 'events-bureau' %}" class="header-link">Events Bureau</a>
+							   								<ul>
+							   									<li><a href="{% url 'general:service-details' 'sales-and-marketing' %}#Event-Concept-And-Management">Event Concept/Management</a></li>
+							   									<li><a href="{% url 'general:service-details' 'sales-and-marketing' %}#Conference-And-Seminar-Delegate">Conference/Seminar Delegate Bureau</a></li>
+							   									<li><a href="{% url 'general:service-details' 'sales-and-marketing' %}#Conference-Bureau">Sponsorship Bureau</a></li>
+							   									<li><a href="{% url 'general:service-details' 'sales-and-marketing' %}#Speaker-Bureau">Speaker Bureau</a></li>
+							   									<a href="{% url 'general:service-details' 'sales-and-marketing' %}" class="why-link">Why Choose EasyPR Events Bureau</a>
+							   								</ul>
+							   							</div>
+							   						</div>
+
+							   						<div class="gap-20"></div>
+							   						<div class = "row text-center">
+									   					<!-- <div class="col-sm-12"> -->
+									   						<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="btn btn-easypr btn-warning bg-royal"><small>NOT SURE? <br/>FIND THE RIGHT STRATEGY FOR YOU </small></a>
+									   					<!-- </div> -->
+									   					<br/>
+									   					<!-- <div class="text-primary"> OR </div> -->
+									   					<!-- <div class="col-sm-12"> -->
+									   						<!-- <a href="see more" class="btn btn-secondary bg-gray">SUBMIT YOUR CONTENT </a> -->
+									   					<!-- </div> -->
+									   				</div>
+									   				<div class="gap-10"></div>
+							   					</div>
+							   				<!-- </div> -->
+							   				
+
+							   			</div>
+
+							   			<!-- right image tile panel -->
+							   			<div class="col-md-5 text-center image-tiles">
+							   				<strong class="text-white pull-left">OR Select from our <span class="text-warning">BESPOKE</span> plans </strong>
+							   				<div class="gap-20"></div>
+							   				<div class="row"> <!-- new row -->
+							   					<div class="col-md-6">
+							   						<a href="">
+														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
+													</a>
+							   					</div>
+
+							   					<div class="col-md-6">
+							   						<a href="">
+														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
+													</a>
+							   					</div>
+
+							   				</div> <!-- row ends -->
+
+							   				<div class="row"> <!-- new row -->
+							   					<div class="col-md-6">
+							   						<a href="">
+														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
+													</a>
+							   					</div>
+
+							   					<div class="col-md-6">
+							   						<a href="">
+														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
+													</a>
+							   					</div>
+
+							   				</div> <!-- row ends -->
+
+
+							   				<div class="row"> <!-- new row -->
+							   					<div class="col-md-6">
+							   						<a href="">
+														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
+													</a>
+							   					</div>
+
+							   					<div class="col-md-6">
+							   						<a href="">
+														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
+													</a>
+							   					</div>
+
+							   				</div> <!-- row ends -->
+
+							   				<div class="gap-20"></div>
+							   				<div class = "row">
+							   					<div class="col-sm-12">
+							   						<a href="{% url 'easypr_ng:service-plans' %}" class="btn btn-easypr btn-warning">See More </a>
+							   					</div>
+							   				</div>
+
+							   			</div> <!-- col 6 ends -->
+							   		</div>
 			                   </ul>
 			               </li>
 
-			              <!--  <li class="dropdown">
-			                  <a href="{% url 'easypr_ng:our-works' %}">Media Desk </a>
-			               </li> -->
+
 
 			               <li class="dropdown">
 			                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Media Desk
-			                  	<!-- <i class="fa fa-angle-down"></i> -->
 			                  </a>
-								<ul class="dropdown-menu" role="menu">
-									<li>dropdown content </li>
-		                           <!-- <li><a href="{% url 'general:about-us'%}#about-us">About Us</a></li>
-		                           <li><a href="{% url 'general:about-us'%}#the-team">The Team</a></li>
-		                           <li><a href="{% url 'general:about-us'%}#reviews">Client Reviews</a></li>
-		                           <li><a href="{% url 'general:about-us'%}#our-partners">Our Partners</a></li>
-		                           <li><a href="{% url 'general:careers' %}">Join Us</a></li>
-		                      	   <li><a href=" url 'easypr_ng:request-service' %}">Let us work for you</a></li> -->
+								<ul class="dropdown-menu media-desk" role="menu">
+									<div class="row">
+										<div class="col-md-6 left-border-dashed">
+										</div>
+										<div class="col-md-6 text-center left-border-dashed">
+											<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
+										</div>
+									</div>
 			                    </ul>
 			               </li>
 			               <li class="dropdown">
@@ -187,7 +323,6 @@
 			               			<a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account</a>
 			               			<ul class="dropdown-menu" role="menu">
 			               			   <li><a href="{% url 'general:user-dashboard' %}">Dashboard</a></li>
-
 			                           <li><a href="{% url 'general:about-us'%}#the-team">The Team</a></li>
 			                           <li><a href="{% url 'general:about-us'%}#reviews">Client Reviews</a></li>
 			                           <li><a href="{% url 'general:about-us'%}#our-partners">Our Partners</a></li>
@@ -392,7 +527,7 @@
 			        	</div>
 			        	<div class="ts-service-box-info">
 			          	<h3><a href="#">Content Writing</a></h3>
-			          	<p>We boast of one of the most competent content writing team in Africa with strategic affiliate partners of brand writers from different media across the three different markets that we operate in. Why not take advantage of our services today by reaching out to us for... <a href="{% url 'general:services' %}">more</a></p>
+			          	<p>We boast of one of the most competent content writing team in Africa with strategic affiliate partners of brand writers from different media across the three different markets that we operate in. Why not take advantage of our services today by reaching out to us for... <a href="{% url 'general:service-details' 'pr-distribution' %}">more</a></p>
 			        </div>
 			      </div><!-- Service 1 end -->
 
@@ -403,7 +538,7 @@
 			        	<div class="ts-service-box-info">
 			          	<h3><a href="#">Press Release Syndication</a></h3>
 			          	<p>
-			          		Our services also entail writing press releases and syndicating to our vast network of contacts across the markets we operate in. We know the platforms that will sell that your product and when exactly that content should be placed... <a href="{% url 'general:services' %}">more</a>
+			          		Our services also entail writing press releases and syndicating to our vast network of contacts across the markets we operate in. We know the platforms that will sell that your product and when exactly that content should be placed... <a href="">more</a>
 			          	</p>
 			        </div>
 			      </div><!-- Service 2 end -->
@@ -414,7 +549,7 @@
 			        	</div>
 			        	<div class="ts-service-box-info">
 			          	<h3><a href="#">Media Relations Consulting</a></h3>
-			          	<p>Today, growth in different media has produced the need for tailored and specialised handling of messages. Television, email, radio, print, social media name just a few of the areas companies have to be sure to have presence in. Each of these media ... <a href="{% url 'general:services' %}">more</a></p>
+			          	<p>Today, growth in different media has produced the need for tailored and specialised handling of messages. Television, email, radio, print, social media name just a few of the areas companies have to be sure to have presence in. Each of these media ... <a href="">more</a></p>
 			        </div>
 			      </div><!-- Service 3 end -->
 
@@ -441,7 +576,7 @@
 			        	</div>
 			        	<div class="ts-service-box-info">
 			          	<h3><a href="#">General Media Services</a></h3>
-			          	<p>Yadel Communications is a media services company and as such we do not just restrict our activities to media relations. We also help clients plan and implement branding strategies. So do you need a hand in printing those branding materials...  <a href="{% url 'general:services' %}">more</a></p>
+			          	<p>Yadel Communications is a media services company and as such we do not just restrict our activities to media relations. We also help clients plan and implement branding strategies. So do you need a hand in printing those branding materials...  <a href="">more</a></p>
 			        </div>
 			      </div><!-- Service 2 end -->
 			      <div class="ts-service-box text-center">

@@ -1,0 +1,55 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %} {{ service.name|title }} Services{% endblock title %}
+
+
+
+{% block inner_content %}
+
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner2.jpg' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12">
+	        			<div class="banner-heading">
+	        				<h1 class="banner-title title-border-left">Service Plans display </h1>
+	        				<p class="banner-desc text-justify bg-white text-dark" style="padding:10px;opacity:1; font-size:14px;">{{ service.description|capfirst }}</p>
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       		</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
+
+
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				{% for item in service.serviceitem_set.all %}
+					<div class="col-md-4">
+					   <div class="ts-service-box" id="{{ item.name_slug }}">
+					      <div class="ts-service-image-wrapper">
+					         	<img class="img-responsive" src="{{ item.image.url }}" alt="easypr-services">
+					      </div>
+					      <div class="ts-service-info">
+					      	<div class="ts-service-icon">
+				          		<i class="fa fa-{{ item.icon_text }} text-danger"></i>
+				          		<h3>{{ item.name }}</h3>
+				        		</div>
+				        	</div><!-- Service info end -->
+				      	<div class="ts-service-box-content text-justify">
+					        <p>{{ item.description }}</p>
+					        <p>
+						        <a class="btn btn-easypr bg-royal" href="#">
+						         	<i class="fa fa-caret-right"></i> &nbsp; {{ item.call_to_action }}
+						        </a>        
+		                    </p>       
+				      	</div>
+					   </div><!-- Service1 end -->
+					</div><!-- Col 1 end -->
+
+				{% endfor %}
+	</section><!-- Main container end -->
+		
+{% endblock inner_content %}

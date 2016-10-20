@@ -9,12 +9,35 @@
 
 
 .btn-custom-lg-blue {
-	/*border: thin solid red; */
+	border: thin solid blue; 
 	border-radius: 0px; 
 	width: 100%; 
 	text-transform: none; 
 	padding:15px;"
 }
+
+.btn-easypr {
+	width: 90% !important;
+	font-weight: bold;
+	color: #e7ffe1 !important;
+	/*color: blue !important;*/
+	text-transform: uppercase !important;
+	border: 2px solid orange !important;
+	background-color: transparent; !important;
+	/*background-color: #777777 !important;*/
+	border-radius: 5px;
+	padding: 15px;
+	margin: 7.5px;
+}
+
+.btn-easypr:hover,
+.btn-easypr:active {
+	background-color: #ffffff !important;
+	color: #012e5b !important;
+
+}
+
+
 
 .no-border-radius {
 	border-radius:0px;
@@ -37,6 +60,19 @@
 
 .bg-white {
 	background-color: #ffffff;
+}
+
+.bg-gray {
+	background-color: #555555 !important;
+}
+
+.bg-royal {
+	background-color: #012e5b !important;
+}
+
+.bg-dark {
+	background-color: #222222 !important;
+	color: #ffffff;
 }
 
 .bg-info {
@@ -665,13 +701,200 @@ img.feature-img-lg:focus,
 
 
 
+.menu-board {
+	width: 580px;
+	float: left;
+	clear:both;
+	margin-right: 0 0 1em 0;
+	background-color: #ffffff;
+	border: 2px solid #ffa500;  
+	min-height: 250px;
+	right: 100px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	
+}
+
+.menu-board  .image-tiles .row  {
+	margin-bottom: 20px !important;
+	margin-top: 10px !important;
+}
+
+
+.menu-board  .image-tiles .row:first {
+	margin-top: 15px !important;
+}
+
+
+.menu-board  .image-tiles {
+	border-bottom-right-radius: 11px !important;
+}
+
+.menu-board  .image-tiles .row:last-child {
+	margin-bottom: 5px !important;
+}
+
+.menu-board .image-tiles .thumbnail {
+	border-radius: 2px !important; 
+	padding:2px !important; 
+	/*border:none !important;*/
+	min-height: 106px;
+	/*width: 125px !important;*/
+}
+
+
+.menu-board .header-link {
+	text-transform: capitalize;
+	font-weight: bold;
+	font-family:'Dosis', sans-serif;
+	display: block;
+	line-height: 12px;
+	font-size:  12px;
+
+}
+
+.menu-board .header-link:hover,
+.menu-board .header-link:focus {
+	color: #ffa500;
+	background-color: transparent;
+}
+
+
+.menu-board .feature-links {
+	border-bottom-left-radius: 10px;
+}
+
+.menu-board .why-link {
+	text-transform: capitalize;
+	font-weight: normal;
+	font-size: 12px;
+	font-family:'Dosis', sans-serif;
+	display: block;
+	line-height: 14px;
+	padding-top:5px;
+}
+
+.left-border-dashed {
+	border-left: 2px solid #ffffff;
+}
+
+.menu-board .feature-list {
+	/*width: 50%;*/
+	display: inline;
+}
+
+
+.menu-board .feature-list ul {
+	padding: 0px !important;
+	list-style: none !important;
+	/*width: 100%;*/
+	
+}
+
+.menu-board .feature-list ul li a {
+	border: 0 !important;
+	border-bottom: 0 !important;
+	font-weight: normal;
+	font-size: 12px;
+	padding: 3px;
+	color: #333;
+	line-height: 12px;
+}
+
+
+
+.menu-board .feature-list ul li a:hover,
+.menu-board .feature-list ul li a:active {
+	color: #ffa500;
+	background-color: transparent;
+}
+
+
+.media-desk {
+	width: 450px;
+	float: left;
+	clear:both;
+	margin-right: 0 0 1em 0;
+	background-color: #012e5b;
+	border: 2px solid #ffa500;  
+	min-height: 250px;
+	right: 100px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+
+/*.menu-board .col-md-7 ul li {
+	list-style: none !important;
+	border: 0px !important;
+}
+
+.menu-board .drop-menu-board {
+	padding:10px;
+}
+
+
+.menu-board ul li a {
+	font-weight: normal !important;
+}*/
+
+
+/*.wdt-60 {
+	width: 60%;
+	display: block;
+}
+
+.wdt-40 {
+	width: 40%;
+	display: block;
+}*/
+
+
+/*.menu-board:hover {
+	float: left;
+	clear:right;
+	right: 10px;
+}*/
 
 
 
 
 
 
+/*.nav {
+	width: 100%;
+	float: left;
+	margin: 0 0 1em 0;
+	padding: 0;
+	background-color: #ffffff;
+	border-bottom: 1px solid #ccc;  
+	min-height: 250px;
+}
+.nav ul {
+	list-style: none;
+	width: 800px;
+	margin: 0 auto;
+	padding: 0; 
+}
+.nav li {
+	float: left; 
+}
+.nav li a {
+	display: block;
+	padding: 8px 15px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #069;
+	border-right: 1px solid #ccc; 
+}
 
+.nav li:first-child a {
+	border-left: 1px solid #ccc; 
+}
+.nav li a:hover {
+	color: #c00;
+	background-color: #fff; 
+}
+*/
 
 
 

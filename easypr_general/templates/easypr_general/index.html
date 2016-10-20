@@ -2,9 +2,9 @@
 {% load staticfiles %}
 
 {% block bouquets %}
-	<section id="main-container" class="main-container">
+	<section id="main-container" class="main-container" style="grayscale: 0.6;">
 		<div class="container">
-			<div class="row text-center">
+			<div class="row text-center text-white">
 				<h3 class="title-border">
 					<span id="packages"></span>
 					<!-- Best Offer -->
@@ -18,7 +18,7 @@
 					<!-- left pane -->
 					<div class="col-md-3">
 						<div class="feature-tile-lg">
-							<a href="">
+							<a href="{% url 'general:service-details' 'press-release-distribution' %}">
 								<img class="feature-img-lg" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
 							</a>
 						</div>
@@ -101,7 +101,7 @@
 				</div>
 				<div class="gap-10"></div>
 				<div class="col-md-12 text-center">
-					<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="slider btn btn-orange btn-orange-lg">Not Sure? Find The Right Strategy For Your Brand.</a>
+					<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="slider btn btn-easypr bg-royal">Not Sure? Find The Right Strategy For Your Brand.</a>
 				</div>
 			</div>
 

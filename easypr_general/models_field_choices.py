@@ -110,6 +110,15 @@ ACTION_STATUS = (('contacted', 'contacted',),
         )
 
 
+SERVICE_TYPE = (
+		('Press Release Distribution', 'Press Release Distribution'),
+		('Content Writing and Marketing', 'Content Marketing'),
+		('Advertising', 'Advertising'),
+		('SME Marketing', 'SME Marketing'),
+		('Sales and Marketing', 'Sales and Marketing'),
+		('Events Bureau','Events Bureau'),
+		('Blogger Distribution', 'Blogger Distribution'),
+	)
 
 
 

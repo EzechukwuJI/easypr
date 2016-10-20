@@ -322,7 +322,7 @@ def validate_post_keys(request, keys_dict):
     rp = request.POST
     r_dict = {}
     for key in keys_dict.keys():
-        print "expected type: ", keys_dict[key][0]
+        # print "expected type: ", keys_dict[key][0]
         if rp.has_key(key):
             if keys_dict[key][0] == "unit":
                 r_dict[key]  = rp[key]
@@ -437,6 +437,12 @@ def strategyPlannerView(request, step,  anon_userID):
     return render(request, template, context)
 
 
+
+
+def packagePlanView(request):
+    context = {}
+    template = 'easypr_ng/package-plans.html'
+    return render(request, template, context)
 
 
 

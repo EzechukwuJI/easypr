@@ -3,7 +3,7 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User 
-from models_field_choices import TITLE, COUNTRIES, FEEDBACK_STATUS
+from models_field_choices import TITLE, COUNTRIES, FEEDBACK_STATUS, SERVICE_TYPE
 # , ECONOMY_SECTOR
 from easypr.settings import VAT
 
@@ -85,4 +85,75 @@ class PwResetRecord(models.Model):
 
     def __unicode__(self):
         return '%s, %s'  %(self.user, self.expired)
+
+
+
+
+
+class ServiceCategory(models.Model):
+  name          =    models.CharField(max_length = 175, choices = SERVICE_TYPE, default = "Press Release Distribution")
+  name_slug     =    models.CharField(max_length = 175)
+  description   =    models.TextField(max_length = 1000)
+
+
+  def __unicode__(self):
+    return '%s' %(self.name)
+
+
+  def save(self, *args, **kwargs):
+    self.name_slug = slugify(self.name)
+    super(ServiceCategory, self).save(*args, **kwargs)
+
+
+
+
+
+class ServiceItem(models.Model):
+  category           =    models.ForeignKey(ServiceCategory)
+  name               =    models.CharField(max_length = 100)
+  name_slug          =    models.CharField(max_length = 175)
+  # icon               =    models.FileField(upload_to ='services_icon',  null = True, blank = True)
+  image              =    models.FileField(upload_to ='services_image', null = True, blank = True)
+  description        =    models.TextField(max_length = 750)
+  call_to_action     =    models.CharField(max_length = 75, null = True, blank = True)
+  icon_text          =    models.CharField(max_length = 75, null = True, blank = True)
+
+
+  def __unicode__(self):
+    return '%s - %s' %(self.category, self.name)
+
+
+  def save(self, *args, **kwargs):
+    self.name_slug = slugify(self.name)
+    super(ServiceItem, self).save(*args, **kwargs)
+
+
+
+
+
+
+
+
+# def save(self, *args, **kwargs):
+#     self.name_slug  = slugify(self.name)
+
+#     amount_to_pay_N = self.price_per_media_N * self.num_of_media
+#     amount_to_pay_D = self.price_per_media_D * self.num_of_media
+
+#     if amount_to_pay_N > amount_payable_N:
+#       saved_N = (amount_to_pay_N - amount_payable_N)
+
+#       self.percentage_savings = (saved_N/amount_payable_N) * 100
+#     super(Bouquet, self).save(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from easypr_general.models import UserAccount, Address, LatestNews, ClientFeedback, PwResetRecord
+from easypr_general.models import UserAccount, Address, LatestNews, ClientFeedback, PwResetRecord, ServiceCategory, ServiceItem
 
 
 
@@ -16,3 +16,5 @@ admin.site.register(Address)
 admin.site.register(LatestNews)
 admin.site.register(ClientFeedback)
 admin.site.register(PwResetRecord)
+admin.site.register(ServiceCategory)
+admin.site.register(ServiceItem)
