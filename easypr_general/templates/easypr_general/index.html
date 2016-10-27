@@ -18,12 +18,12 @@
 					<!-- left pane -->
 					<div class="col-md-3">
 						<div class="feature-tile-lg">
-							<a href="{% url 'general:service-details' 'press-release-distribution' %}">
+							<a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}">
 								<img class="feature-img-lg" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
 							</a>
 						</div>
 						<!-- <div class="view-feature-detail-lg text-center">
-							<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+							<a href= " url 'easypr_ng:product-detail' " >View Detail</a>
 						</div> -->
 					</div>
 					<!-- center to right pane  -->
@@ -31,34 +31,34 @@
 						<div class="col-md-12">
 							<div class="col-md-4"> 
 								<div class="feature-tile-sm">
-									<a href="">
+									<a href="{% url 'easypr_ng:service-details' 'content-writing-and-marketing' %}">
 										<img class="feature-img-sm" src="{% static 'easypr/images/services/content-marketing.jpg' %}" alt="image content marketing " />
 									</a>
 								</div>
 								<!-- <div class="view-feature-detail text-center">
-									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+									<a href= " url 'easypr_ng:product-detail' " >View Detail</a>
 								</div> -->
 							</div>
 
 							<div class="col-md-4"> 
 								<div class="feature-tile-sm">
-									<a href="">
+									<a href="{% url 'easypr_ng:service-details' 'advertising' %}">
 										<img class="feature-img-sm" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
 									</a>
 								</div>
 								<!-- <div class="view-feature-detail text-center">
-									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+									<a href= " url 'easypr_ng:product-detail' " >View Detail</a>
 								</div> -->
 							</div>
 
 							<div class="col-md-4"> 
 								<div class="feature-tile-sm">
-									<a href="">
+									<a href="{% url 'easypr_ng:service-details' 'sme-start-up-toolkit' %}">
 										<img class="feature-img-sm" src="{% static 'easypr/images/services/sme-marketing.jpg' %}" alt="sme marketing" />
 									</a>
 								</div>
 								<!-- <div class="view-feature-detail text-center">
-									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+									<a href= " url 'easypr_ng:product-detail' " >View Detail</a>
 								</div> -->
 							</div>
 						</div>
@@ -66,32 +66,32 @@
 						<div class="col-md-12">
 							<div class="col-md-4"> 
 								<div class="feature-tile-sm">
-									<a href="">
+									<a href="{% url 'easypr_ng:service-details' 'events-bureau' %}">
 										<img class="feature-img-sm" src="{% static 'easypr/images/services/sales-marketing.jpg' %}" alt="image events bureau" />
 									</a>
 								</div>
 								<!-- <div class="view-feature-detail text-center">
-									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+									<a href= " url 'easypr_ng:product-detail' " >View Detail</a>
 								</div> -->
 							</div>
 							<div class="col-md-4"> 
 								<div class="feature-tile-sm bg-info">
-									<a href="">
-										<img class="feature-img-sm" src="{% static 'easypr/images/services/events-bureau.jpg' %}" alt="image sales marketing" />
+									<a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/events-bureau.jpg' %}" alt="image sales and marketing" />
 									</a>
 								</div>
 								<!-- <div class="view-feature-detail text-center">
-									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+									<a href= " url 'easypr_ng:product-detail' " >View Detail</a>
 								</div> -->
 							</div>
 							<div class="col-md-4"> 
 								<div class="feature-tile-sm bg-info">
-									<a href="">
-										<img class="feature-img-sm" src="{% static 'easypr/images/services/marketing-bundles.jpg' %}" alt=""/>
+									<a href="{% url 'easypr_ng:bundle-plans' %}">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/marketing-bundles.jpg' %}" alt="marketing bundles"/>
 									</a>
 								</div>
 								<!-- <div class="view-feature-detail text-center">
-									<a href= "{% url 'general:product-detail' %}" >View Detail</a>
+									<a href= " url 'easypr_ng:product-detail' " >View Detail</a>
 								</div> -->
 							</div>
 							
@@ -99,7 +99,7 @@
 						
 					</div>
 				</div>
-				<div class="gap-10"></div>
+				<div class="gap-30"></div>
 				<div class="col-md-12 text-center">
 					<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="slider btn btn-easypr bg-royal">Not Sure? Find The Right Strategy For Your Brand.</a>
 				</div>
@@ -125,7 +125,7 @@
 				<div class="row">
 					{% for post in recent_posts %}
 						<div class="col-sm-3">
-							<div style="border: thin solid #c8c8c8;border-radius: 0px; margin-top:5px; padding:8px; display:block; text-align: left; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+							<div style="border: thin solid #ffffff;border-radius: 0px; margin-top:5px; padding:8px; display:block; position:relative; text-align: left; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.19);">
 								<div class="latest-post">
 								{% if post.featured_image %}
 									<div class="latest-post-media">

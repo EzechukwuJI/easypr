@@ -11,12 +11,12 @@ urlpatterns  =  [
              
 	url(r'^$',                         				views.indexView,                name='homepage'),
 	url(r'^who-we-are/$',                			views.aboutUsView,              name='about-us'),
-	url(r'^services/(?P<service_category>[-\w]+)/$',         views.servicesView,             name='service-details'),
+	# url(r'^services/(?P<service_category>[-\w]+)/$',         views.servicesView,             name='service-details'),
 	url(r'^contact_us/$',      		   				views.contactView,              name='contact-us'),
 	url(r'^user/sign-up/$',         		   	    views.createUserAccount,        name='sign-up'),
 	
 	url(r'^user/dashboard$',         		   	     views.userDashboard,        name='user-dashboard'),
-	url(r'^product/detail/product-name/$',         	 views.productDetails,        name='product-detail'),
+	# url(r'^product/detail/product-name/$',         	 views.productDetails,        name='product-detail'),
 	
 	url(r'^login/$',           		   				views.loginView,          		name='login'),
 	url(r'^logout/$',          		   				views.logOutView,         		name='logout'),

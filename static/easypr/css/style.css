@@ -549,7 +549,8 @@ ul.list-arrow li:before {
 
 .header{
    background: #fff;
-   padding: 40px 0;
+   padding: 20px 0;
+   /*padding: 40px 0;*/
 }
 
 .navbar-fixed {

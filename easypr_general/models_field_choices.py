@@ -105,9 +105,19 @@ PR_FREQUENCY  = (
                 
         )
 
-ACTION_STATUS = (('contacted', 'contacted',),
+ACTION_STATUS = (
+				 ('new', 'new'),
+				 ('contacted', 'contacted',),
+				 ('in_progress','In progress',),
                  ('closed', 'closed',),  
-        )
+        	)
+
+REQUEST_OUTCOME   =  (
+				   ('success', 'success',),
+				   ('declined','declined',),
+				   ('deferred','deferred',),
+				   ('dropped','dropped',)
+				)
 
 
 SERVICE_TYPE = (
@@ -121,6 +131,11 @@ SERVICE_TYPE = (
 	)
 
 
+ACTION_TYPE = (
+		('select_service',  'select service'),
+		('submit_content',  'submit content'),
+		('request_service', 'request service'),
+	)
 
 
 

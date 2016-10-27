@@ -3,9 +3,9 @@ import string
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 
 
-def transaction_ref(transaction_type, model):
+def transaction_ref(transaction_type, model, stringlength):
 	prefix = transaction_type[:2].upper()
-	random_chars = "".join([random.choice(string.ascii_uppercase + string.digits) for n in range(10)])
+	random_chars = "".join([random.choice(string.ascii_uppercase + string.digits) for n in range(stringlength)])
 	trx_id = prefix + str(random_chars)
 	return trx_id if not model.objects.filter(transaction_id = trx_id).exists() else transaction_ref(transaction_type,model)	
 
@@ -14,6 +14,9 @@ def transaction_ref(transaction_type, model):
 def get_random_code(stringlength):
     random_chars = "".join([random.choice(string.ascii_letters + string.digits) for n in range(stringlength)])
     return random_chars
+
+# def get_ticket_number(stringlength, model, allowed_chars = None):
+
 
 
 

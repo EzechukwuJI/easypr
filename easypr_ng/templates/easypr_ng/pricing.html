@@ -1,0 +1,30 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}{{ service_type|capfirst }} Request {% endblock title %}
+{% block inner_content %}
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner2.jpg' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12 text-center">
+	        			<div class="banner-heading">
+	        				<h1 class="banner-title title-border-left">Request a service</h1>
+	        				<!-- <p class="banner-desc">caption here</p> -->
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       		</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
+
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-md-12 sticky-page bg-white">
+					<h2 class="error-code"><a href="{% url 'easypr_ng:buy-package' press_material='press-release' package='single' %}" > buy package</a></h2>
+				</div>
+			</div><!-- Main row end -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}

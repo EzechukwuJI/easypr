@@ -41,9 +41,18 @@
 				      	<div class="ts-service-box-content text-justify">
 					        <p>{{ item.description }}</p>
 					        <p>
-						        <a class="btn btn-easypr bg-royal" href="#">
-						         	<i class="fa fa-caret-right"></i> &nbsp; {{ item.call_to_action }}
-						        </a>        
+					        	{% if item.action_type == "select_service" %}
+					        		<a class="btn btn-easypr bg-royal" href="{% url 'easypr_ng:get-started' item.category.name_slug item.name_slug %}">
+					        			<i class="fa fa-caret-right"></i> &nbsp; {{ item.call_to_action }}</a>
+					        	{% elif item.action_type == "submit_content" %}
+					        		<a class="btn btn-easypr bg-royal" href="{% url 'easypr_ng:submit-content' item.category.name_slug item.name_slug %}">
+					        			<i class="fa fa-caret-right"></i> &nbsp; {{ item.call_to_action }}</a>
+					        	{% elif item.action_type == "request_service" %}
+					        		<a class="btn btn-easypr bg-royal" href="{% url 'easypr_ng:request-service' item.category.name_slug item.name_slug %}">
+					        			<i class="fa fa-caret-right"></i> &nbsp; {{ item.call_to_action }}</a>
+						           
+					        	{% endif %}
+						         	
 		                    </p>       
 				      	</div>
 					   </div><!-- Service1 end -->

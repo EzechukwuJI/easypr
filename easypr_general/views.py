@@ -36,6 +36,7 @@ def  indexView(request):
 
 
 def  createUserAccount(request):
+    print "it came to this spot"
     template = 'easypr_general/sign-up.html'
     form = UserRegistrationForm()
     context = {}
@@ -53,14 +54,10 @@ def  createUserAccount(request):
                 user.set_password(rp['password']) 
                 user.save()
                 UserAccount.objects.create(user = user, registration_code = reg_code, address = address)
-
                 confirmation_link = current_site(request) + "/confirm-registration/" + reg_code
-
                 message = "Hello " + rp['first_name'].title() + ",<br/><br/>"
                 message += "Thank you for signing up on our portal. Click <a href=" + confirmation_link + "> here </a> to confirm your email address."
                 message +=  "<br/> If the link above is not responding, copy the link below and paste into your browser. <br/><br/>" + confirmation_link
-               
-                
                 notify  = EmailMessage(subject= '[Easypr.ng] Confirm your registration', body = message, to =[rp['email']])
                 notify.content_subtype = 'html'
                 # notify.send(fail_silently = False)
@@ -75,11 +72,6 @@ def  createUserAccount(request):
     # return redirect(request.META['HTTP_REFERER'])
 
 
-
-
-
-
-
 def confirmEmail(request,code):
     user_to_confirm = UserAccount.objects.filter(registration_code = code, is_confirmed = False) # try get_object_or_404
     if user_to_confirm.exists():
@@ -88,12 +80,6 @@ def confirmEmail(request,code):
     else:
         pass
     return redirect(reverse('general:login'))
-
-
-
-
-
-
 
 
 def  loginView(request):
@@ -146,10 +132,6 @@ def  loginView(request):
     return render(request, 'easypr_general/login.html', {'form':form})
 
 
-
-
-
-
 def forgotPasswordView(request, **kwargs):
     code = get_random_code(35)
     message = ""
@@ -166,9 +148,7 @@ def forgotPasswordView(request, **kwargs):
             except:
                 messages.warning(request, "A password reset link has already been sent to " + user[0].email)
                 return render(request, 'easypr_general/reset-password.html', {'search_user':True, 'reset_pw':False, 'link_sent':True, 'email':useremail,})
-            
             reset_link  =   current_site(request) + "/reset-password/Qcr=" + code
-            
             message  = "Hello " + user[0].first_name.title() 
             message += ", <br/><br/> We are sorry to hear you lost your password, but not to worry it happens to the best of us *winks* "
             message += ", <br/> Use this <a href=' " + reset_link + " '> Link </a> to reset your password. <br/>The link is active for one hour."
@@ -267,20 +247,16 @@ def  aboutUsView(request):
 # def  TandCView(request):
 #     return render(request, 'yadel/general/tandc.html', {})
 
-def  servicesView(request, service_category):
-    context = {}
-    # service = get_object_or_404(ServiceCategory, name_slug = service_category)
-    service   =   ServiceCategory.objects.filter(name_slug = service_category)
-    if not service.exists():
-        # return redirect('/404.html')
-        message = "service not found"
-        return render(request, '404.html', {'response': message})
+# def  servicesView(request, service_category):
+#     context = {}
+#     service   =   ServiceCategory.objects.filter(name_slug = service_category)
+#     if not service.exists():
+#         message = "service not found"
+#         return render(request, 'easypr_general/coming-soon.html', {'response': message})
     
-    context['service-list'] = service[0].serviceitem_set.all()
-    context['service'] = service[0]
-    # context['service-name'] = service.name
-    
-    return render(request, 'easypr_general/services-details.html', context)
+#     context['service-list'] = service[0].serviceitem_set.all()
+#     context['service'] = service[0]
+#     return render(request, 'easypr_general/services-details.html', context)
 
 
 
@@ -291,9 +267,9 @@ def  careersView(request):
 
 
 
-def   productDetails(request):
-    template = 'easypr_general/product-details.html'
-    return render(request, template, {})
+# def   productDetails(request):
+#     template = 'easypr_general/product-details.html'
+#     return render(request, template, {})
 
 
 

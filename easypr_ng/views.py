@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from easypr_ng.models import *
 from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list
+from easypr_general.models import ServiceCategory
 # from easypr_ng.models import MediaHouse, MediaContact, PressMaterial, Redirect_url, Publication, PublicationImage, \
 # Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform, Comment, CommentReply
 
@@ -44,8 +45,7 @@ def  indexView(request):
 
 
 
-def requestServiceView(request):
-    return render(request, 'easypr_ng/request-a-service.html', {})
+
 
 
 
@@ -60,7 +60,7 @@ def ourWorksView(request):
 
 
 def create_post(request, press_material):
-    transaction_id = transaction_ref("publication", Publication)
+    transaction_id = transaction_ref("publication", Publication, 10)
     rp = request.POST
     title = rp['post_title']
     posted_by = request.user
@@ -88,8 +88,8 @@ def create_post(request, press_material):
 
 
 def create_purchase_record(request, bouquet,publication):
-    tr_id       =  transaction_ref("purchase", Purchase)
-    pay_id      =  transaction_ref("payment",  PayDetails)
+    tr_id       =  transaction_ref("purchase", Purchase, 10)
+    pay_id      =  transaction_ref("payment",  PayDetails, 10)
     pay_details =  PayDetails.objects.create(user = request.user, transaction_id = pay_id)
 
     new_purchase = Purchase.objects.create(user = request.user, transaction_id = tr_id, bouquet = bouquet,
@@ -439,10 +439,44 @@ def strategyPlannerView(request, step,  anon_userID):
 
 
 
-def packagePlanView(request):
+
+
+def  servicesView(request, service_category):
+    context = {}
+    service   =   ServiceCategory.objects.filter(name_slug = service_category)
+    if not service.exists():
+        message = "service not found"
+        return render(request, 'easypr_general/coming-soon.html', {'response': message})
+    context['service-list'] = service[0].serviceitem_set.all()
+    context['service'] = service[0]
+    return render(request, 'easypr_general/services-details.html', context)
+
+
+def bundlePlanView(request):
     context = {}
     template = 'easypr_ng/package-plans.html'
     return render(request, template, context)
+
+
+def get_startedView(request, category,item):
+    template = "easypr_ng/pricing.html"
+    return render(request, template, {})
+
+
+def submitContentView(request, category, item):
+    template = "easypr_ng/submit-content.html"
+    return render(request, template, {})
+
+
+def requestServiceView(request, category, item):
+    print "it came here"
+    template = "easypr_ng/request-service.html"
+    return render(request, template, {})
+
+
+
+
+
 
 
 

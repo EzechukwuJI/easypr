@@ -3,17 +3,32 @@
 
 {% block title %}content upload section{% endblock title %}
 {% block inner_content %}
+
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner1.jpg' %}); height:100px !important;">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12 text-center">
+	        			<div class="banner-heading">
+	        				<h1 class="banner-title title-border-left">Content Upload Section</h1>
+	        				<!-- <p class="banner-desc">caption here</p> -->
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       		</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
 	
 	<section id="main-container" class="main-container">
 		<div class="container">
-
 			<div class="row">
 				<form action = "" method="post" enctype="multipart/form-data">
 					{% csrf_token %}
+					<div class="col-md-1"></div>
 					<!-- content upload panel -->
-					<div class="col-md-9">
-						<div class="error-message">
-							<h3>Content Upload Section</h3>
+					<div class="col-md-10 sticky-page bg-white">
+						<div>
+							<!-- <h3>Content Upload Section</h3> -->
 						</div>
 						<div class="well well-default no-border-radius" role = "Public alert">
 							<span class="text-danger">
@@ -114,26 +129,27 @@
 									<!-- <textarea name="post_body" class="form-control no-border-radius bg-white" rows=20 placeholder ="Type or copy and paste content here" = 20 required></textarea> -->
 									{{ form.post_body }}
 									<span class="text-danger pull-right">
-										500 characters 
+										1000 characters 
 									</span>
 
 									<br/>
 									<!-- <input type="checkbox" name="publish_online" value="false"/> -->
-									{{ form.publish_online }} <strong>Do you want this post to be published online also?</strong>
-									<p> &nbsp; </p>
+									<!-- {{ form.publish_online }} <strong>Do you want this post to be published online also?</strong> -->
+									<!-- <p> &nbsp; </p> -->
 									<input type ="submit" value = "proceed" class="btn btn-primary pull-right" />
 								</div>
 							</div>
 
 						</div>
 					</div>
+					<div class="col-md-1"></div>
 
 					<!-- Right panel -->
-					<div class="col-md-3">
+					<!-- <div class="col-md-3">
 						<div class="well well-default no-border-radius" role = "right panel">
 							something here
 						</div>
-					</div>
+					</div> -->
 				</form>
 			</div><!-- Content row -->
 		</div><!-- Conatiner end -->
@@ -141,6 +157,29 @@
 
 	
 {% endblock inner_content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

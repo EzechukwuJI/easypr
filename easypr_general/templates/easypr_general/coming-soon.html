@@ -1,0 +1,24 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+{% block title %}page coming soon{% endblock title %}
+{% block inner_content %}
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				<div class="error-page text-center">
+					<!-- <div class="error-code">
+						<h2><strong>Page coming Soon</strong></h2>
+					</div> -->
+					<div class="error-message text-center">
+						<img class="img-responsive" src="{% static 'easypr/images/features/coming_soon.png' %}" alt="easypr-services">
+						<h3>Yipeee! Thank you for checking</h3>
+					</div>
+					<div class="error-body">
+						<br>
+						<a href="/" class="btn btn-primary">Back to Home Page</a>
+					</div>
+				</div>
+			</div><!-- Content row -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}

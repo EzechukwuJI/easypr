@@ -48,8 +48,10 @@ INSTALLED_APPS = (
     'easypr_general',
     'easypr_ng',
     'easypr_admin',
-   
 )
+
+# if not os.environ.get('RDS_DB_NAME'):
+#     INSTALLED_APPS += 'debug_toolbar',
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -3,7 +3,7 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User 
-from models_field_choices import TITLE, COUNTRIES, FEEDBACK_STATUS, SERVICE_TYPE
+from models_field_choices import TITLE, COUNTRIES, FEEDBACK_STATUS, SERVICE_TYPE, ACTION_TYPE
 # , ECONOMY_SECTOR
 from easypr.settings import VAT
 
@@ -112,11 +112,11 @@ class ServiceItem(models.Model):
   category           =    models.ForeignKey(ServiceCategory)
   name               =    models.CharField(max_length = 100)
   name_slug          =    models.CharField(max_length = 175)
-  # icon               =    models.FileField(upload_to ='services_icon',  null = True, blank = True)
   image              =    models.FileField(upload_to ='services_image', null = True, blank = True)
   description        =    models.TextField(max_length = 750)
   call_to_action     =    models.CharField(max_length = 75, null = True, blank = True)
   icon_text          =    models.CharField(max_length = 75, null = True, blank = True)
+  action_type        =    models.CharField(max_length = 175, choices = ACTION_TYPE, default = "")
 
 
   def __unicode__(self):

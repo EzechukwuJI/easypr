@@ -3,16 +3,34 @@
 
 {% block title %}content upload section{% endblock title %}
 {% block inner_content %}
+	<!-- <div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner2.jpg' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12 text-center">
+	        			<div class="banner-heading">
+	        				<h1 class="banner-title title-border-left">Preview Your Content</h1>
+	        				<!-- <p class="banner-desc">caption here</p> 
+	        			</div>
+	        		</div> --><!-- Col end 
+	        	</div><!-- Row end 
+       		</div><!-- Container end
+    	</div><!-- Banner text end 
+	</div><!-- Banner area end --> 
+
 	<section id="main-container" class="main-container">
 		<div class="container">
 			<div class="row">
-				<h3>Content Preview Section</h3>
+				<!-- <h3>Content Preview Section</h3> -->
 				<!-- <hr style="margin:0px;" /> -->
-				<div class="col-md-9" style="color:#000000;">
-
-					<div class="well well-default no-border-radius">
-						<h3> {{ post.post_title|title }} </h3>
-						<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-10">
+					<div class="panel">
+						<div class="panel-heading bg-royal"><h4 class="text-white">PREVIEW YOUR SUBMISSION</h4></div>
+						<!-- <div class="well well-default no-border-radius"> -->
+						<h4 style="font-family:verdana;"> {{ post.post_title|title }} </h4>
+						<div class="gap-10"></div>
+						<div class="row well well-warning">
 							<div class="col-md-6">
 								<strong>PLATFORM:  </strong> {{ post.platform }}<br/>
 								<strong>SECTOR:  </strong> {{ post.sector }}<br/>
@@ -23,43 +41,31 @@
 								<strong>SELECTED CATEGORY: </strong> {{ post.press_material }}
 							</div>
 						</div>
+						<div class="gap-10"></div>
+						<div class="row well well-default bg-gray text-white">
+							{% for image in post.get_images %}
+								<div class="col-md-3">
+									<img src="{{ image.image.url }}" class="thumbnail" style="height:165px; width:185px;" alt="Easypr Nigeria" /> <br/>
+									<span>{{ image.caption }}</span>
+								</div>
+							{% endfor %}
+						</div>
+						<div class="gap-10"></div>
+						<div class="row well well-info no-border-radius bg-white text-justify">
+							{{ post.post_body }}
+						</div>
+						<hr/>
+						<!-- <div class="panel-footer bg-royal"> -->
+						<div class="row no-border-radius bg-white">
+							<a href="{% url 'easypr_ng:payment' transaction_id=post.transaction_id %}" class="btn btn-primary pull-right"> Proceed </a>
+							<a href="{% url 'easypr_ng:buy-package' press_material=post.press_material|slugify package="single" %}" class="btn btn-primary pull-left"> Back </a>
+						</div>
+						<!-- </div> -->
 					</div>
-					<div class="row">
-						{% for image in post.get_images %}
-							<div class="col-md-3">
-								<img src="{{ image.image.url }}" class="thumbnail" style="height:165px; width:185px;" alt="Easypr Nigeria" /> <br/>
-								<span>{{ image.caption }}</span>
-							</div>
-						{% endfor %}
-					</div>
-					<p> &nbsp; </p>
-
-					<div class="well well-default no-border-radius bg-white">
-						{{ post.post_body }}
-					</div>
-
-
-
-					<hr/>
-					<div class="row no-border-radius bg-white">
-						<a href="{% url 'easypr_ng:payment' transaction_id=post.transaction_id %}" class="btn btn-primary pull-right"> Proceed </a>
-
-						
-
-						<a href="{% url 'easypr_ng:buy-package' press_material=post.press_material|slugify package="single" %}" class="btn btn-primary pull-left"> Back </a>
-					
-					
-					</div>
-
-
-				</div>
-				<div class="col-md-3">
-					right side note
 				</div>
 			</div><!-- Content row -->
 		</div><!-- Conatiner end -->
 	</section><!-- Main container end -->
-	
 {% endblock inner_content %}
 
 
