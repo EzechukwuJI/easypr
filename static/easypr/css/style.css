@@ -1280,15 +1280,15 @@ ul.navbar-nav > li > a i{
    position: relative;
 }
 
-.ts-service-box{
+.ts-service-box {
    padding: 10px 0;
 }
 
 .ts-service-box-icon i{
-   font-size: 24px;
-   width: 60px;
-   height: 60px;
-   line-height: 60px;
+   font-size: 60px;
+   width: 120px;
+   height: 120px;
+   line-height: 120px;
    border-radius: 100%;
    background: #f3f3f3;
    color: #012e5b;
@@ -1297,6 +1297,27 @@ ul.navbar-nav > li > a i{
    -moz-transition: all 0.3s;
    -o-transition: all 0.3s;
    transition: all 0.3s;
+}
+
+.ts-service-box-icon img{
+   font-size: 60px;
+   width: 120px;
+   height: 120px;
+   line-height: 120px;
+   border-radius: 100%;
+   background: #f3f3f3;
+   color: #012e5b;
+   text-align: center;
+   -webkit-transition: all 0.3s;
+   -moz-transition: all 0.3s;
+   -o-transition: all 0.3s;
+   transition: all 0.3s;
+}
+
+
+.ts-service-box:hover .ts-service-box-icon img{
+   background: #fce329;
+   color: #fff;
 }
 
 .ts-service-box:hover .ts-service-box-icon i{
@@ -1309,13 +1330,17 @@ ul.navbar-nav > li > a i{
    margin: 10px 0;
 }
 
+.ts-service-box-info p {
+  color: #e0e0e0;
+}
+
 .ts-service-box-info h3 a{
    color: #303030;
 }
 
 /* Icon left */
 
-.ts-service-box.icon-left .ts-service-box-icon{
+.ts-service-box.icon-left .ts-service-box-icon {
    float: left;
 }
 

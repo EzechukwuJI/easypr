@@ -1,7 +1,7 @@
 {% extends 'easypr_general/base.html' %}
 {% load staticfiles %}
 
-{% block title %}{{ service_type|capfirst }} Request {% endblock title %}
+{% block title %}choose a {{ service_type }} plan {% endblock title %}
 {% block inner_content %}
 	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner2.jpg' %})">
 		<div class="banner-text">
@@ -9,7 +9,7 @@
 	        	<div class="row">
 	        		<div class="col-xs-12 text-center">
 	        			<div class="banner-heading">
-	        				<h1 class="banner-title title-border-left">Request a service</h1>
+	        				<h1 class="banner-title title-border-left">Pricing </h1>
 	        				<!-- <p class="banner-desc">caption here</p> -->
 	        			</div>
 	        		</div><!-- Col end -->
@@ -22,7 +22,55 @@
 		<div class="container">
 			<div class="row text-center">
 				<div class="col-md-12 sticky-page bg-white">
-					<h2 class="error-code"><a href="{% url 'easypr_ng:buy-package' press_material='press-release' package='single' %}" > buy package</a></h2>
+					<h2 class="error-code"><a href="{% url 'easypr_ng:buy-package' press_material='press-release' package='single' %}" > Choose the plan that suits you</a></h2>
+					<div class="gap-10"></div>
+					<table class="table table-striped">
+						<thead>
+							<th class="no-border">Features</th>
+							<th class="text-center">Plan 1</th>
+							<th class="active-plan text-center">Plan 2</th>
+							<th class="text-center">Plan 3</th>
+							<th class="text-center">Plan 4</th>
+						</thead>
+						<tbody>
+							<tr style="border: 1px solid #c8c8c8 !important;">
+								<td>seo optimisation </td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
+							</tr>
+							<tr style="border: 1px solid #c8c8c8 !important;">
+								<td>seo optimisation </td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
+							</tr>
+							<tr style="border: 1px solid #c8c8c8 !important;">
+								<td>seo optimisation </td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
+							</tr>
+							<tr style="border: 1px solid #c8c8c8 !important;">
+								<td>seo optimisation </td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
+							</tr>
+							<tr style="border: 1px solid #c8c8c8 !important;">
+								<td>seo optimisation </td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
+								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
+							</tr>
+							
+						</tbody>
+					</table>
 				</div>
 			</div><!-- Main row end -->
 		</div><!-- Conatiner end -->

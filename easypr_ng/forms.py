@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from easypr_ng.models import *
 from easypr_general.models import *
 from easypr_general.models_field_choices import *
+from django.forms import modelform_factory,Select,TextInput,Textarea,CheckboxInput,EmailInput
+# from django
 # from multiupload.fields import MultiFileField
 
 
@@ -63,11 +65,30 @@ class TargetAudienceForm(forms.ModelForm):
 
 
 
+# class ServiceRequestForm(forms.ModelForm):
+# 	service_type      =    forms.CharField(max_length = 200, widget=forms.TextInput(attrs={'class' : 'form-control no-border-radius title bg-white', 'required':'required'}))
 
 
 
+# AuthorFormSet = modelformset_factory(
+# ...     Author, fields=('name', 'title'),
+# ...     widgets={'name': Textarea(attrs={'cols': 80, 'rows': 20})})
 
-
+ServiceRequestForm = modelform_factory(ServiceRequest, 
+	exclude=('ticket_number','status','request_outcome',
+	'contacted_by','closed_by','date_requested','date_closed',), 
+	widgets={
+	'service_type':Select(choices = SERVICE_TYPE, attrs={'class':'form-control','required':'required'}),
+	'sector':Select(choices = ECONOMY_SECTOR, attrs={'class':'form-control','required':'required'}),
+	'brief_description':Textarea(attrs={'cols':80,'class':'form-control','required':'required'}),
+	'target_media':Select(attrs={'class':'form-control','required':'required'}),
+	'time_service_needed':TextInput(attrs={'class':'form-control','required':'required'}),
+	'preferred_call_time':TextInput(attrs={'class':'form-control','required':'required'}),
+	'allow_call':CheckboxInput(attrs={'class':'form-control','required':'required'}),
+	'contact_person':TextInput(attrs={'class':'form-control','required':'required'}),
+	'contact_email':EmailInput(attrs={'class':'form-control','required':'required'}),
+	'phone_number':EmailInput(attrs={'class':'form-control','required':'required'})
+	})
 
 
 

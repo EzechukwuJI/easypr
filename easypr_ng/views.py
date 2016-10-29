@@ -16,7 +16,7 @@ from easypr_general.models import ServiceCategory
 # from easypr_ng.models import MediaHouse, MediaContact, PressMaterial, Redirect_url, Publication, PublicationImage, \
 # Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform, Comment, CommentReply
 
-from easypr_ng.forms import ContentUploadForm, BizInfoForm, TargetAudienceForm
+from easypr_ng.forms import ContentUploadForm, BizInfoForm, TargetAudienceForm,ServiceRequestForm
 from easypr_general.models_field_choices import PR_FREQUENCY
 import datetime
 
@@ -459,8 +459,10 @@ def bundlePlanView(request):
 
 
 def get_startedView(request, category,item):
+    context = {}
+    context['form'] = ServiceRequestForm
     template = "easypr_ng/pricing.html"
-    return render(request, template, {})
+    return render(request, template, context)
 
 
 def submitContentView(request, category, item):
@@ -469,9 +471,10 @@ def submitContentView(request, category, item):
 
 
 def requestServiceView(request, category, item):
-    print "it came here"
+    context['form'] = ServiceRequestForm
+
     template = "easypr_ng/request-service.html"
-    return render(request, template, {})
+    return render(request, template, context)
 
 
 

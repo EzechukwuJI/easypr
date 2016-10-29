@@ -2,14 +2,14 @@
 {% load staticfiles %}
 
 {% block bouquets %}
-	<section id="main-container" class="main-container" style="grayscale: 0.6;">
+	<section id="main-container" class="main-container">
 		<div class="container">
 			<div class="row text-center text-white">
 				<h3 class="title-border">
 					<span id="packages"></span>
 					<!-- Best Offer -->
-					<span class="title-head">Marketing Made Simple &amp; Affordable.</span><br/>
-					<p>See the plan that suits your needs. Our team is here to help you.</p>
+					<span class="title-head">Affordable Targetted Marketing Solutions </span>
+					<p style="font-size: 30px; padding-top:15px; text-transform:none;">To Help Build Your Brand</p>
 				</h3>
 			</div><!--/ Title row end -->
 
@@ -19,7 +19,7 @@
 					<div class="col-md-3">
 						<div class="feature-tile-lg">
 							<a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}">
-								<img class="feature-img-lg" src="{% static 'easypr/images/services/service1.jpg' %}" alt="" />
+								<img class="feature-img-lg" src="{% static 'easypr/images/services/press-distribution.jpg' %}" alt="EasyPR press distribution" />
 							</a>
 						</div>
 						<!-- <div class="view-feature-detail-lg text-center">
@@ -101,16 +101,16 @@
 				</div>
 				<div class="gap-30"></div>
 				<div class="col-md-12 text-center">
-					<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="slider btn btn-easypr bg-royal">Not Sure? Find The Right Strategy For Your Brand.</a>
+					<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="slider btn btn-easypr bg-royal" style="font-size:25px;">Not Sure? Find The Right Strategy For Your Brand.</a>
 				</div>
 			</div>
-
 		</div><!-- Conatiner end -->
 	</section><!-- Main container end -->
 {% endblock bouquets %}
 
 {% block latest-news %}
 	{% if recent_posts %}
+		<div class="gap-10"></div>
 		<section id="news" class="news">
 			<div class="container">
 				<div class="row text-center">
@@ -119,9 +119,7 @@
 						<span>Latest News Around The World</span>
 					</h3>
 				</div><!--/ Title row end -->
-
-				<div class="gap-20"></div>
-
+				<div class="gap-10"></div>
 				<div class="row">
 					{% for post in recent_posts %}
 						<div class="col-sm-3">

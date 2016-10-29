@@ -53,7 +53,6 @@
 	<div id="top-bar" class="top-bar">
 		<div class="container">
 			<div class="row">
-				
 				<div class="col-md-6 col-sm-6 col-xs-12 top-social">
 					<ul class="unstyled">
 						<li>
@@ -74,32 +73,24 @@
 							</a>
 						</li>
 					</ul>
-				</div><!--/ Top social end -->
+				</div> <!--/ Top social end -->
 
 				<div class="col-md-6 col-sm-6 col-xs-12 top-menu ">
 					<ul class="unstyled">
-						<!-- <li><a href="#">About</a></li> -->
-						<!-- <li><a data-target="#how-it-works-modal" data-toggle="modal" data-dismiss="modal" style="cursor:pointer">How It Works</a></li> -->
-						<!-- <li><a data-target="#how-it-works-modal" data-toggle="modal" data-dismiss="modal" style="cursor:pointer">How It Works</a></li> -->
 						<li><span class="phone" >080-12345678456</span></li>
 						<li><a href="{% url 'general:how-it-works' %}" class="btn-custom border-rounded-white" >How It Works</a></li>
-						<!-- <li><a href="{% url 'general:faq' %}">FAQs</a></li> -->
 						{% if user.is_authenticated %}
 							<li><a href="{% url 'general:logout' %}"><i class="fa fa-sign-out"> </i> Logout</a></li>
 						{% else %}
 							<li><a href="{% url 'general:login' %}"> Login</a></li>
 							<li><a href="{% url 'general:sign-up' %}" class="btn-orange btn-custom" ><i class="fa fa-user-plus"> </i> SIGN UP</a></li>
-							
-							<!-- <li><a href="#" data-target="#sign-up-modal" data-dismiss="modal" data-toggle="modal">Sign up</a></li> -->
-							<!-- <li><a href="#" data-target="#sign-up-modal" data-dismiss="modal" data-toggle="modal">Sign up</a></li> -->
 						{% endif %}
-
 					</ul>
 				</div><!--/ Top menu end -->
-
 			</div><!--/ Content row end -->
 		</div><!--/ Container end -->
 	</div><!--/ Topbar end -->
+
 
 	<!-- Header start -->
 	<header id="header" class="header-white">
@@ -107,10 +98,10 @@
 			<div class="row">
 				<div class="navbar-header">
 					<div class="logo">
-	                <a href="{% url 'general:homepage' %}">
-	                	<img src="{% static 'easypr/images/easyprlogo2.jpg' %}" alt="easypr Nigeria logo">
-	                </a>
-         		</div><!-- logo end -->
+		                <a href="{% url 'general:homepage' %}">
+		                	<img src="{% static 'easypr/images/easyprlogo2.jpg' %}" alt="easypr Nigeria logo">
+		                </a>
+	         		</div><!-- logo end -->
 				</div>
 
 				<div class="site-nav-inner">
@@ -244,13 +235,23 @@
 														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
 													</a>
 							   					</div>
-
 							   					<div class="col-md-6">
 							   						<a href="">
 														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
 													</a>
 							   					</div>
-
+							   				</div> <!-- row ends -->
+							   				<div class="row"> <!-- new row -->
+							   					<div class="col-md-6">
+							   						<a href="">
+														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
+													</a>
+							   					</div>
+							   					<div class="col-md-6">
+							   						<a href="">
+														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
+													</a>
+							   					</div>
 							   				</div> <!-- row ends -->
 
 							   				<div class="row"> <!-- new row -->
@@ -259,23 +260,6 @@
 														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
 													</a>
 							   					</div>
-
-							   					<div class="col-md-6">
-							   						<a href="">
-														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
-													</a>
-							   					</div>
-
-							   				</div> <!-- row ends -->
-
-
-							   				<div class="row"> <!-- new row -->
-							   					<div class="col-md-6">
-							   						<a href="">
-														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
-													</a>
-							   					</div>
-
 							   					<div class="col-md-6">
 							   						<a href="">
 														<img class="thumbnail" src="{% static 'easypr/images/services/advertising.jpg' %}" alt="image advertising" />
@@ -490,7 +474,8 @@
 		</div><!--/ Container end 
 	</section> Feature end -->
 
-	<section class="call-to-action no-padding bg-overlay">
+
+	<!-- <section class="call-to-action no-padding bg-overlay">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -507,236 +492,125 @@
 					</div>
 				</div>
 			</div>
-		</div><!--/ Container end -->
-   </section><!-- Call to Action end -->
+		</div>
+   </section> -->
 
 
-	<section id="ts-service-area" class="ts-service-area">
+	<section id="ts-service-area" class="ts-service-area glossy-gray" style= "border-top: 2px solid orange; border-bottom: 2px solid orange;">
 		<div class="container">
 			<div class="row text-center">
-				<h2 class="title-border">Lets help you
-					<span>Build Your Brand</span>
+				<h2 class="title-border text-white">Lets help you
+					<span class="text-white">Build Your Brand</span>
 				</h2>
 			</div><!--/ Title row end -->
-
 			<div class="row">
 				<div class="col-md-4">
 					<div class="ts-service-box text-center">
 			        	<div class="ts-service-box-icon">
-			          	<i class="fa fa-line-chart"></i>
+			          		<img src="{% static 'easypr/images/icons/brand-promotion.png' %}" />
 			        	</div>
 			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">Content Writing</a></h3>
-			          	<p>We boast of one of the most competent content writing team in Africa with strategic affiliate partners of brand writers from different media across the three different markets that we operate in. Why not take advantage of our services today by reaching out to us for... <a href=" url 'general:service-details' 'pr-distribution' %}">more</a></p>
-			        </div>
-			      </div><!-- Service 1 end -->
-
-			      <div class="ts-service-box text-center">
-			        	<div class="ts-service-box-icon">
-			          	<i class="fa fa-money"></i>
-			        	</div>
-			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">Press Release Syndication</a></h3>
-			          	<p>
-			          		Our services also entail writing press releases and syndicating to our vast network of contacts across the markets we operate in. We know the platforms that will sell that your product and when exactly that content should be placed... <a href="">more</a>
-			          	</p>
-			        </div>
-			      </div><!-- Service 2 end -->
-
-			      <div class="ts-service-box text-center">
-			        	<div class="ts-service-box-icon">
-			          	<i class="fa fa-calculator"></i>
-			        	</div>
-			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">Media Relations Consulting</a></h3>
-			          	<p>Today, growth in different media has produced the need for tailored and specialised handling of messages. Television, email, radio, print, social media name just a few of the areas companies have to be sure to have presence in. Each of these media ... <a href="">more</a></p>
-			        </div>
-			      </div><!-- Service 3 end -->
-
-				</div><!-- Col end -->
-
-				<div class="col-md-4 text-center">
-					<img class="service-single-img" src="{% static 'easypr/images/services/service-single.png' %}" alt="" />
-				</div><!-- Col end -->
+				          	<h3><a href="#" class="text-white">Content Writing</a></h3>
+				          	<p>We boast of one of the most competent content writing team in Africa with strategic affiliate partners of brand writers from different media across the three different markets that we operate in. Why not take advantage of our services today by reaching out to us for... <a href=" url 'general:service-details' 'pr-distribution' %}">more</a></p>
+				        </div>
+			      	</div>
+				</div>
 
 				<div class="col-md-4">
 					<div class="ts-service-box text-center">
 			        	<div class="ts-service-box-icon">
-			          	<i class="fa fa-university"></i>
+			          		<img src="{% static 'easypr/images/icons/general media services.png' %}" />
 			        	</div>
 			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">Brand Promotion</a></h3>
-			          	<p>create content for this</p>
-			        </div>
-			      </div><!-- Service 1 end -->
+				          	<h3><a href="#" class="text-white">Press Release Syndication</a></h3>
+				          	<p>
+				          		Our services also entail writing press releases and syndicating to our vast network of contacts across the markets we operate in. We know the platforms that will sell that your product and when exactly that content should be placed... <a href="">more</a>
+				          	</p>
+				        </div>
+			      	</div><!-- Service 2 end -->
+				</div>
 
-			      <div class="ts-service-box text-center">
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
 			        	<div class="ts-service-box-icon">
-			          	<i class="fa fa-briefcase"></i>
+			          		<img src="{% static 'easypr/images/icons/marketing consulting.png' %}" />
 			        	</div>
 			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">General Media Services</a></h3>
-			          	<p>Yadel Communications is a media services company and as such we do not just restrict our activities to media relations. We also help clients plan and implement branding strategies. So do you need a hand in printing those branding materials...  <a href="">more</a></p>
-			        </div>
-			      </div><!-- Service 2 end -->
-			      <div class="ts-service-box text-center">
+				          	<h3><a href="#" class="text-white">Media Relations Consulting</a></h3>
+				          	<p>Today, growth in different media has produced the need for tailored and specialised handling of messages. Television, email, radio, print, social media name just a few of the areas companies have to be sure to have presence in. Each of these media ... <a href="">more</a></p>
+				        </div>
+			      	</div>
+				</div>
+			</div>
+			<!-- bottom service row -->
+			<div class="row">
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
 			        	<div class="ts-service-box-icon">
-			          	<i class="fa fa-umbrella"></i>
+			          		<img src="{% static 'easypr/images/icons/multimedia-marketing.png' %}" />
 			        	</div>
 			        	<div class="ts-service-box-info">
-			          	<h3><a href="#">Content Distribution</a></h3>
-			          	<p>create content for this</p>
-			        </div>
-			      </div><!-- Service 3 end -->
-				</div><!-- Col end -->
-			</div><!-- Content row end -->
+				          	<h3><a href="#" class="text-white">Brand Promotion</a></h3>
+				          	<p>create content for this</p>
+				        </div>
+			      	</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          		<img src="{% static 'easypr/images/icons/performance-management.png' %}" />
+			        	</div>
+			        	<div class="ts-service-box-info">
+				          	<h3><a href="#" class="text-white">General Media Services</a></h3>
+				          	<p>Yadel Communications is a media services company and as such we do not just restrict our activities to media relations. We also help clients plan and implement branding strategies. So do you need a hand in printing those branding materials...  <a href="">more</a></p>
+				        </div>
+			      	</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          	<img src="{% static 'easypr/images/icons/sme-marketing.png' %}" />
+			        	</div>
+			        	<div class="ts-service-box-info">
+				          	<h3><a href="#" class="text-white">Content Distribution</a></h3>
+				          	<p>create content for this</p>
+				        </div>
+			      	</div>
+				</div>
+			</div>
 		</div><!--/ Container end -->
 	</section><!-- Service end -->
 
 	
-
-
-	<!-- <section id="ts-content" class="ts-content no-padding">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-6 ts-padding left">
-					<div class="featured-tab">
-						<ul class="nav nav-tabs">
-						  	<li class="active">
-						  		<a class="animated fadeIn" href="#tab_a" data-toggle="tab">
-						  			<span class="tab-head">
-										<span class="tab-text-title">Who We Are</span>					
-									</span>
-						  		</a>
-						  	</li>
-						  	<li>
-							  	<a class="animated fadeIn" href="#tab_b" data-toggle="tab">
-							  		<span class="tab-head">
-										<span class="tab-text-title">Core Values</span>					
-									</span>
-							  	</a>
-							</li>
-						 	<li>
-							  	<a class="animated fadeIn" href="#tab_c" data-toggle="tab">
-							  		<span class="tab-head">
-										<span class="tab-text-title">Diversity &amp; Inclusion</span>					
-									</span>
-							  	</a>
-							</li>
-						</ul> -->
-
-						<!-- <div class="tab-content">
-					      <div class="tab-pane active animated fadeInRight" id="tab_a">
-					        	<div class="tab-wrapper">
-						         <p class="lead">We have been providing stability and reliability to our clients since 1859 to help them live their lives with confidence, to give them peace of mind, and enable them to realize their dreams.</p>
-						         
-									<div class="ts-service-box icon-left">
-							        	<div class="ts-service-box-icon">
-							          	<i class="fa fa-clock-o"></i>
-							        	</div>
-							        	<div class="ts-service-box-info">
-							          	<h3>Anytime, Anywhere</h3>
-							          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
-							        </div>
-							      </div><!-- Service 1 end 
-
-							      <div class="ts-service-box icon-left">
-							        	<div class="ts-service-box-icon">
-							          	<i class="fa fa-heart"></i>
-							        	</div>
-							        	<div class="ts-service-box-info">
-							          	<h3>Keep Getting Better</h3>
-							          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
-							        </div>
-							      </div> --><!-- Service 2 end -->
-
-					        	<!-- </div> -->
-					      <!-- </div> --><!-- Tab pane end -->
-
-				        <!-- <div class="tab-pane animated fadeInRight" id="tab_b">
-				            <div class="ts-service-box icon-left">
-						        	<div class="ts-service-box-icon">
-						          	<i class="fa fa-balance-scale"></i>
-						        	</div>
-						        	<div class="ts-service-box-info">
-						          	<h3>Integrity, above all</h3>
-						          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
-						        </div>
-						      </div> --><!-- Service 1 end -->
-
-						      <!-- <div class="ts-service-box icon-left">
-						        	<div class="ts-service-box-icon">
-						          	<i class="fa fa-heartbeat"></i>
-						        	</div>
-						        	<div class="ts-service-box-info">
-						          	<h3>We are prudent</h3>
-						          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
-						        </div>
-						      </div> --><!-- Service 2 end -->
-
-						      <!-- <div class="ts-service-box icon-left">
-						        	<div class="ts-service-box-icon">
-						          	<i class="fa fa-thumbs-up"></i>
-						        	</div>
-						        	<div class="ts-service-box-info">
-						          	<h3>We are responsible</h3>
-						          	<p>Lorem ipsum dolor sit amet, sectetur adipiscing elit. Integer suscipit congue turpis nec finibus</p>
-						        </div>
-						      </div> --><!-- Service 3 end -->				 
-				        <!-- </div> --><!-- Tab pane end -->
-
-				        	<!-- <div class="tab-pane animated fadeInLeft" id="tab_c">
-				            <p class="tab-icon pull-left"><i class="fa fa-universal-access">&nbsp;</i></p>
-				            <h3>"We promote diversity because we can’t deliver on our strategy without it"</h3>
-								<p>None quis nibh vel erat tincidunt pretium. In sit amet massa sapien. Vestibulum diam turpis, gravida in lobortis id, ornare a eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sagittis nulla non elit dignissim suscipit. Duis lorem nulla, eleifend.</p>
-								<p>Ut urna dui, interdum non blandit sed, hendrerit ultricies mi. Aliquam at scelerisque ligula. Curabitur id laoreet velit.</p>
-				        	</div>	
-						</div> --><!-- tab content -->
-					<!-- </div> --><!-- Featured tab end -->
-					
-				
-				<!-- </div> --><!-- Content left -->
-
-				<!-- <div class="col-md-6 ts-padding right" style="height:600px;background:url({% static 'easypr/images/content-bg.jpg) 50% 50% / cover no-repeat;">
-					<a class='popup' href="http://player.vimeo.com/video/100195272?autoplay=1&amp;loop=1" style="position: relative;">
-                  <div class="video-icon">
-                  	<i class="fa fa-play-circle"></i>
-               	</div>
-            	</a>
-				</div> --><!-- Content right -->
-
-			<!-- </div> --><!--/ Content row end -->
-		<!-- </div> --><!--/ Container end -->
-	<!-- </section> --><!-- Content end -->
-
-	<!-- <section id="testimonial" class="testimonial">
+	<section id="testimonial" class="testimonial hidden">
 		<div class="container">
 			<div class="row text-center">
 				<h3 class="title-border">
 					We Give Trusts
 					<span>Testimonials</span>
 				</h3>
-			</div><!/ Title row end -->
+			</div><!-- Title row end -->
 
-			<!-- <div class="row">
+			<div class="row">
 				<div id="testimonial-slide" class="owl-carousel owl-theme testimonial-slide">
 				  <div class="item">
 				     <div class="quote-item">
 				         <span class="quote-text">
 				           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inci done idunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitoa tion ullamco laboris nisi ut aliquip commodo.
 				         </span>
-
 				         <div class="quote-item-footer">
 				         	<img class="testimonial-thumb" src="{% static 'easypr/images/clients/testimonial1.png' %}" alt="testimonial">
 				         	<div class="quote-item-info">
 				         		<span class="quote-author">Deslie Telley</span>
 					         	<span class="quote-subtext">Manager</span>
 				         	</div>
-				         </div> -->
-				    <!--  </div> --><!-- Quote item end -->
-				  <!-- </div> --><!--/ Item 1 end -->
+				         </div>
+					</div><!-- Quote item end -->
+				</div><!--/ Item 1 end -->
 
-				   <!-- <div class="item">
+				<div class="item">
 				     <div class="quote-item">
 				         <span class="quote-text">
 				           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inci done idunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitoa tion ullamco laboris nisi aliquip consequat.
@@ -749,15 +623,14 @@
 					         	<span class="quote-subtext">Director</span>
 				         	</div>
 				         </div>
-				     </div> --><!-- Quote item end -->
-				  <!-- </div> --><!--/ Item 2 end -->
+				     </div><!-- Quote item end -->
+				</div><!--/ Item 2 end -->
 
-				  	<!-- <div class="item">
+				<div class="item">
 				     <div class="quote-item">
 				         <span class="quote-text">
 				           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inci done idunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitoa tion ullamco laboris nisi ut commodo consequat.
 				         </span>
-
 				         <div class="quote-item-footer">
 				         	<img class="testimonial-thumb" src="{% static 'easypr/images/clients/testimonial3.png' %}" alt="testimonial">
 				         	<div class="quote-item-info">
@@ -765,10 +638,10 @@
 					         	<span class="quote-subtext">Official</span>
 				         	</div>
 				         </div>
-				     </div> --><!-- Quote item end -->
-				  	<!-- </div> --><!--/ Item 3 end -->
+				     </div><!-- Quote item end -->
+				</div><!--/ Item 3 end -->
 
-				  	<!-- <div class="item">
+				<div class="item">
 				     <div class="quote-item">
 				         <span class="quote-text">
 				           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inci done idunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitoa tion ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -781,10 +654,10 @@
 					         	<span class="quote-subtext">Accountant</span>
 				         	</div>
 				         </div>
-				     </div> --><!-- Quote item end -->
-				  	<!-- </div> --><!--/ Item 4 end -->
+				     </div><!-- Quote item end -->
+				</div><!--/ Item 4 end -->
 
-				  	<!-- <div class="item">
+				<div class="item">
 				     <div class="quote-item">
 				         <span class="quote-text">
 				           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inci done idunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitoa tion ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -797,19 +670,15 @@
 					         	<span class="quote-subtext">Official</span>
 				         	</div>
 				         </div>
-				     </div> --><!-- Quote item end -->
-				  	<!-- </div> --><!--/ Item 5 end -->
-				<!-- </div> --><!--/ Testimonial carousel end-->
-			<!-- </div> --><!--/ Content row end -->
-		<!-- </div> --><!--/ Container end -->
-	<!-- </section> --><!--/ Testimonial end -->
-
-
-	{% block latest-news %}
+				     </div><!-- Quote item end -->
+				</div><!--/ Item 5 end -->
+			</div><!--/ Testimonial carousel end-->
+		</div><!--/ Content row end -->
+	</div><!--/ Container end -->
+</section><!--/ Testimonial end -->
+{% block latest-news %}
 		
-	{% endblock latest-news %}
-
-
+{% endblock latest-news %}
 	{% block media-partners %}
 	   <!-- Partners start -->
 		<section id="partners-area" class="partners-area">

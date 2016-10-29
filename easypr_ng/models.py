@@ -394,7 +394,8 @@ class  ServiceRequest(models.Model):
 
   contact_person          =     models.CharField(max_length = 125)
   contact_email           =     models.EmailField(max_length = 255)
-  phone_number            =     models.IntegerField(max_length = 15)
+  phone_number            =     models.CharField(max_length = 15)
+  
   status                  =     models.CharField(max_length = 25, choices = ACTION_STATUS, default = "new")
   request_outcome         =     models.CharField(max_length = 25, choices = REQUEST_OUTCOME)
 
@@ -425,7 +426,7 @@ class  InterviewRequest(models.Model):
 
   contact_person               =     models.CharField(max_length = 125)
   contact_email                =     models.EmailField(max_length = 255)
-  phone_number                 =     models.IntegerField()
+  phone_number                 =     models.CharField(max_length = 15)
   person_to_be_interviewed     =     models.CharField(max_length = 125)
 
   status                       =     models.CharField(max_length = 25, choices = ACTION_STATUS, default = "new")
