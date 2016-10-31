@@ -1,7 +1,7 @@
 from django.contrib import admin
 from easypr_ng.models import  MediaHouse, MediaContact,PressMaterial, Redirect_url, \
 Publication,PublicationImage,Purchase,PayDetails,PurchaseInvoice, Bouquet,MediaPlatform, Sector, \
-Comment, CommentReply, PRStrategy, InterviewRequest, ServiceRequest
+Comment, CommentReply, PRStrategy, InterviewRequest, ServiceRequest, Packages
 
 
 class MediaHouseAdmin(admin.ModelAdmin):
@@ -61,6 +61,17 @@ class ServiceRequestAdmin(admin.ModelAdmin):
 
 
 
+class PackagesAdmin(admin.ModelAdmin):
+	list_display = ('name', 'category','price_naira', 'price_dollar', 'active')
+	list_filter = ('category',)
+	
+
+
+
+
+
+
+
 admin.site.register(MediaHouse, MediaHouseAdmin)
 admin.site.register(MediaContact)
 admin.site.register(MediaPlatform, MediaPlatformAdmin)
@@ -78,6 +89,7 @@ admin.site.register(CommentReply)
 admin.site.register(PRStrategy, PRStrategyAdmin)
 admin.site.register(InterviewRequest, InterviewRequestAdmin)
 admin.site.register(ServiceRequest, ServiceRequestAdmin)
+admin.site.register(Packages, PackagesAdmin)
 
 
 

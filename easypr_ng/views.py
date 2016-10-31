@@ -11,7 +11,7 @@ from django.db.models import F
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from easypr_ng.models import *
-from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list
+from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list, get_category_packages_dict
 from easypr_general.models import ServiceCategory
 # from easypr_ng.models import MediaHouse, MediaContact, PressMaterial, Redirect_url, Publication, PublicationImage, \
 # Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform, Comment, CommentReply
@@ -44,18 +44,8 @@ def  indexView(request):
     
 
 
-
-
-
-
-
-
-
 def ourWorksView(request):
     return render(request, 'easypr_ng/our-works.html', {})
-
-
-
 
 
 
@@ -102,7 +92,8 @@ def create_purchase_record(request, bouquet,publication):
 def buy_packageView(request, press_material,package):
     form = ContentUploadForm()
     context                =   {}
-    bouquet                =   get_object_or_404(Bouquet, name_slug = package, press_material = PressMaterial.objects.get(name_slug = press_material))
+    bouquet                =   get_object_or_404(Packages, name_slug = package, press_material = PressMaterial.objects.get(name_slug = press_material))
+    # bouquet                =   get_object_or_404(Bouquet, name_slug = package, press_material = PressMaterial.objects.get(name_slug = press_material))
     template               =  'easypr_ng/content-upload.html'
     context['sectors']     =   Sector.objects.filter(active = True)
     context['platforms']   =   MediaPlatform.objects.filter(active = True)
@@ -124,9 +115,6 @@ def buy_packageView(request, press_material,package):
 
 
 
-
-
-
 @login_required()
 def previewPublicationView(request, **kwargs):
     # date_paid = datetime.datetime.strptime('2016-09-23', "%Y-%m-%d")
@@ -134,7 +122,6 @@ def previewPublicationView(request, **kwargs):
     context = {}
     post = Publication.objects.get(transaction_id = kwargs['transaction_id'])
     return render(request, 'easypr_ng/content-preview.html', {'post':post})
-
 
 
 
@@ -151,7 +138,6 @@ def Payment(request, **kwargs):
         request.session['purchase_id']   =   purchase.pk
         request.session['pay_info_id']   =   purchase.payment_details.pk
         return redirect(reverse('easypr_ng:confirmation'))
-
 
 
 
@@ -273,13 +259,6 @@ def postCommentReplyView(request):
         return render(request, 'snippets/comment-replies.html', context)
     else:
         return JsonResponse({'response':"<a href="" class= 'text-danger'><strong>Kindly login to post your comment</strong></a>"})
-
-
-
-
-
-
-
 
 
 
@@ -439,8 +418,6 @@ def strategyPlannerView(request, step,  anon_userID):
 
 
 
-
-
 def  servicesView(request, service_category):
     context = {}
     service   =   ServiceCategory.objects.filter(name_slug = service_category)
@@ -459,9 +436,15 @@ def bundlePlanView(request):
 
 
 def get_startedView(request, category,item):
-    context = {}
-    context['form'] = ServiceRequestForm
-    template = "easypr_ng/pricing.html"
+    ''' show price list'''
+    template                                =   "easypr_ng/pricing.html"
+    context                                 =   {}
+    context['form']                         =   ServiceRequestForm
+    pkg_details_dict, press_material        =   get_category_packages_dict(item)
+    context['press_material']               =   press_material
+    context['plan_names']                   =   pkg_details_dict['name']
+    pkg_details_dict.pop('name')
+    context['pkg_dict']                     =   pkg_details_dict
     return render(request, template, context)
 
 

@@ -839,12 +839,12 @@ img.feature-img-lg:focus,
 
 .sticky-page{
 	position: relative; 
-	top: -150px; 
+	top: -120px; 
 	height: auto; 
 	/*display:block; */
 	padding: 15px 20px; 
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.19);
-	bottom: 25px;
+	bottom: 15px !important;
 	/*border-top-left-radius: 10px;
 	border-top-right-radius: 10px;*/
 }
@@ -862,7 +862,53 @@ th.active-plan {
 	height: 60px !important;
 }
 
+.normal-plan {
+	color: #333333 !important;
+	border-top-left-radius:10px;
+	border-top-right-radius:10px; 
+	border: 1px solid #e8e8e8 !important;
+}
 
+
+th.normal-plan {
+	height: 40px !important;
+}
+
+
+.buy-now {
+	background-color: #012e5b !important;
+	border-bottom-left-radius:7px;
+	border-bottom-right-radius:7px; 
+	height: 55px;
+	border: 1px solid #e0e0e0;
+}
+
+
+.buy-now a {
+	width:100%;
+	height: 100%;
+	/*color: #ffffff;*/
+	font-weight: bold;
+	font-size: 22px;
+	text-transform: capitalize;
+	color:yellow;
+}
+
+.item-row {
+	height: 50px !important;
+}
+
+
+tr.item-row td {
+	border: 1px solid #c8c8c8 !important;
+	font-size: 20px !important;
+}
+
+tr.item-row td.row-caption {
+	width: 30% !important;
+	font-size: 16px !important;
+}
+}
 
 
 section, .section-padding{

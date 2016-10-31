@@ -1,5 +1,7 @@
 {% extends 'easypr_general/base.html' %}
 {% load staticfiles %}
+{% load base_custom_filters %}
+{% load humanize %}
 
 {% block title %}choose a {{ service_type }} plan {% endblock title %}
 {% block inner_content %}
@@ -9,7 +11,7 @@
 	        	<div class="row">
 	        		<div class="col-xs-12 text-center">
 	        			<div class="banner-heading">
-	        				<h1 class="banner-title title-border-left">Pricing </h1>
+	        				<h1 class="banner-title title-border-left">{{ press_material.caption }}</h1>
 	        				<!-- <p class="banner-desc">caption here</p> -->
 	        			</div>
 	        		</div><!-- Col end -->
@@ -22,57 +24,59 @@
 		<div class="container">
 			<div class="row text-center">
 				<div class="col-md-12 sticky-page bg-white">
-					<h2 class="error-code"><a href="{% url 'easypr_ng:buy-package' press_material='press-release' package='single' %}" > Choose the plan that suits you</a></h2>
-					<div class="gap-10"></div>
+					<h2 class="error-code"> Choose the plan that suits you</h2>
+					<div class="gap-20"></div>
 					<table class="table table-striped">
 						<thead>
 							<th class="no-border">Features</th>
-							<th class="text-center">Plan 1</th>
-							<th class="active-plan text-center">Plan 2</th>
-							<th class="text-center">Plan 3</th>
-							<th class="text-center">Plan 4</th>
+							{% for plan in plan_names %}
+								{% if plan == "regular" %}
+									<th class="text-center active-plan">
+										<i class="fa fa-star" style="color:yellow; font-size: 24px;"></i> &nbsp; 
+										{{ plan|strip_chars:"-"|title }}
+									</th>
+								{% else %}
+									<th class="text-center normal-plan">{{ plan|strip_chars:"-"|title }}</th>
+								{% endif %}
+							{% endfor %}
 						</thead>
 						<tbody>
-							<tr style="border: 1px solid #c8c8c8 !important;">
-								<td>seo optimisation </td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
+							{% for key,val in pkg_dict.items %}
+								<tr  class="item-row">
+									<td class="text-left row-caption">{{ key|strip_chars:"_"|title }} </td>
+									{% for value in val %}
+										{% if value == "yes" %}
+											<td><i class="fa fa-check text-success"></i></td>
+										{% elif value == "no" %}
+											<td><i class="fa fa-times text-danger"></i></td>
+										{% else %}
+											{% if key == "price_naira" %}
+												<td><strong> &#8358;{{ value|floatformat:0|intcomma }}</strong></i></td>
+											{% elif key == "price_dollar" %}
+												<td><strong> ${{ value|floatformat:0|intcomma }}</strong></i></td>
+											{% else %}
+												<td><strong>{{ value }}</strong></i></td>
+											{% endif %}
+										{% endif %}
+									{% endfor %}
+								</tr>
+							{% endfor %}
+							<tr>
+								<td class="row-caption">&nbsp;</td>
+								{% for plan in plan_names %}
+									<td class="buy-now"><a href="{% url 'easypr_ng:buy-package' press_material.name_slug plan %}"> buy now</a></td>
+								{% endfor %}
 							</tr>
-							<tr style="border: 1px solid #c8c8c8 !important;">
-								<td>seo optimisation </td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
-							</tr>
-							<tr style="border: 1px solid #c8c8c8 !important;">
-								<td>seo optimisation </td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
-							</tr>
-							<tr style="border: 1px solid #c8c8c8 !important;">
-								<td>seo optimisation </td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
-							</tr>
-							<tr style="border: 1px solid #c8c8c8 !important;">
-								<td>seo optimisation </td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-check text-success"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
-								<td style="border: 1px solid #c8c8c8 !important;"><i class="fa fa-times text-danger"></i></td>
-							</tr>
-							
 						</tbody>
 					</table>
 				</div>
 			</div><!-- Main row end -->
+			<!-- <div class="gap-30"></div> -->
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="slider btn btn-easypr bg-royal" style="font-size:20px;">Still Not Sure? Find The Right Strategy For Your Brand.</a>
+				</div>
+			</div>
 		</div><!-- Conatiner end -->
 	</section><!-- Main container end -->
 {% endblock inner_content %}

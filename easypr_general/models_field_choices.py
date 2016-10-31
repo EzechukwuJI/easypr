@@ -36,6 +36,15 @@ BOUQUET  =  (
 	)
 
 
+
+PACKAGES  =  (
+			("basic", "Basic"),
+			("regular", "Regular"),
+			("premium", "Premium"),
+			("premium-plus", "Premium Plus"),
+	)
+
+
 PURCHASE_STATUS  =  (
 			("New", "New"),
 			("Processing","Processing"),
@@ -137,6 +146,9 @@ ACTION_TYPE = (
 		('request_service', 'request service'),
 	)
 
+BOOLEAN_CHOICES = (('yes','yes'),
+					('no','no'),
+					)
 
 
 

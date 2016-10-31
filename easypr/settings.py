@@ -37,7 +37,7 @@ SITE_ID = 1
 
 # Application definition
 
-INSTALLED_APPS = (
+DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,10 +45,16 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.humanize',
+    )
+
+EASYPR_APPS = (
     'easypr_general',
     'easypr_ng',
     'easypr_admin',
-)
+    )
+
+INSTALLED_APPS =  DJANGO_APPS + EASYPR_APPS
 
 # if not os.environ.get('RDS_DB_NAME'):
 #     INSTALLED_APPS += 'debug_toolbar',

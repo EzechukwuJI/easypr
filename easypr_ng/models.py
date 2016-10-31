@@ -42,7 +42,6 @@ class Sector(models.Model):
 
 
 
-
 class MediaHouse(models.Model):
   name                =           models.CharField(max_length = 200)
   name_slug           =           models.CharField(max_length = 200)
@@ -66,7 +65,6 @@ class MediaHouse(models.Model):
 
 
 
-
 class MediaContact(models.Model):
   media_house              =           models.ForeignKey(MediaHouse)
   first_name               =           models.CharField(max_length = 125)
@@ -79,14 +77,12 @@ class MediaContact(models.Model):
 
 
 
-
-
-
 class PressMaterial(models.Model):
   name_slug                =         models.CharField(max_length = 150)
   media_type               =         models.CharField(max_length = 150)
   price_per                =         models.FloatField(default = 0.0)
   date_added               =         models.DateTimeField(auto_now_add = True)
+  caption                  =         models.CharField(max_length = 125)
 
   def __unicode__(self):
     return '%s' %(self.media_type)
@@ -97,15 +93,6 @@ class PressMaterial(models.Model):
 
 
 
-
-
-
-
-
-
-
-
-
 class PublicationManager(models.Manager):
 
   def published_articles(self):
@@ -113,8 +100,6 @@ class PublicationManager(models.Manager):
 
   def new_articles(self):
       return self.get_queryset().filter(status = "New", deleted = False)
-
-
 
 
 
@@ -214,7 +199,7 @@ class Comment(models.Model):
   posted_by       =     models.ForeignKey(User)
   date_posted     =     models.DateTimeField(auto_now_add = True)
   comment         =     models.TextField(max_length = 1000)
-  website         =     models.CharField(max_length = 150)
+  website         =     models.CharField(max_length = 150, null = True, blank = True)
 
 
 class CommentReply(models.Model):
@@ -223,8 +208,6 @@ class CommentReply(models.Model):
   date_posted     =     models.DateTimeField(auto_now_add = True)
   reply           =     models.TextField(max_length = 1000)
   
-
-
 
 
 class Purchase(models.Model):
@@ -275,8 +258,6 @@ class PurchaseInvoice(Purchase):
 
 
 
-
-
 class Bouquet(models.Model):
   name                            =       models.CharField(max_length = 75, choices = BOUQUET)
   name_slug             	        =       models.CharField(max_length = 75)
@@ -306,7 +287,6 @@ class Bouquet(models.Model):
       self.percentage_savings = (saved_N/amount_payable_N) * 100
     super(Bouquet, self).save(*args, **kwargs)
    
-    
 
   def __unicode__(self):
     return "%s, %s" %(self.press_material, self.name)
@@ -435,7 +415,7 @@ class  InterviewRequest(models.Model):
   contacted_by                 =     models.OneToOneField(User, related_name = "interview_contacted_by", null = True, blank = True)
   closed_by                    =     models.OneToOneField(User, related_name = "interview_closed_by", null = True, blank = True)
   date_requested               =     models.DateTimeField(auto_now_add = True)
-  date_closed                  =     models.DateTimeField(null = True, blank = True)
+  date_closed                  =     models.DateTimeField()
 
 
   def __unicode__(self):
@@ -446,14 +426,49 @@ class  InterviewRequest(models.Model):
     verbose_name_plural = "Interview request"
 
 
+class BasePackage(models.Model):
+  category                 =         models.ForeignKey(PressMaterial)
+  name                     =         models.CharField(max_length = 75, choices = PACKAGES )
+  media_outreach_credit    =         models.CharField(max_length = 25, default = 1)
+  price_naira              =         models.FloatField(max_length = 25, default = 0.0)
+  price_dollar             =         models.FloatField(max_length = 25, default = 0.0)
+  online                   =         models.CharField("online_newspaper_publishing", max_length = 5, choices =  BOOLEAN_CHOICES)
+  monitoring               =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  free_consulting          =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  newsroom                 =         models.CharField("Newsroom via EasyPR Media Desk", max_length = 5, choices =  BOOLEAN_CHOICES)
+  google_news_inclusions   =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  reuters_news_network     =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  hyperlinks               =         models.CharField("hyperlinks in online press release", max_length = 5)
+  notification             =         models.CharField("publication notification via email", max_length = 5, choices =  BOOLEAN_CHOICES)
+  autopost                 =         models.CharField("autopost to social media account", max_length = 5, choices =  BOOLEAN_CHOICES)
+  analytics                =         models.CharField("detailed analytics report", max_length = 5, choices =  BOOLEAN_CHOICES)
+  expedited                =         models.CharField("expedited release processing", max_length = 5, choices =  BOOLEAN_CHOICES)
+  available_on_homepage    =         models.CharField("news made available to journalists, bloggers and researchers via EasyPR homepage", max_length = 5, choices =  BOOLEAN_CHOICES)
+  featured_package         =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  active                   =         models.BooleanField(default = False)
+  is_promo                 =         models.BooleanField(default = False)
+  promo_starts             =         models.DateTimeField(auto_now_add = True)
+  promo_ends               =         models.DateTimeField(auto_now_add = True)
+  promo_price_dollar       =         models.FloatField(max_length = 25, default = 0.0)
+  promo_price_naira        =         models.FloatField(max_length = 25, default = 0.0)
+  
 
 
+  class Meta:
+    abstract = True
 
 
+class Packages(BasePackage):
+  content_writing         =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  content_editing         =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
 
 
+  def __unicode__(self):
+    return '%s-%s' %(self.category, self.name)
 
 
+  def get_category_packages(self, category):
+    pass
 
 
 
