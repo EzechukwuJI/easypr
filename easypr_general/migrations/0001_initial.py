@@ -59,6 +59,29 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='ServiceCategory',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(default=b'Press Release Distribution', max_length=175, choices=[(b'Press Release Distribution', b'Press Release Distribution'), (b'Content Writing and Marketing', b'Content Marketing'), (b'Advertising', b'Advertising'), (b'SME Marketing', b'SME Marketing'), (b'Sales and Marketing', b'Sales and Marketing'), (b'Events Bureau', b'Events Bureau'), (b'Blogger Distribution', b'Blogger Distribution')])),
+                ('name_slug', models.CharField(max_length=175)),
+                ('description', models.TextField(max_length=1000)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='ServiceItem',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=100)),
+                ('name_slug', models.CharField(max_length=175)),
+                ('image', models.FileField(null=True, upload_to=b'services_image', blank=True)),
+                ('description', models.TextField(max_length=750)),
+                ('call_to_action', models.CharField(max_length=75, null=True, blank=True)),
+                ('icon_text', models.CharField(max_length=75, null=True, blank=True)),
+                ('action_type', models.CharField(default=b'', max_length=175, choices=[(b'select_service', b'select service'), (b'submit_content', b'submit content'), (b'request_service', b'request service')])),
+                ('category', models.ForeignKey(to='easypr_general.ServiceCategory')),
+            ],
+        ),
+        migrations.CreateModel(
             name='UserAccount',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),

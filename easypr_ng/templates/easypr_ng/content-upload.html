@@ -1,9 +1,8 @@
 {% extends 'easypr_general/base.html' %}
 {% load staticfiles %}
-
 {% block title %}content upload section{% endblock title %}
-{% block inner_content %}
 
+{% block inner_content %}
 	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner1.jpg' %}); height:100px !important;">
 		<div class="banner-text">
      		<div class="container">
@@ -18,7 +17,6 @@
        		</div><!-- Container end -->
     	</div><!-- Banner text end -->
 	</div><!-- Banner area end --> 
-	
 	<section id="main-container" class="main-container">
 		<div class="container">
 			<div class="row">
@@ -35,11 +33,12 @@
 								<strong>PLEASE NOTE:</strong>
 							</span>
 							<br/>
-							<span class="text-primary" style="font-size:16px;"> Content publication on selected media .... <br/>See <a data-target="#how-it-works-modal" data-toggle="modal" data-dismiss="modal" style="cursor:pointer">How It Works</a></span>
+							<span class="text-primary" style="font-size:16px;"> Content publication on selected media .... <br/>See 
+								<!-- <a href="{% url 'general:how-it-works' %}" target="blank" style="cursor:pointer">How It Works</a></span> -->
+							<a onclick = 'window.open("{% url 'general:how-it-works' %}", "How It Works", "width=750,height=700,scrollbars=yes,menubar=yes,status=yes,top=10,location=false")' class="btn yellow view_label" >How It Works</a>
 						</div>
 						<!-- content upload form div -->
 						<div class="well well-default no-border-radius">
-							<!-- <input type="text" name="post_title" class="form-control no-border-radius title bg-white"  placeholder="Enter post title" required/> -->
 							{{ form.post_title }}
 						</div>
 						<div class="well well-default no-border-radius" style="color:#000000;">
@@ -64,11 +63,10 @@
 							<div class="row">
 								<div class="col-md-6">
 									<table class="">
-										<!-- <thead><strong>Information</strong></thead> -->
 										<tbody>
 											<tr>
 												<td><strong>Selected Category:</strong></td>
-												<td><strong>{{ press_material|title }}</strong></td>
+												<td><strong class="text-danger">{{ package.category|title }}</strong></td>
 											</tr>
 											<tr>
 												<td><strong>Platform:</strong></strong></td>
@@ -96,91 +94,49 @@
 												<td><strong>Person to quote:</strong></td>
 												<td>
 													{{ form.person_to_quote }}
-													<!-- <input type="text" class="form-control no-border-radius bg-white" name="person_to_quote" /> -->
 												</td>
 											</tr>
 											<tr>
 												<td><strong>Position:</strong></td>
-												<td>{{ form.persons_position }}
-													<!-- <input type="text" class="form-control no-border-radius bg-white" name="persons_position"placeholder="person's position"/> -->
-												</td>
+												<td>{{ form.persons_position }}</td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 
-								<div class="col-md-6">
+								<div class="col-md-6 hidden" id ="id-select-media">
 									<strong> Select Media</strong><br/>
-									<select name="selected_media[]" multiple style="height:155px; min-height: 120px; padding:5px; width:100%;" class="form-control bg-white" id="selected_media" required>
+									<div id="selected_media" class="bg-white item-display-box text-dark">
 										<!-- ajax populated media list -->
-									</select>
-									<small>
-										Hold down the control key to select multiple media
-									</small><br/>
+									</div>
+									<br/>
 									<span class="text-danger">
-										Max Allowed: {{ package.num_of_media }} med{{ package.num_of_media|pluralize:"ium,ia" }} 
-										<a href="/#packages" >Add More</a>
+										Max Allowed: {{ package.media_outreach_credit }} med{{ package.media_outreach_credit|pluralize:"ium,ia" }} 
+										<input type="hidden" name="max_media_credit" value ="{{ package.media_outreach_credit }}" id = "max-media-credit" />
+										<a href="{{ previous_page }}" >Change</a>
 									</span>
 								</div>
 							</div>
 							<p> &nbsp; </p>
 							<div class="row">
 								<div class="col-md-12">
-									<!-- <textarea name="post_body" class="form-control no-border-radius bg-white" rows=20 placeholder ="Type or copy and paste content here" = 20 required></textarea> -->
 									{{ form.post_body }}
 									<span class="text-danger pull-right">
+										{{ form.post_body.max_length }}
 										1000 characters 
 									</span>
-
 									<br/>
-									<!-- <input type="checkbox" name="publish_online" value="false"/> -->
-									<!-- {{ form.publish_online }} <strong>Do you want this post to be published online also?</strong> -->
-									<!-- <p> &nbsp; </p> -->
-									<input type ="submit" value = "proceed" class="btn btn-primary pull-right" />
+									<input type ="submit" value = "proceed" onclick='return countSelectedMedia()' class="btn btn-primary pull-right" />
 								</div>
 							</div>
-
 						</div>
 					</div>
 					<div class="col-md-1"></div>
-
-					<!-- Right panel -->
-					<!-- <div class="col-md-3">
-						<div class="well well-default no-border-radius" role = "right panel">
-							something here
-						</div>
-					</div> -->
 				</form>
 			</div><!-- Content row -->
 		</div><!-- Conatiner end -->
 	</section><!-- Main container end -->
-
-	
 {% endblock inner_content %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 {% block inline_scripts %}
@@ -209,6 +165,7 @@
 			type: "POST",
 			data: {media_platform: platform, csrfmiddlewaretoken: csrf_token},
 			success: function(data){
+				$("#id-select-media").removeClass('hidden');
 				$("#" + div_to_populate).html(data);
 			},
 			error: function(data){
@@ -216,6 +173,41 @@
 			}
 		})
 	}
+
+
+	var checkbox = document.getElementByClassName('selected_media_houses');
+	alert(checkbox.length);
 </script>
+
+
+
+
+<script>
+	function countSelectedMedia(){
+	  var max_media   =    $("#max-media-credit").val();
+      var selected_media_houses = $(".selected-media-houses").find(":checked").length;
+  
+}
+</script>
+
 {% endblock inline_scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

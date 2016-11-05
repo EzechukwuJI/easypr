@@ -4,35 +4,66 @@
 {% block title %}confirmation page {% endblock title %}
 {% block inner_content %}
 	<section id="main-container" class="main-container">
-		<form action="" method="post">
-		{% csrf_token %}
 		<div class="container">
 			<div class="row">
-				<!-- <h3>Payment</h3> -->
-				<!-- <hr style="margin:0px;" /> -->
-				<div class="col-md-9" style="color:#000000;">
+				<div class="col-md-1"> &nbsp; </div>
+				<div class="col-md-10"> 
+					<div class="panel panel-primary">
+						<div class="panel-heading bg-royal text-white">
+							<strong>Confirmation Page</strong>
+						</div>
+						<div class="panel-body">
+							<h2>Thank You!</h2>
+							<h4>We have received your submission with transaction number #{{ post.transaction_id  }}.</h4>
+							<p>Kindly keep this number for  reference purposes.</p>
+							<br>
+							<strong class="text-black">A copy of your invoice has been sent to the email address you provided at the point of registration. You will receive a notification once this submission is published.</strong>
+						</div>
+						<div class="panel-heading bg-royal text-white no-border-radius">
+							<strong>Order Summary</strong>
+						</div>
+						<div class="panel-body">
+							<div class="col-md-7 text-dark">
+								<div class="input-group">
+					                <span class="input-group-addon"><strong>Press Material</strong></span>
+					                <span class"pull-right">{{ post.press_material }}</span>
+					            </div>
+								<br>
 
-					<div class="well well-success bg-success no-border-radius">
-						<h4>Thank You</h4>
-						<hr style="margin-top:5px;" />
-						<div class="row">
-							We have received your submission
+								<div class="input-group">
+					                <span class="input-group-addon"><strong>Package:</strong></span>
+					                <span class"pull-right">{{ purchase.package }}</span>
+					            </div>
+								<br>
+
+								<div class="input-group">
+					                <span class="input-group-addon"><strong>Selected Media: </strong></span>
+					                <span class"pull-right">{{ post.get_media_houses }}</span>
+					            </div>
+								<br>
+
+								<div class="input-group">
+					                <span class="input-group-addon"><strong>Media Outreach Credit:</strong></span>
+					                <span class"pull-right">{{ purchase.media_outreach_credit }}</span>
+					            </div>
+								<br>
+							</div>
+							<div class="col-md-5 left-border-dashed"> 
+								<div class="shadow-box bg-royal text-white">
+									If you need further assistance, kindly reach us on<br><br>
+									<span><i class="fa fa-calendar" style="margin-right: 20px;"></i><strong>Office hours </strong> <span> Mon - Fri: 9.00am to 5.00pm</span></span><br>
+									<span><i class="fa fa-phone" style="margin-right: 20px;"></i><strong> 080435765</strong></span><br>
+									<span><i class="fa fa-envelope" style="margin-right: 20px;"></i><strong>helpdesk@easypr.ng</strong></span><br>
+									<span><i class="fa fa-laptop" style="margin-right: 20px;"></i><strong><a href="{% url 'general:contact-us' %}" class="text-yellow">Use our feedback form</a></strong></span><br>
+								</div>
+							</div>
 						</div>
 					</div>
-
-					
-
-
-
 				</div>
-				<div class="col-md-3">
-					
-				</div>
+				<div class="col-md-1"> &nbsp; </div>
 			</div><!-- Content row -->
 		</div><!-- Conatiner end -->
-	
-</section><!-- Main container end -->
-	
+	</section><!-- Main container end -->
 {% endblock inner_content %}
 
 

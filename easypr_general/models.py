@@ -117,6 +117,7 @@ class ServiceItem(models.Model):
   call_to_action     =    models.CharField(max_length = 75, null = True, blank = True)
   icon_text          =    models.CharField(max_length = 75, null = True, blank = True)
   action_type        =    models.CharField(max_length = 175, choices = ACTION_TYPE, default = "")
+  active             =    models.BooleanField(default = False)  
 
 
   def __unicode__(self):

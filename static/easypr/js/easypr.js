@@ -5,7 +5,6 @@ function show_hidden_form(form_id,social_btn){
   $this.removeClass('hidden');
 }
 
-
 function hide_form(form_id,social_btn){
   $sc   =   $('#' + social_btn);
   $this = $('#' + form_id );
@@ -22,10 +21,8 @@ function compare_passwords(field_name, confirm_field){
         return false;
       } 
       // else {
-  return true;
-      // }
+  return true;    // }
 }
-
 
 function swap_reg_form(user_form, details_form){
   $user_form   =   $('#' + user_form);
@@ -33,7 +30,6 @@ function swap_reg_form(user_form, details_form){
   $user_form.addClass('hidden');
   $details.removeClass('hidden');
 }
-
 
 
 function load_image(pic_id, img_placeholder_id,cap_id){
@@ -92,8 +88,6 @@ function hide_div(div){
 }
 
 
-
-
 function show_search_div(){
       $("#id_search").html("<i class='fa fa-times search text-center'></i>"); 
       var search_box = $("#search-box");
@@ -105,10 +99,6 @@ function show_search_div(){
         $("#id_search").html("<i class='fa fa-search search text-center'></i>"); 
       }
     }
-
-
-
-
 
 
 // var div_ids = ['bank_deposit','debit_card','bank_transfer','ewallet'];
@@ -139,9 +129,6 @@ function show_search_div(){
   }
 
 
-
-
-
 function select_option(option_classname, selected_id, select_multiple){
   var selected_option_div      = $("#" + selected_id);
   var selected_option_checkbox = $("#select_" + selected_id).attr('id');
@@ -170,9 +157,6 @@ function select_option(option_classname, selected_id, select_multiple){
   }
 
 
-
-
-
  $(".select_business_type").click(function(){
   if ((this.id === "company") && ($("#company").hasClass('selected'))){
       $("#company_type").removeClass('hidden');
@@ -191,7 +175,6 @@ $(".use-external-db").click(function(){
  })
 
 
-
 function counter(action, display_id){
   var display  = $("#" + display_id);
   var current_count = display.val();
@@ -205,129 +188,14 @@ function counter(action, display_id){
 }
 
 
+function  countSelectedMedia(){
+  var selected = $(".selected-media-house").find(":checked").length;
+  alert(selected);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var isAdvancedUpload = function(){
-// 	var div = document.createElement('div');
-// 	return (('draggable' in div)||('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
-// }();
-
-
-// var $form  = $('.box');
-
-// if (isAdvancedUpload){
-// 	$form.addClass('has-advanced-upload');
-// }
-
-
-// if (isAdvancedUpload) {
-//   var droppedFiles = false;
-//   $form.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
-//     e.preventDefault();
-//     e.stopPropagation();
-//   })
-//   .on('dragover dragenter', function() {
-//     $form.addClass('is-dragover');
-//   })
-//   .on('dragleave dragend drop', function() {
-//     $form.removeClass('is-dragover');
-//   })
-//   .on('drop', function(e) {
-//     droppedFiles = e.originalEvent.dataTransfer.files;
-//   });
-// }
-
-
-// $form.on('submit', function(e) {
-//   if ($form.hasClass('is-uploading')) return false;
-
-//   $form.addClass('is-uploading').removeClass('is-error');
-
-//   if (isAdvancedUpload) {
-//     // ajax for modern browsers
-//   } else {
-//   	var iframeName  = 'uploadiframe' + new Date().getTime();
-//     $iframe   = $('<iframe name="' + iframeName + '" style="display: none;"></iframe>');
-// 	  $('body').append($iframe);
-// 	  $form.attr('target', iframeName);
-
-// 	  $iframe.one('load', function() {
-// 	    var data = JSON.parse($iframe.contents().find('body' ).text());
-// 	    $form
-// 	      .removeClass('is-uploading')
-// 	      .addClass(data.success == true ? 'is-success' : 'is-error')
-// 	      .removeAttr('target');
-// 	    if (!data.success) $errorMsg.text(data.error);
-// 	    $form.removeAttr('target');
-// 	    $iframe.remove();
-//   });
-//   }
-//   // alert('submitted');
+// $(".selected-media-house").click(function(){
+//   alert('this is it');
 // })
-// .on('drop', function(e) { // when drag & drop is supported
-//   droppedFiles = e.originalEvent.dataTransfer.files;
-//   $form.trigger('submit');
-//   // alert('submitted');
-// });
-
-// // ...
-
-// $input.on('change', function(e) { // when drag & drop is NOT supported
-//   $form.trigger('submit');
-// });
-
-
-// var $input    = $form.find('input[type="file"]'),
-//     $label    = $form.find('label'),
-//     showFiles = function(files) {
-//       $label.text(files.length > 1 ? ($input.attr('data-multiple-caption') || '').replace( '{count}', files.length ) : files[ 0 ].name);
-//     };
-
-// // ...
-
-// .on('drop', function(e) {
-//   droppedFiles = e.originalEvent.dataTransfer.files; // the files that were dropped
-//   showFiles( droppedFiles );
-// });
-
-// //...
-
-// $input.on('change', function(e) {
-//   showFiles(e.target.files);
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

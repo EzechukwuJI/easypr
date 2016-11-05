@@ -15,8 +15,9 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-VAT = 5/100
-NAIRA_DOLLAR_RATE = 0.0
+VAT = 0.05
+NAIRA_DOLLAR_RATE = float(465)
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/var/www/static/',

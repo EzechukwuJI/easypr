@@ -135,7 +135,7 @@
 							   									<li><a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}#press-release">Press Release</a></li>
 							   									<li><a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}#news-features">News Features</a></li>
 							   									<li><a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}#photo-news">Photo-News</a></li>
-							   									<li><a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}#publish-interviews">Publish Interviews</a></li>
+							   									<!-- <li><a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}#publish-interviews">Publish Interviews</a></li> -->
 							   									<li><a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}">Request Interviews</a></li>
 							   									<a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}" class="why-link">Why Choose EasyPR Press Distribution</a>
 							   								</ul>
@@ -344,7 +344,7 @@
 			{% for msg in messages %}
 				<div id = "msg-div" class="panel bg-{{ msg.level_tag }}" style="color:#000000; padding: 30px;"> 
 					<span class="pull-right text-dark" style="cursor:pointer; margin-left:10px;" onclick='return hide_div("msg-div")'>
-						<i class="fa fa-times-circle-o"></i></span>
+						<i class="fa fa fa-times"></i></span>
 					<strong>{{ msg }}</strong> 
 				</div>
 			{% endfor %}
@@ -686,7 +686,7 @@
 				<div class="row text-center">
 					<h3 class="title-border">
 						<!-- We Love Clients -->
-						<span>Media Partners</span>
+						<span> Our Clients </span>
 					</h3>
 				</div> <!-- Title row end -->
 
@@ -756,6 +756,7 @@
 							<li><a href="{% url 'general:faq' %}">FAQs</a></li>
 							<li><a href="{% url 'general:terms-and-conditions' %}">T &amp; C</a></li>
 							<li><a href="{% url 'easypr_ng:newsroom' %}">Newsroom</a></li>
+							<li><a href="{% url 'general:contact-us' %}">Contact</a></li>
 							<li><a href="#">Pricing</a></li>
 							<li><a href="#">Blog</a></li>
 							<li><a href="#">Tax Planning</a></li>
@@ -854,11 +855,9 @@
 					<div class="col-xs-12 col-sm-6 col-md-push-1">
 						<div class="footer-menu">
 							<ul class="nav unstyled">
-								<li><a href="#">About</a></li>
-								<li><a href="#">Privacy Policy</a></li>
-								<li><a href="#">Legal</a></li>
+								<li><a href="{% url 'general:contact-us' %}">Contact</a></li>
 								<li><a href="{% url 'general:about-us' %}">About</a></li>
-								<!-- <li><a href=" url 'general:contact-us' %}">Contact</a></li> -->
+								<!-- <li class="pull-right">Site by: <a href= "/">Hypermatrix Technologies</a></li> -->
 							</ul>
 						</div>
 					</div>
@@ -876,7 +875,6 @@
 
 {% block modal %}
 	{% include 'easypr_snippets/login-modal.html' %}
-	 <!-- include 'easypr_general/how-it-works.html' %} -->
 {% endblock modal %}
 
 {% block inline_scripts %}

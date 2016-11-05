@@ -1,7 +1,7 @@
 from django.contrib import admin
 from easypr_ng.models import  MediaHouse, MediaContact,PressMaterial, Redirect_url, \
 Publication,PublicationImage,Purchase,PayDetails,PurchaseInvoice, Bouquet,MediaPlatform, Sector, \
-Comment, CommentReply, PRStrategy, InterviewRequest, ServiceRequest, Packages
+Comment, CommentReply, PRStrategy, InterviewRequest, ServiceRequest, Package
 
 
 class MediaHouseAdmin(admin.ModelAdmin):
@@ -33,8 +33,8 @@ class PayDetailsAdmin(admin.ModelAdmin):
 
 
 class PurchaseAdmin(admin.ModelAdmin):
-	list_display = ('user','date_purchased','transaction_id','bouquet','payment_details',)
-	list_filter  = ('bouquet','status',)
+	list_display = ('user','date_purchased','transaction_id','package','payment_details',)
+	list_filter  = ('package','status',)
 
 
 
@@ -61,16 +61,10 @@ class ServiceRequestAdmin(admin.ModelAdmin):
 
 
 
-class PackagesAdmin(admin.ModelAdmin):
+class PackageAdmin(admin.ModelAdmin):
 	list_display = ('name', 'category','price_naira', 'price_dollar', 'active')
 	list_filter = ('category',)
 	
-
-
-
-
-
-
 
 admin.site.register(MediaHouse, MediaHouseAdmin)
 admin.site.register(MediaContact)
@@ -89,7 +83,7 @@ admin.site.register(CommentReply)
 admin.site.register(PRStrategy, PRStrategyAdmin)
 admin.site.register(InterviewRequest, InterviewRequestAdmin)
 admin.site.register(ServiceRequest, ServiceRequestAdmin)
-admin.site.register(Packages, PackagesAdmin)
+admin.site.register(Package, PackageAdmin)
 
 
 

@@ -58,7 +58,7 @@
 						<!-- <div class="panel-footer bg-royal"> -->
 						<div class="row no-border-radius bg-white">
 							<a href="{% url 'easypr_ng:payment' transaction_id=post.transaction_id %}" class="btn btn-primary pull-right"> Proceed </a>
-							<a href="{% url 'easypr_ng:buy-package' press_material=post.press_material|slugify package="single" %}" class="btn btn-primary pull-left"> Back </a>
+							<a href="{{ previous_page }}" class="btn btn-primary pull-left"> Back </a>
 						</div>
 						<!-- </div> -->
 					</div>

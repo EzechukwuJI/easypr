@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
@@ -11,7 +12,7 @@ from django.db.models import F
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from easypr_ng.models import *
-from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list, get_category_packages_dict
+from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list, get_category_packages_dicts_list
 from easypr_general.models import ServiceCategory
 # from easypr_ng.models import MediaHouse, MediaContact, PressMaterial, Redirect_url, Publication, PublicationImage, \
 # Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform, Comment, CommentReply
@@ -19,6 +20,7 @@ from easypr_general.models import ServiceCategory
 from easypr_ng.forms import ContentUploadForm, BizInfoForm, TargetAudienceForm,ServiceRequestForm
 from easypr_general.models_field_choices import PR_FREQUENCY
 import datetime
+from easypr.settings import NAIRA_DOLLAR_RATE as exchange_rate
 
 
 
@@ -49,10 +51,40 @@ def ourWorksView(request):
 
 
 
+# def create_post(request, press_material):
+#     transaction_id = transaction_ref("publication", Publication, 10)
+#     rp = request.POST
+#     title = rp['post_title']
+#     posted_by = request.user
+#     content = rp['post_body']
+#     person = rp['person_to_quote']
+#     position = rp['persons_position']
+#     platform = MediaPlatform.objects.get(pk = rp['platform'])
+#     sector = Sector.objects.get(pk = rp['sector'])
+#     press_material  =  PressMaterial.objects.get(name_slug = press_material)
+#     online = rp.get('publish_online', False)
+#     new_post = Publication.objects.create(transaction_id = transaction_id, post_title = title, post_body = content,person_to_quote = person, persons_position = position,
+#         posted_by = posted_by, platform = platform, sector = sector, publish_online = online, press_material = press_material)
+#     selected_media_houses = [ media for media in MediaHouse.objects.filter(pk__in = rp.getlist('selected_media[]'))]
+#     for media_pk    in  rp.getlist('selected_media[]'):
+#         media_house =   MediaHouse.objects.get(pk = media_pk )
+#         new_post.media_houses.add(media_house)
+#     new_post.save()
+
+#     for image in request.FILES.keys():
+#         pub_image = PublicationImage.objects.create(image = request.FILES[image], caption = request.POST["cap_"+ image], post = new_post)
+#         # new_post.pictures.add(pub_image)
+#     new_post.save()
+#     return new_post
+
+
+
+
 def create_post(request, press_material):
     transaction_id = transaction_ref("publication", Publication, 10)
     rp = request.POST
     title = rp['post_title']
+    print "media house pk: ", rp.getlist('media_house[]')
     posted_by = request.user
     content = rp['post_body']
     person = rp['person_to_quote']
@@ -63,8 +95,8 @@ def create_post(request, press_material):
     online = rp.get('publish_online', False)
     new_post = Publication.objects.create(transaction_id = transaction_id, post_title = title, post_body = content,person_to_quote = person, persons_position = position,
         posted_by = posted_by, platform = platform, sector = sector, publish_online = online, press_material = press_material)
-    selected_media_houses = [ media for media in MediaHouse.objects.filter(pk__in = rp.getlist('selected_media[]'))]
-    for media_pk    in  rp.getlist('selected_media[]'):
+    selected_media_houses = [ media for media in MediaHouse.objects.filter(pk__in = rp.getlist('media_house[]'))]
+    for media_pk    in  rp.getlist('media_house[]'):
         media_house =   MediaHouse.objects.get(pk = media_pk )
         new_post.media_houses.add(media_house)
     new_post.save()
@@ -77,14 +109,43 @@ def create_post(request, press_material):
 
 
 
-def create_purchase_record(request, bouquet,publication):
+
+def create_purchase_record(request, package,publication):
     tr_id       =  transaction_ref("purchase", Purchase, 10)
     pay_id      =  transaction_ref("payment",  PayDetails, 10)
     pay_details =  PayDetails.objects.create(user = request.user, transaction_id = pay_id)
 
-    new_purchase = Purchase.objects.create(user = request.user, transaction_id = tr_id, bouquet = bouquet,
+    new_purchase = Purchase.objects.create(user = request.user, transaction_id = tr_id, package = package,
         publication = publication, payment_details = pay_details)
     return new_purchase
+
+
+
+# @login_required()
+# def buy_packageView(request, press_material,package):
+#     form = ContentUploadForm()
+#     context                =   {}
+#     bouquet                =   get_object_or_404(Packages, name_slug = package, press_material = PressMaterial.objects.get(name_slug = press_material))
+#     # bouquet                =   get_object_or_404(Bouquet, name_slug = package, press_material = PressMaterial.objects.get(name_slug = press_material))
+#     template               =  'easypr_ng/content-upload.html'
+#     context['sectors']     =   Sector.objects.filter(active = True)
+#     context['platforms']   =   MediaPlatform.objects.filter(active = True)
+#     context['package']     =   bouquet
+
+#     if request.method == "POST":
+#         form = ContentUploadForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             new_post       =    create_post(request, press_material)
+#             new_purchase   =   create_purchase_record(request, bouquet, new_post)
+#             return redirect(reverse('easypr_ng:preview-content', kwargs={'transaction_id':new_post.transaction_id}))
+#         else:
+#             print form.errors
+#             context['form'] = ContentUploadForm(data = request.POST)
+#             context.update({'press_material':press_material, 'package':package})
+#             return render(request, template, context)
+#     context['form'] = ContentUploadForm()
+#     return render(request, template, context)
+
 
 
 
@@ -92,18 +153,19 @@ def create_purchase_record(request, bouquet,publication):
 def buy_packageView(request, press_material,package):
     form = ContentUploadForm()
     context                =   {}
-    bouquet                =   get_object_or_404(Packages, name_slug = package, press_material = PressMaterial.objects.get(name_slug = press_material))
-    # bouquet                =   get_object_or_404(Bouquet, name_slug = package, press_material = PressMaterial.objects.get(name_slug = press_material))
+    package                =   get_object_or_404(Package, name = package, category = PressMaterial.objects.get(name_slug = press_material))
     template               =  'easypr_ng/content-upload.html'
     context['sectors']     =   Sector.objects.filter(active = True)
     context['platforms']   =   MediaPlatform.objects.filter(active = True)
-    context['package']     =   bouquet
-
+    context['package']     =   package
     if request.method == "POST":
+        # request.session['post-data'] = request.POST
+        # request.session['post-images']  = request.FILES
         form = ContentUploadForm(request.POST, request.FILES)
+        # request.session['form'] = serializers.serialize('json', form._meta.__dict__)
         if form.is_valid():
             new_post       =    create_post(request, press_material)
-            new_purchase   =   create_purchase_record(request, bouquet, new_post)
+            new_purchase   =    create_purchase_record(request, package, new_post)
             return redirect(reverse('easypr_ng:preview-content', kwargs={'transaction_id':new_post.transaction_id}))
         else:
             print form.errors
@@ -111,33 +173,39 @@ def buy_packageView(request, press_material,package):
             context.update({'press_material':press_material, 'package':package})
             return render(request, template, context)
     context['form'] = ContentUploadForm()
+    context['previous_page']  =  request.META.get('HTTP_REFERER', "/")
     return render(request, template, context)
+
 
 
 
 @login_required()
 def previewPublicationView(request, **kwargs):
-    # date_paid = datetime.datetime.strptime('2016-09-23', "%Y-%m-%d")
-    # print "date paid", date_paid
+    # post_data   = request.session.get('post-data', {})
+    # post_files  = request.session.get('post-images', {})
+    # form = ContentUploadForm(post_data, post_files)
     context = {}
     post = Publication.objects.get(transaction_id = kwargs['transaction_id'])
-    return render(request, 'easypr_ng/content-preview.html', {'post':post})
+    previous_page  = request.META.get('HTTP_REFERER', "")
+    return render(request, 'easypr_ng/content-preview.html', {'post':post, 'previous_page':previous_page})
 
 
 
 
 @login_required()
 def Payment(request, **kwargs):
+    previous_page  = request.META.get('HTTP_REFERER', "")
     publication = get_object_or_404(Publication, transaction_id = kwargs['transaction_id'])
     purchase  = get_object_or_404(Purchase, publication = publication)
     if not publication.completed:
         template = 'easypr_ng/payment.html'
-        return render(request, template, {'post':publication, 'purchase':purchase})
+        return render(request, template, {'post':publication, 'purchase':purchase, 'previous_page':previous_page})
     else:
         request.session['post_id']       =   publication.pk
         request.session['purchase_id']   =   purchase.pk
         request.session['pay_info_id']   =   purchase.payment_details.pk
         return redirect(reverse('easypr_ng:confirmation'))
+    return render(request, template, {'post':publication, 'purchase':purchase, 'previous_page':previous_page})
 
 
 
@@ -150,7 +218,7 @@ def savePayInfo(request, transaction_id):
         purchased  =   get_object_or_404(Purchase, transaction_id = transaction_id)
         pay_details = purchased.payment_details
         PayDetails.objects.filter(pk = pay_details.pk).update(payment_method = rp['method'].replace("_"," ").title(), 
-            amount_paid = rp['amount'], date_paid = rp['date'], bank_name = rp['bank'], teller_number = rp['teller'])
+            amount_paid = rp['amount'], date_paid = rp['date'], bank_name = rp['bank'], currency = rp['currency'], teller_number = rp['teller'])
         purchased.publication.ordered = True
         Publication.objects.filter(pk = purchased.publication.pk).update(completed = True)
         purchased.ordered = True
@@ -175,12 +243,12 @@ def get_media_houses(request):
 def confirmationView(request):
     active_session_keys = ['post','purchase','pay_info']
     try:
-        post         =   get_object_or_404(Publication, pk = request.session.get('post', ''))
-        purchase     =   get_object_or_404(Purchase, pk = request.session.get('purchase', ''))
-        pay_info     =   get_object_or_404(PayDetails, pk = request.session.get('pay_info', ''))
+        post         =   get_object_or_404(Publication, pk = request.session.get('post_id', ''))
+        purchase     =   get_object_or_404(Purchase,    pk = request.session.get('purchase_id', ''))
+        pay_info     =   get_object_or_404(PayDetails,  pk = request.session.get('pay_info_id', ''))
     except:
         post = purchase = pay_info = {}
-
+    print post, purchase, pay_info
     for key in request.session.keys():
         if key in active_session_keys:
             del request.session[key]
@@ -301,7 +369,6 @@ def validate_post_keys(request, keys_dict):
     rp = request.POST
     r_dict = {}
     for key in keys_dict.keys():
-        # print "expected type: ", keys_dict[key][0]
         if rp.has_key(key):
             if keys_dict[key][0] == "unit":
                 r_dict[key]  = rp[key]
@@ -424,8 +491,8 @@ def  servicesView(request, service_category):
     if not service.exists():
         message = "service not found"
         return render(request, 'easypr_general/coming-soon.html', {'response': message})
-    context['service-list'] = service[0].serviceitem_set.all()
-    context['service'] = service[0]
+    context['service-list'] = service[0].serviceitem_set.filter(active = True)
+    context['service']      = service[0]
     return render(request, 'easypr_general/services-details.html', context)
 
 
@@ -440,12 +507,15 @@ def get_startedView(request, category,item):
     template                                =   "easypr_ng/pricing.html"
     context                                 =   {}
     context['form']                         =   ServiceRequestForm
-    pkg_details_dict, press_material        =   get_category_packages_dict(item)
+    pkg_details_dicts_list, press_material  =   get_category_packages_dicts_list(item)
     context['press_material']               =   press_material
-    context['plan_names']                   =   pkg_details_dict['name']
-    pkg_details_dict.pop('name')
-    context['pkg_dict']                     =   pkg_details_dict
+
+    context['plan_names']                   =   pkg_details_dicts_list[0]['name']
+    pkg_details_dicts_list.pop(0)
+    context['pkg_dict']                     =   pkg_details_dicts_list
     return render(request, template, context)
+
+
 
 
 def submitContentView(request, category, item):

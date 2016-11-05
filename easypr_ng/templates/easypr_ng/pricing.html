@@ -11,7 +11,7 @@
 	        	<div class="row">
 	        		<div class="col-xs-12 text-center">
 	        			<div class="banner-heading">
-	        				<h1 class="banner-title title-border-left">{{ press_material.caption }}</h1>
+	        				<h1 class="banner-title title-border-left">{{ press_material.caption|title }}</h1>
 	        				<!-- <p class="banner-desc">caption here</p> -->
 	        			</div>
 	        		</div><!-- Col end -->
@@ -28,7 +28,7 @@
 					<div class="gap-20"></div>
 					<table class="table table-striped">
 						<thead>
-							<th class="no-border">Features</th>
+							<th class="no-border text-dark">Features</th>
 							{% for plan in plan_names %}
 								{% if plan == "regular" %}
 									<th class="text-center active-plan">
@@ -41,25 +41,27 @@
 							{% endfor %}
 						</thead>
 						<tbody>
-							{% for key,val in pkg_dict.items %}
-								<tr  class="item-row">
-									<td class="text-left row-caption">{{ key|strip_chars:"_"|title }} </td>
-									{% for value in val %}
-										{% if value == "yes" %}
-											<td><i class="fa fa-check text-success"></i></td>
-										{% elif value == "no" %}
-											<td><i class="fa fa-times text-danger"></i></td>
-										{% else %}
-											{% if key == "price_naira" %}
-												<td><strong> &#8358;{{ value|floatformat:0|intcomma }}</strong></i></td>
-											{% elif key == "price_dollar" %}
-												<td><strong> ${{ value|floatformat:0|intcomma }}</strong></i></td>
+							{% for item in pkg_dict %}
+								{% for key,val in item.items %}
+									<tr  class="item-row">
+										<td class="text-left row-caption">{{ key|strip_chars:"_"|title }} </td>
+										{% for value in val %}
+											{% if value == "yes" %}
+												<td><i class="fa fa-check text-success"></i></td>
+											{% elif value == "no" %}
+												<td><i class="fa fa-times text-danger"></i></td>
 											{% else %}
-												<td><strong>{{ value }}</strong></i></td>
+												{% if key == "price_naira" %}
+													<td><strong class="text-success"> &#8358;{{ value|floatformat:0|intcomma }}</strong></i></td>
+												{% elif key == "price_dollar" %}
+													<td><strong class="text-danger"> ${{ value|floatformat:0|intcomma }}</strong></i></td>
+												{% else %}
+													<td><strong class="text-success">{{ value }}</strong></i></td>
+												{% endif %}
 											{% endif %}
-										{% endif %}
-									{% endfor %}
-								</tr>
+										{% endfor %}
+									</tr>
+								{% endfor %}
 							{% endfor %}
 							<tr>
 								<td class="row-caption">&nbsp;</td>

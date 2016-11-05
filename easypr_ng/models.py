@@ -7,6 +7,8 @@ from easypr_general.models import UserAccount
 from django.db.models import Q, Sum
 import random
 from django.contrib.auth.models import User 
+from easypr.settings import VAT
+from easypr.settings import NAIRA_DOLLAR_RATE as exchange_rate
 
 
 
@@ -151,6 +153,7 @@ class Publication(models.Model):
       media = [ media.name for media in self.media_houses.all()]
       return ", ".join(media)
 
+
     def get_media_houses_and_contacts(self):
     	contact_dict =  {}
     	contact_list =  []
@@ -177,6 +180,8 @@ class Publication(models.Model):
 
     def read_uploaded_document(self):
     	pass
+
+
 
 
 class PublicationImage(models.Model):
@@ -211,19 +216,47 @@ class CommentReply(models.Model):
 
 
 class Purchase(models.Model):
-	user              		=     models.ForeignKey(User, verbose_name = "Purchased By")
-	transaction_id   		  =     models.CharField(max_length = 15)
-	bouquet           		=     models.ForeignKey('Bouquet')
-	publication       		=     models.OneToOneField('Publication')
-	deleted           		=     models.BooleanField(default = False)
-	ordered           		=     models.BooleanField(default = False) # set to true on order submission after payment is made
-	status                =     models.CharField(max_length = 75, choices = PURCHASE_STATUS, default = "New")
-	payment_details       =     models.ForeignKey('PayDetails', verbose_name = "Payment details", default = None)
-	date_purchased        =     models.DateTimeField(auto_now_add = True)
+  user              		=     models.ForeignKey(User, verbose_name = "Purchased By")
+  transaction_id   		  =     models.CharField(max_length = 15)
+  package           		=     models.ForeignKey('Package')
+  publication       		=     models.OneToOneField('Publication')
+  deleted           		=     models.BooleanField(default = False)
+  ordered           		=     models.BooleanField(default = False) # set to true on order submission after payment is made
+  status                =     models.CharField(max_length = 75, choices = PURCHASE_STATUS, default = "New")
+  payment_details       =     models.ForeignKey('PayDetails', verbose_name = "Payment details", default = None)
+  date_purchased        =     models.DateTimeField(auto_now_add = True)
 
 
-	def  __unicode__(self):
-		return "%s, %s" %(self.transaction_id, self.status)
+  def  __unicode__(self):
+    return "%s %s" %(self.transaction_id, self.status)
+
+  def media_outreach_credit(self):
+    return self.package.media_outreach_credit
+
+  def  price_dollar(self):
+    return self.package.price_dollar
+
+
+  def  price_naira(self):
+    return self.package.price_naira
+
+  # def VAT_N(self):
+  #   return  VAT * self.price_naira
+
+  # def VAT_D(self):
+  #   return float(VAT * self.price_dollar)
+
+
+  # def   amount_payable_D(self):
+  #   total = self.VAT_D + self.price_dollar
+  #   return total
+
+  # def   amount_payable_N(self):
+  #   total = float(self.VAT_N + self.price_naira)
+  #   return total
+
+
+
 
 
 
@@ -234,7 +267,8 @@ class PayDetails(models.Model):
     amount_paid             =     models.FloatField(default = 0.0)
     date_paid               =     models.CharField(max_length = 100, null = True, blank = True,)
     bank_name               =     models.CharField(max_length = 100, null = True, blank = True, choices = BANKS)
-    teller_number           =     models.CharField(max_length = 15, null = True, blank = True)
+    currency                =     models.CharField(max_length = 100, null = True, blank = True)
+    teller_number           =     models.CharField(max_length = 15, null = True,  blank = True)
     pay_status              =     models.CharField(max_length = 25, choices = PAYMENT_STATUS, default = "pending")
     verified_by             =     models.BooleanField(default = False)
     date_verified           =     models.DateTimeField(auto_now_add = False, null =True, blank = True)
@@ -430,8 +464,6 @@ class BasePackage(models.Model):
   category                 =         models.ForeignKey(PressMaterial)
   name                     =         models.CharField(max_length = 75, choices = PACKAGES )
   media_outreach_credit    =         models.CharField(max_length = 25, default = 1)
-  price_naira              =         models.FloatField(max_length = 25, default = 0.0)
-  price_dollar             =         models.FloatField(max_length = 25, default = 0.0)
   online                   =         models.CharField("online_newspaper_publishing", max_length = 5, choices =  BOOLEAN_CHOICES)
   monitoring               =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
   free_consulting          =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
@@ -444,7 +476,11 @@ class BasePackage(models.Model):
   analytics                =         models.CharField("detailed analytics report", max_length = 5, choices =  BOOLEAN_CHOICES)
   expedited                =         models.CharField("expedited release processing", max_length = 5, choices =  BOOLEAN_CHOICES)
   available_on_homepage    =         models.CharField("news made available to journalists, bloggers and researchers via EasyPR homepage", max_length = 5, choices =  BOOLEAN_CHOICES)
+  content_writing          =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  content_editing          =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
   featured_package         =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  price_naira              =         models.FloatField(max_length = 25, default = 0.0)
+  price_dollar             =         models.FloatField(max_length = 25, default = 0.0)
   active                   =         models.BooleanField(default = False)
   is_promo                 =         models.BooleanField(default = False)
   promo_starts             =         models.DateTimeField(auto_now_add = True)
@@ -458,17 +494,34 @@ class BasePackage(models.Model):
     abstract = True
 
 
-class Packages(BasePackage):
-  content_writing         =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
-  content_editing         =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
-
-
+class Package(BasePackage):
+ 
   def __unicode__(self):
     return '%s-%s' %(self.category, self.name)
 
+  def save(self, *args, **kwargs):
+    self.price_naira = self.price_dollar * exchange_rate
+    super(Package, self).save(*args, **kwargs)
+
+  def VAT_N(self):
+    return  VAT * self.price_naira
+
+  def VAT_D(self):
+    return float(VAT * self.price_dollar)
+
+  def   amount_payable_D(self):
+    vat = float(VAT *  self.price_dollar)
+    return vat + self.price_dollar
+
+  def   amount_payable_N(self):
+    vat = float(VAT * self.price_naira)
+    return vat + self.price_naira
 
   def get_category_packages(self, category):
     pass
+
+  class Meta:
+    verbose_name_plural = "Packages"
 
 
 

@@ -1,6 +1,6 @@
 {% for media in available_media %}
-	<option value="{{ media.pk }}">{{ media.name }}</option>
+	<input class = "selected-media-house" type="checkbox" name="media_house[]" value={{ media.pk }} onclick="return countSelectedMedia()"/> {{ media.name }} <br/>
 {% empty %}
-	<option value="">No media available </option>
+	<p>No media available </p>
 {% endfor %}
 								

@@ -11,8 +11,6 @@ TITLE = (
 			('Dr', 'Dr'),
 	)
 
-
-
 PUB_STATUS  =  (
 	  		('New',  'New'),
 	  		('sent_to_external_editor', 'sent_to_external_editor'),
@@ -20,8 +18,6 @@ PUB_STATUS  =  (
 	  		('Published',   'Published'),
 	  		('Rejected',    'Rejected'),
    )
-
-
 
 MEDIA_PLATFORM = (
 			("Newspaper", "Newspaper"),
@@ -34,8 +30,6 @@ BOUQUET  =  (
 			("Maxi", "Maxi"),
 			("Super Maxi", "Super Maxi"),
 	)
-
-
 
 PACKAGES  =  (
 			("basic", "Basic"),
