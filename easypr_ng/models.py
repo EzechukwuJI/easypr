@@ -19,7 +19,7 @@ class MediaPlatform(models.Model):
  
 
   def __unicode__(self):
-    return self.name
+    return '%s' %(self.name)
 
   def save(self, *args, **kwargs):
     self.name_slug = slugify(self.name)
@@ -35,7 +35,7 @@ class Sector(models.Model):
 
 
   def __unicode__(self):
-    return self.name
+    return '%s' %(self.name)
 
   def save(self, *args, **kwargs):
     self.name_slug   =   slugify(self.name)
@@ -44,12 +44,26 @@ class Sector(models.Model):
 
 
 
+
+class MediaContact(models.Model):
+  media_house              =           models.ForeignKey('MediaHouse')
+  first_name               =           models.CharField(max_length = 125)
+  last_name                =           models.CharField(max_length = 125)
+  date_added               =           models.DateTimeField(auto_now_add = True)
+  email                    =           models.CharField(max_length = 225)
+  phone_number             =           models.CharField(max_length = 15, null = True, blank = True)
+
+  def __unicode__(self):
+    return '%s,%s,%s' %(self.media_house.name, self.first_name + self.last_name, self.email)
+
+
+
 class MediaHouse(models.Model):
   name                =           models.CharField(max_length = 200)
   name_slug           =           models.CharField(max_length = 200)
   date_added          =           models.DateTimeField(auto_now_add = True)
   # contact_persons     =           models.ManyToManyField('MediaContact', blank = True)
-  platform            =           models.ManyToManyField('MediaPlatform', blank = True)
+  platform            =           models.ManyToManyField('MediaPlatform')
 
 
 
@@ -58,24 +72,13 @@ class MediaHouse(models.Model):
     super(MediaHouse, self).save(*args, **kwargs)
 
 
-
   def __unicode__(self):
-    return '%s, %s' %(self.name, self.platform)
+    return '%s, %s' %(self.name, self.platform.name)
+
 
   def get_contacts(self):
   	return self.mediacontact_set.all()
 
-
-
-class MediaContact(models.Model):
-  media_house              =           models.ForeignKey(MediaHouse)
-  first_name               =           models.CharField(max_length = 125)
-  last_name                =           models.CharField(max_length = 125)
-  date_added               =           models.DateTimeField(auto_now_add = True)
-  email                    =           models.CharField(max_length = 225)
-
-  def __unicode__(self):
-    return '%s,%s,%s' %(self.media_house, self.first_name + self.last_name, self.email)
 
 
 
@@ -453,7 +456,7 @@ class  InterviewRequest(models.Model):
 
 
   def __unicode__(self):
-    return '%s - %s' %(self.ticket_number)
+    return '%s - %s' %(self.ticket_number, self.status)
 
   class Meta:
     ordering = ('-date_requested',)
