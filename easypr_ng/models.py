@@ -498,31 +498,64 @@ class BasePackage(models.Model):
     abstract = True
 
 
-class Package(BasePackage):
+class Package(models.Model):
+  category                 =         models.ForeignKey(PressMaterial)
+  name                     =         models.CharField(max_length = 75, choices = PACKAGES )
+  media_outreach_credit    =         models.CharField(max_length = 25, default = 1)
+  online                   =         models.CharField("online_newspaper_publishing", max_length = 5, choices =  BOOLEAN_CHOICES)
+  monitoring               =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  free_consulting          =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  newsroom                 =         models.CharField("Newsroom via EasyPR Media Desk", max_length = 5, choices =  BOOLEAN_CHOICES)
+  google_news_inclusions   =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  reuters_news_network     =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  hyperlinks               =         models.CharField("hyperlinks in online press release", max_length = 5)
+  notification             =         models.CharField("publication notification via email", max_length = 5, choices =  BOOLEAN_CHOICES)
+  autopost                 =         models.CharField("autopost to social media account", max_length = 5, choices =  BOOLEAN_CHOICES)
+  analytics                =         models.CharField("detailed analytics report", max_length = 5, choices =  BOOLEAN_CHOICES)
+  expedited                =         models.CharField("expedited release processing", max_length = 5, choices =  BOOLEAN_CHOICES)
+  available_on_homepage    =         models.CharField("news made available to journalists, bloggers and researchers via EasyPR homepage", max_length = 5, choices =  BOOLEAN_CHOICES)
+  content_writing          =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  content_editing          =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  featured_package         =         models.CharField(max_length = 5, choices =  BOOLEAN_CHOICES)
+  price_naira              =         models.FloatField(max_length = 25, default = 0.0)
+  price_dollar             =         models.FloatField(max_length = 25, default = 0.0)
+  active                   =         models.BooleanField(default = False)
+  is_promo                 =         models.BooleanField(default = False)
+  promo_starts             =         models.DateTimeField(auto_now_add = True)
+  promo_ends               =         models.DateTimeField(auto_now_add = True)
+  promo_price_dollar       =         models.FloatField(max_length = 25, default = 0.0)
+  promo_price_naira        =         models.FloatField(max_length = 25, default = 0.0)
  
   def __unicode__(self):
-    return '%s-%s' %(self.category, self.name)
+    return '%s' %(self.name)
+
 
   def save(self, *args, **kwargs):
     self.price_naira = self.price_dollar * exchange_rate
     super(Package, self).save(*args, **kwargs)
 
+
   def VAT_N(self):
     return  VAT * self.price_naira
 
+
   def VAT_D(self):
     return float(VAT * self.price_dollar)
+
 
   def   amount_payable_D(self):
     vat = float(VAT *  self.price_dollar)
     return vat + self.price_dollar
 
+
   def   amount_payable_N(self):
     vat = float(VAT * self.price_naira)
     return vat + self.price_naira
 
+
   def get_category_packages(self, category):
     pass
+
 
   class Meta:
     verbose_name_plural = "Packages"
