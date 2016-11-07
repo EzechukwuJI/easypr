@@ -12,9 +12,9 @@
      		<div class="container">
 	        	<div class="row">
 	        		<div class="col-xs-12">
-	        			<div class="banner-heading">
+	        			<div class="banner-heading text-center">
 	        				<h1 class="banner-title title-border-left">{{ service.name|upper }} </h1>
-	        				<p class="banner-desc text-justify bg-white text-dark" style="padding:10px;opacity:1; font-size:14px;">{{ service.description|capfirst }}</p>
+	        				<p class="">{{ service.description|capfirst }}</p>
 	        			</div>
 	        		</div><!-- Col end -->
 	        	</div><!-- Row end -->
@@ -26,7 +26,7 @@
 	<section id="main-container" class="main-container">
 		<div class="container">
 			<div class="row">
-				{% for item in service.serviceitem_set.all %}
+				{% for item in service_list %}
 					<div class="col-md-4">
 					   <div class="ts-service-box" id="{{ item.name_slug }}">
 					      <div class="ts-service-image-wrapper">

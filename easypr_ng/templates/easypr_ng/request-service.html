@@ -1,7 +1,8 @@
 {% extends 'easypr_general/base.html' %}
 {% load staticfiles %}
-
+{% load base_custom_filters %}
 {% block title %}{{ service_type|capfirst }} Request {% endblock title %}
+
 
 
 
@@ -24,17 +25,265 @@
 
 	<section id="main-container" class="main-container">
 		<div class="container">
-			<div class="row text-center">
-				<div class="col-md-12 sticky-page bg-white">
-					<h2 class="error-code">price list here</h2>
-					{{ form.service_type }}
-					
-				</div>
+			<div class="row">
+				<div class="col-md-1 bg-white"></div>
+				<div class="col-md-8 bg-white">
+					<form action = "" method = "post">
+
+						{% csrf_token %}
+						<div class="panel panel-primary">
+							<div class="panel-heading bg-royal no-border-radius text-white">
+								<strong>Service Request Form</strong>
+							</div>
+							{% if not item == "photo-news" %}
+								<div class="panel-body">
+									<div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">
+						                		{{ request_form.service_type.label|title }}
+						                	</strong>
+						                </div>
+						                <div class="col-md-9">
+						                	<select name="service_type" class="form-control no-border-radius border-thick" required>
+						                		<option value="PR Distribution">Press Release Distribution</option>
+						                		<option value="content-writing">Content Writing and Marketing</option>
+						                		<option value="Advertising">Advertising</option>
+						                		<option value="sme-marketing">SME Marketing</option>
+						                		<option value="Sales and marketing">Sales and Marketing</option>
+						                		<option value="Blogger Distribution">Blogger Distribution</option>
+						                		<option value="Not sure">Not Sure</option>
+						                	</select>
+						                </div>
+						            </div>
+						            <br>
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">{{ request_form.brief_description.label|title }}</strong>
+						                </div>
+						                <div class="col-md-9">{{ request_form.brief_description }}</div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">When Do you Need this service?</strong>
+						                </div>
+						                <div class="col-md-9">
+						                	<input type="date" name="time_service_needed" class="form-control no-border-radius border-thick" required/>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">When can we call you?</strong>
+						                </div>
+						                <div class="col-md-9">
+						                	<select name="preferred_call_time" class="form-control no-border-radius border-thick" required>
+						                		<option value="office-hours">Mon-Fri (9am - 5pm)</option>
+						                		<option value="weekends">Saturdays</option>
+						                		<option value="send-mail">Prefer Email</option>
+						                		<option value="Anytime">Anytime</option>
+						                	</select>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">{{ request_form.contact_person.label|title }}</strong>
+						                </div>
+						                <div class="col-md-9">{{ request_form.contact_person }}</div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">{{ request_form.contact_email.label|title }}</strong>
+						                </div>
+						                <div class="col-md-9">{{ request_form.contact_email }}</div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">{{ request_form.phone_number.label|title }}</strong>
+						                </div>
+						                <div class="col-md-9">{{ request_form.phone_number }}</div>
+						            </div>
+						            <br>
+								</div>
+							{% else %}
+							<!-- photo news request form -->
+								<div class="panel-body">
+									<div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">
+						                		Name &amp; Type of Event
+						                	</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<select name="service_type" class="form-control no-border-radius border-thick" required>
+						                		<option value="PR Distribution">Press Release Distribution</option>
+						                		<option value="content-writing">Content Writing and Marketing</option>
+						                		<option value="Advertising">Advertising</option>
+						                		<option value="sme-marketing">SME Marketing</option>
+						                		<option value="Sales and marketing">Sales and Marketing</option>
+						                		<option value="Blogger Distribution">Blogger Distribution</option>
+						                		<option value="Not sure">Not Sure</option>
+						                	</select>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">Do you need an experienced photo-journalist?</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<select name="service_type" class="form-control no-border-radius border-thick" id="id_need_a_journalist" required>
+						                		<option value = "">-----</option>
+						                		<option value="yes">Yes</option>
+						                		<option value="No">No</option>
+						                	</select>
+						                </div>
+						            </div>
+						            <br>
+						            <span id="event_date_venue" class="hidden">
+						            	<div class="row">
+							                <div class="col-md-4">
+							                	<strong class="text-dark">Event Venue</strong>
+							                </div>
+							                <div class="col-md-8">
+							                	<textarea name="event_venue" class="form-control no-border-radius border-thick"></textarea>
+							                </div>
+							            </div>
+							            <br>
+
+							            <div class="row">
+							                <div class="col-md-4">
+							                	<strong class="text-dark">Event Date</strong>
+							                </div>
+							                <div class="col-md-4">
+							                	<input type="date" name="event_date" class="form-control no-border-radius border-thick" required/>
+							                </div>
+							                <div class="col-md-1">
+							                	<strong class="text-dark">Time</strong>
+							                </div>
+							                <div class="col-md-3">
+							                	<input type="time" name="event_time" class="form-control no-border-radius border-thick" required/>
+							                </div>
+							            </div>
+							            <br>
+						            </span>
+
+						            <span id="upload_photo" class="hidden">
+						            	<div class="panel-heading no-border-radius bg-royal text-white"> <strong>Upload Images</strong></div>
+						            	<div class="row">
+						                	<!-- <strong class="text-dark">Upload Images</strong><br> -->
+						                	<div class="col-md-3">
+						                		{% include 'snippets/file_upload.html' with file_id="image_1" %}
+						                	</div>
+						                	<div class="col-md-3">
+						                		{% include 'snippets/file_upload.html' with file_id="image_2" %}
+						                	</div>
+						                	<div class="col-md-3">
+						                		{% include 'snippets/file_upload.html' with file_id="image_3" %}
+						                	</div>
+						                	<!-- <div class="col-md-3">
+						                		{% include 'snippets/file_upload.html' with file_id="image_4" %}
+						                	</div> -->
+							            </div>
+							            <br>
+						            </span>
+						            <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">Contact Person</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<input type="text" name="contact_person" class="form-control no-border-radius border-thick" required/>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">Email</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<input type="email" name="contact_person" class="form-control no-border-radius border-thick" required/>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">Phone Number</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<input type="text" name="contact_person" class="form-control no-border-radius border-thick" required/>
+						                </div>
+						            </div>
+						            <br>
+								</div>
+							{% endif %}
+							<!--  submit button  -->
+							<div class="row">
+				            	<div class="col-md-8">
+				            		<input type="hidden" name="request_type" value={{ item }} class="form-control no-border-radius border-thick"/>
+				            	</div>
+				            	<div class="col-md-4">
+									<input type="submit" value="Submit Request" name="submit-request" class="btn btn-easypr bg-royal text-white pull-right" />
+								</div>
+							</div>	
+						</div>
+					</form>
+					</div>
+				<div class="col-md-3 bg-royal shadow-box"> descriptive text here </div>
 			</div><!-- Main row end -->
 		</div><!-- Conatiner end -->
 	</section><!-- Main container end -->
-
-
-	
-
 {% endblock inner_content %}
+
+
+
+
+
+{% block inline_scripts %}
+	<script type="text/javascript" src="{% static 'easypr/js/jquery.js' %}"></script>
+	<script>
+		$("#id_need_a_journalist").on('change', function(){
+			var option = $(this).val()
+			if (option != ""){
+				if (option == "yes"){
+					$("#event_date_venue").removeClass('hidden');
+					$("#upload_photo").addClass('hidden');
+				} else {
+					$("#upload_photo").removeClass('hidden');
+					$("#event_date_venue").addClass('hidden');
+				}
+			} else {
+				$("#event_date_venue").removeClass('hidden');
+				$("#upload_photo").addClass('hidden');
+				alert('select a valid option');
+			}
+		})
+	</script>
+
+{% endblock inline_scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

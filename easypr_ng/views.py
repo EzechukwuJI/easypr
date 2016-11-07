@@ -37,11 +37,11 @@ def get_recent_posts(post_count, order_by):
 
 def  indexView(request):
     context = {}
-    press_materials = ["features","press_release","interview","photo_news"]
-    for cate in press_materials:
-        search_str = cate.replace("_"," ")
-        context[cate] = Bouquet.objects.filter(press_material__media_type = search_str)
-        context['recent_posts'] = get_recent_posts(25,"?")
+    # press_materials = ["features","press_release","interview","photo_news"]
+    # for cate in press_materials:
+    #     search_str = cate.replace("_"," ")
+    #     context[cate] = Bouquet.objects.filter(press_material__media_type = search_str)
+    context['recent_posts'] = get_recent_posts(50,"?")
     return render(request, 'easypr_general/index.html', context)
     
 
@@ -491,7 +491,7 @@ def  servicesView(request, service_category):
     if not service.exists():
         message = "service not found"
         return render(request, 'easypr_general/coming-soon.html', {'response': message})
-    context['service-list'] = service[0].serviceitem_set.filter(active = True)
+    context['service_list'] = service[0].serviceitem_set.all().exclude(active = False)
     context['service']      = service[0]
     return render(request, 'easypr_general/services-details.html', context)
 
@@ -519,12 +519,20 @@ def get_startedView(request, category,item):
 
 
 def submitContentView(request, category, item):
+    context = {}
+    context['category']     =  category
     template = "easypr_ng/submit-content.html"
     return render(request, template, {})
 
 
+
+
+
 def requestServiceView(request, category, item):
-    context['form'] = ServiceRequestForm
+    context = {}
+    context['request_form'] = ServiceRequestForm
+    context['category']     =  category
+    context['item']         =  item
 
     template = "easypr_ng/request-service.html"
     return render(request, template, context)

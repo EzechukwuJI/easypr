@@ -78,6 +78,7 @@ class Migration(migrations.Migration):
                 ('call_to_action', models.CharField(max_length=75, null=True, blank=True)),
                 ('icon_text', models.CharField(max_length=75, null=True, blank=True)),
                 ('action_type', models.CharField(default=b'', max_length=175, choices=[(b'select_service', b'select service'), (b'submit_content', b'submit content'), (b'request_service', b'request service')])),
+                ('active', models.BooleanField(default=False)),
                 ('category', models.ForeignKey(to='easypr_general.ServiceCategory')),
             ],
         ),

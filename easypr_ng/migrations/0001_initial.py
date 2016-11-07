@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Packages',
+            name='Package',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=75, choices=[(b'basic', b'Basic'), (b'regular', b'Regular'), (b'premium', b'Premium'), (b'premium-plus', b'Premium Plus')])),
@@ -133,7 +133,7 @@ class Migration(migrations.Migration):
                 ('promo_price_naira', models.FloatField(default=0.0, max_length=25)),
             ],
             options={
-                'abstract': False,
+                'verbose_name_plural': 'Packages',
             },
         ),
         migrations.CreateModel(
@@ -145,6 +145,7 @@ class Migration(migrations.Migration):
                 ('amount_paid', models.FloatField(default=0.0)),
                 ('date_paid', models.CharField(max_length=100, null=True, blank=True)),
                 ('bank_name', models.CharField(blank=True, max_length=100, null=True, choices=[(b'Diamond Bank', b'Diamond Bank'), (b'GTB', b'GTB')])),
+                ('currency', models.CharField(max_length=100, null=True, blank=True)),
                 ('teller_number', models.CharField(max_length=15, null=True, blank=True)),
                 ('pay_status', models.CharField(default=b'pending', max_length=25, choices=[(b'verified', b'verified'), (b'pending', b'pending'), (b'failed', b'failed')])),
                 ('verified_by', models.BooleanField(default=False)),
@@ -297,7 +298,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='purchase',
             name='package',
-            field=models.ForeignKey(to='easypr_ng.Packages'),
+            field=models.ForeignKey(to='easypr_ng.Package'),
         ),
         migrations.AddField(
             model_name='purchase',
@@ -325,7 +326,7 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(to='sites.Site'),
         ),
         migrations.AddField(
-            model_name='packages',
+            model_name='package',
             name='category',
             field=models.ForeignKey(to='easypr_ng.PressMaterial'),
         ),

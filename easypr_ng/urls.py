@@ -22,7 +22,6 @@ urlpatterns  =  [
 	url(r'^post/comment/reply/$',                	                     views.postCommentReplyView,    name = 'post-reply'),
 
 	url(r'^our-works/$',                				                 views.ourWorksView,            name = 'our-works'),
-	
 	url(r'^buy-package/press_material=(?P<press_material>[-\w]+)/package=(?P<package>[-\w]+)/$', views.buy_packageView, name = "buy-package"),
 	url(r'^content-upload/preview/ref=(?P<transaction_id>[-\w]+)$',      views.previewPublicationView,  name = "preview-content"),
 	url(r'^fetch-media-houses/$',                                        views.get_media_houses,        name = 'get-media-houses'),
@@ -34,8 +33,8 @@ urlpatterns  =  [
 	url(r'^bespoke-bundle-plans/$',                                      views.bundlePlanView,          name = 'bundle-plans'),
 	
 	url(r'^(?P<category>[-\w]+)/(?P<item>[-\w]+)/pricing/$',             views.get_startedView,         name = 'get-started'),
-	url(r'^(?P<category>[-\w]+)/(?P<item>[-\w]+)/$',                     views.submitContentView,       name = 'submit-content'),
-	url(r'^(?P<category>[-\w]+)/(?P<item>[-\w]+)/$',                     views.requestServiceView,      name = 'request-service'),
+	url(r'^(?P<category>[-\w]+)/(?P<item>[-\w]+)/submit-content/$',      views.submitContentView,       name = 'submit-content'),
+	url(r'^(?P<category>[-\w]+)/(?P<item>[-\w]+)/submit-request/$',      views.requestServiceView,      name = 'request-service'),
 	
 	
 

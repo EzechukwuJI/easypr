@@ -292,52 +292,52 @@ class PurchaseInvoice(Purchase):
 
 
 
-class Bouquet(models.Model):
-  name                            =       models.CharField(max_length = 75, choices = BOUQUET)
-  name_slug             	        =       models.CharField(max_length = 75)
-  price_per_media_N               =       models.FloatField("Price in Naira", default = 0.0)
-  price_per_media_D               =       models.FloatField("Price in Dollar", default = 0.0)
-  discounted_price_per_media_N    =       models.FloatField("Discounted Price Naira", default = 0.0)
-  discounted_price_per_media_D    =       models.FloatField("Discounted Price Dollar", default = 0.0)
-  num_of_media     		            =       models.IntegerField(default = 0)
-  press_material   		            =       models.ForeignKey(PressMaterial)
-  media_houses     		            =       models.ManyToManyField(MediaHouse)
-  percentage_commission           =       models.FloatField(default = 0.0)
-  percentage_savings              =       models.FloatField(default = 0.0)
-  amount_payable_N                =       models.FloatField("Total amount in Naira", default = 0.0)
-  amount_payable_D                =       models.FloatField("Total amount in Dollar", default = 0.0)
+# class Bouquet(models.Model):
+#   name                            =       models.CharField(max_length = 75, choices = BOUQUET)
+#   name_slug             	        =       models.CharField(max_length = 75)
+#   price_per_media_N               =       models.FloatField("Price in Naira", default = 0.0)
+#   price_per_media_D               =       models.FloatField("Price in Dollar", default = 0.0)
+#   discounted_price_per_media_N    =       models.FloatField("Discounted Price Naira", default = 0.0)
+#   discounted_price_per_media_D    =       models.FloatField("Discounted Price Dollar", default = 0.0)
+#   num_of_media     		            =       models.IntegerField(default = 0)
+#   press_material   		            =       models.ForeignKey(PressMaterial)
+#   media_houses     		            =       models.ManyToManyField(MediaHouse)
+#   percentage_commission           =       models.FloatField(default = 0.0)
+#   percentage_savings              =       models.FloatField(default = 0.0)
+#   amount_payable_N                =       models.FloatField("Total amount in Naira", default = 0.0)
+#   amount_payable_D                =       models.FloatField("Total amount in Dollar", default = 0.0)
 
 
 
-  def save(self, *args, **kwargs):
-    self.name_slug  = slugify(self.name)
+#   def save(self, *args, **kwargs):
+#     self.name_slug  = slugify(self.name)
 
-    amount_to_pay_N = self.price_per_media_N * self.num_of_media
-    amount_to_pay_D = self.price_per_media_D * self.num_of_media
+#     amount_to_pay_N = self.price_per_media_N * self.num_of_media
+#     amount_to_pay_D = self.price_per_media_D * self.num_of_media
 
-    if amount_to_pay_N > amount_payable_N:
-      saved_N = (amount_to_pay_N - amount_payable_N)
+#     if amount_to_pay_N > amount_payable_N:
+#       saved_N = (amount_to_pay_N - amount_payable_N)
 
-      self.percentage_savings = (saved_N/amount_payable_N) * 100
-    super(Bouquet, self).save(*args, **kwargs)
+#       self.percentage_savings = (saved_N/amount_payable_N) * 100
+#     super(Bouquet, self).save(*args, **kwargs)
    
 
-  def __unicode__(self):
-    return "%s, %s" %(self.press_material, self.name)
+#   def __unicode__(self):
+#     return "%s, %s" %(self.press_material, self.name)
 
 
-  def get_total_price(self, currency):
-    amount = 0.0
-    if currency == "naira":
-    	amount = self.price_per_media_N * self.Num_of_media
-    elif currency == "dollar":
-    	amount = self.price_per_media_D * self.Num_of_media
-    amount += (amount * VAT)
-    return currency, round(amount, 2)
+#   def get_total_price(self, currency):
+#     amount = 0.0
+#     if currency == "naira":
+#     	amount = self.price_per_media_N * self.Num_of_media
+#     elif currency == "dollar":
+#     	amount = self.price_per_media_D * self.Num_of_media
+#     amount += (amount * VAT)
+#     return currency, round(amount, 2)
       
 
-  def get_media_type_slug(self):
-    return self.press_material.name_slug
+#   def get_media_type_slug(self):
+#     return self.press_material.name_slug
 
     
     
@@ -433,7 +433,7 @@ class  ServiceRequest(models.Model):
 class  InterviewRequest(models.Model):
   ticket_number                =     models.CharField(max_length = 14)
   preferred_interview_date     =     models.DateTimeField()
-  preferred_media_house        =     models.ManyToManyField(MediaHouse)
+  preferred_media_house        =     models.ManyToManyField('MediaHouse')
   interview_venue              =     models.TextField(max_length =  300, null = True)
   interview_date               =     models.DateTimeField()
   interview_time               =     models.DateTimeField()
@@ -458,6 +458,7 @@ class  InterviewRequest(models.Model):
   class Meta:
     ordering = ('-date_requested',)
     verbose_name_plural = "Interview request"
+
 
 
 class BasePackage(models.Model):

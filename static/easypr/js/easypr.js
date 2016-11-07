@@ -190,7 +190,7 @@ function counter(action, display_id){
 
 function  countSelectedMedia(){
   var selected = $(".selected-media-house").find(":checked").length;
-  alert(selected);
+  // alert(selected);
 }
 
 // $(".selected-media-house").click(function(){

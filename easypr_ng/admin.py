@@ -1,6 +1,6 @@
 from django.contrib import admin
 from easypr_ng.models import  MediaHouse, MediaContact,PressMaterial, Redirect_url, \
-Publication,PublicationImage,Purchase,PayDetails,PurchaseInvoice, Bouquet,MediaPlatform, Sector, \
+Publication,PublicationImage,Purchase,PayDetails,PurchaseInvoice,MediaPlatform, Sector, \
 Comment, CommentReply, PRStrategy, InterviewRequest, ServiceRequest, Package
 
 
@@ -23,8 +23,8 @@ class MediaPlatformAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'name_slug':('name',)}
 
 
-class BouquetAdmin(admin.ModelAdmin):
-	list_display = ('name', 'press_material','num_of_media','amount_payable_N','amount_payable_D','percentage_commission',)
+# class BouquetAdmin(admin.ModelAdmin):
+# 	list_display = ('name', 'press_material','num_of_media','amount_payable_N','amount_payable_D','percentage_commission',)
 
 
 class PayDetailsAdmin(admin.ModelAdmin):
@@ -74,7 +74,7 @@ admin.site.register(PressMaterial)
 admin.site.register(Redirect_url)
 admin.site.register(Publication, PublicationAdmin)
 admin.site.register(PublicationImage)
-admin.site.register(Bouquet, BouquetAdmin)
+# admin.site.register(Bouquet, BouquetAdmin)
 admin.site.register(Purchase, PurchaseAdmin)
 admin.site.register(PayDetails, PayDetailsAdmin)
 admin.site.register(PurchaseInvoice)
