@@ -84,7 +84,7 @@ def create_post(request, press_material):
     transaction_id = transaction_ref("publication", Publication, 10)
     rp = request.POST
     title = rp['post_title']
-    print "media house pk: ", rp.getlist('media_house[]')
+    # print "media house pk: ", rp.getlist('media_house[]')
     posted_by = request.user
     content = rp['post_body']
     person = rp['person_to_quote']
@@ -509,9 +509,9 @@ def get_startedView(request, category,item):
     context['form']                         =   ServiceRequestForm
     pkg_details_dicts_list, press_material  =   get_category_packages_dicts_list(item)
     context['press_material']               =   press_material
-
-    context['plan_names']                   =   pkg_details_dicts_list[0]['name']
-    pkg_details_dicts_list.pop(0)
+    if pkg_details_dicts_list:
+        context['plan_names']                   =   pkg_details_dicts_list[0]['name']
+        pkg_details_dicts_list.pop(0)
     context['pkg_dict']                     =   pkg_details_dicts_list
     return render(request, template, context)
 

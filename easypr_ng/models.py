@@ -6,7 +6,7 @@ from easypr_general.models_field_choices import *
 from easypr_general.models import UserAccount
 from django.db.models import Q, Sum
 import random
-from django.contrib.auth.models import User 
+# from django.contrib.auth.models import User 
 from easypr.settings import VAT
 from easypr.settings import NAIRA_DOLLAR_RATE as exchange_rate
 
@@ -24,6 +24,7 @@ class MediaPlatform(models.Model):
   def save(self, *args, **kwargs):
     self.name_slug = slugify(self.name)
     super(MediaPlatform, self).save(*args, **kwargs)
+    return True
 
 
 
@@ -33,16 +34,12 @@ class Sector(models.Model):
   active         =      models.BooleanField(default = True)
  
 
-
   def __unicode__(self):
     return '%s' %(self.name)
 
   def save(self, *args, **kwargs):
     self.name_slug   =   slugify(self.name)
     super(Sector, self).save(*args, **kwargs)
-
-
-
 
 
 class MediaContact(models.Model):
@@ -55,7 +52,6 @@ class MediaContact(models.Model):
 
   def __unicode__(self):
     return '%s,%s,%s' %(self.media_house.name, self.first_name + self.last_name, self.email)
-
 
 
 class MediaHouse(models.Model):
@@ -73,7 +69,7 @@ class MediaHouse(models.Model):
 
 
   def __unicode__(self):
-    return '%s, %s' %(self.name, self.platform.name)
+    return '%s' %(self.name)
 
 
   def get_contacts(self):

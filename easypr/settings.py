@@ -55,7 +55,9 @@ EASYPR_APPS = (
     'easypr_admin',
     )
 
-INSTALLED_APPS =  DJANGO_APPS + EASYPR_APPS
+EXTERNAL_APPS = ('coverage',)
+
+INSTALLED_APPS =  DJANGO_APPS + EASYPR_APPS + EXTERNAL_APPS
 
 # if not os.environ.get('RDS_DB_NAME'):
 #     INSTALLED_APPS += 'debug_toolbar',
