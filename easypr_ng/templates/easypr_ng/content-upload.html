@@ -140,6 +140,7 @@
 
 
 {% block inline_scripts %}
+<script type="text/javascript" src="{% static 'easypr/js/jquery.js' %}"></script>
 <script>
 	function fetch_media(select_input_id, div_to_populate){	
 		$("#" + div_to_populate).html('<option value="" style="color:green;">Fetching media ...</option>');
@@ -184,6 +185,11 @@
       var selected_media_houses = $(".selected-media-houses").find(":checked").length;
   
 }
+</script>
+<script>
+	$(".selected-media-house").click(function(){
+		alert("this happened");
+	})
 </script>
 
 {% endblock inline_scripts %}

@@ -1,0 +1,115 @@
+{% load humanize %}
+{% load staticfiles %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>EasyPR Nigeria</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+ <body style="margin: 0; padding: 0; font-family: Arial, sans-serif, verdana; font-size: 14px;">
+ <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border:none;"> 
+  <tr>
+   <td style="padding: 10px 0 15px 0;">
+    <table  style="border: 1px solid #cccccc;" align="center" border="0" cellpadding="0" cellspacing="0" width="600">
+     <tr>
+      <td align="center" bgcolor="#ffffff" style="padding: 10px 0 10px 0; border-bottom: thin solid orange;">
+         <table> 
+          <tr>
+            <td width="25%">
+              <img src="{% static 'easypr/images/easyprlogo.jpg' %}" alt="Easypr Nigeria" width="195" height="55" style="display: block;" />
+            </td>
+            <td width="25%"></td>
+            <td width="50%">
+            </td>
+          </tr>
+        </table>
+       <!-- <img src="{% static 'easypr/images/easyprlogo.jpg' %}" alt="Easypr Nigeria" width="500" height="130" style="display: block;" /> -->
+      </td>
+     </tr>
+     <tr>
+      <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+       <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+         <td style="color: #153643; font-family: Arial, sans-serif; font-size: 20px;">
+          <span>Hello {{ username|title }},</span>
+         </td>
+        </tr>
+        <tr>
+         <td style="padding: 20px 0 30px 0;">
+          {{ body }}
+         </td>
+        </tr>
+        <tr>
+         <td>
+
+          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+           <tr>
+            <td width="260" valign="top">
+             <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <!-- <tr>
+               <td>
+                <img src="" alt="EasyPR Nigeria" width="75%" height="140" style="display: block;" />
+               </td>
+              </tr> -->
+              <tr>
+               <td style="padding: 25px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+                <span>Always to your business success</span><br>
+                <span>
+                  &nbsp; &nbsp; &nbsp; <a href="http://{{ domain_name }}" target="new" style="text-decoration:none">{{ display_name }}</a> Team.
+                </span align="center">
+               </td>
+              </tr>
+             </table>
+            </td>
+            <td style="font-size: 0; line-height: 0;" width="20">
+             &nbsp;
+            </td>
+           </tr>
+          </table>
+         </td>
+        </tr>
+       </table>
+      </td>
+     </tr>
+     <tr>
+      <td bgcolor="orange" style="padding: 30px 30px 30px 30px;">
+       <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr bgcolor="orange">
+         <td width="75%" style="color: #333333; font-family: Arial, sans-serif; font-size: 14px;">
+          &reg; EasyPR Nigeria 
+            <script>
+              var date = new Date();
+              document.write(date.getFullYear());
+            </script>
+            <br/>
+         </td>
+         <td align="right">
+           <table border="0" cellpadding="0" cellspacing="0">
+            <tr bgcolor="orange">
+             <td>
+                <a href="" target="_blank">
+                    <img src="{% static 'easypr/images/facebook.png' %}" />
+                </a>
+             </td>
+             <td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td>
+             <td>
+                <a href="{{ request.marketing_member.twitter_link }}" target="_blank">
+                  <img src="{% static 'easypr/images/twitter.png' %}" />
+                </a>
+             </td>
+
+            </tr>
+           </table>
+         </td>
+        </tr>
+       </table>
+      </td>
+     </tr>
+    </table>
+   </td>
+  </tr>
+ </table>
+</body>
+</html>

@@ -74,36 +74,50 @@ class TargetAudienceForm(forms.ModelForm):
 # ...     Author, fields=('name', 'title'),
 # ...     widgets={'name': Textarea(attrs={'cols': 80, 'rows': 20})})
 
-ServiceRequestForm = modelform_factory(ServiceRequest, 
-	exclude=('ticket_number','status','request_outcome',
-	'contacted_by','closed_by','date_requested','date_closed',), 
-	widgets={
-	'service_type':Select(choices = SERVICE_TYPE, attrs={'class':'form-control','required':'required'}),
-	'sector':Select(choices = ECONOMY_SECTOR, attrs={'class':'form-control','required':'required'}),
-	'brief_description':Textarea(attrs={'cols':80,'class':'form-control','required':'required'}),
-	'target_media':Select(attrs={'class':'form-control','required':'required'}),
-	'time_service_needed':TextInput(attrs={'class':'form-control','required':'required'}),
-	'preferred_call_time':TextInput(attrs={'class':'form-control','required':'required'}),
-	'allow_call':CheckboxInput(attrs={'class':'form-control','required':'required'}),
-	'contact_person':TextInput(attrs={'class':'form-control','required':'required'}),
-	'contact_email':EmailInput(attrs={'class':'form-control','required':'required'}),
-	'phone_number':EmailInput(attrs={'class':'form-control','required':'required'})
-	})
+# ServiceRequestForm = modelform_factory(ServiceRequest, 
+# 	exclude=('ticket_number','status','request_outcome',
+# 	'contacted_by','closed_by','date_requested','date_closed',), 
+# 	widgets={
+# 	'service_type':Select(choices = SERVICE_TYPE, attrs={'class':'form-control','required':'required'}),
+# 	'sector':Select(choices = ECONOMY_SECTOR, attrs={'class':'form-control','required':'required'}),
+# 	'brief_description':Textarea(attrs={'cols':80,'class':'form-control','required':'required'}),
+# 	'target_media':Select(attrs={'class':'form-control','required':'required'}),
+# 	'time_service_needed':TextInput(attrs={'class':'form-control','required':'required'}),
+# 	'preferred_call_time':TextInput(attrs={'class':'form-control','required':'required'}),
+# 	'allow_call':CheckboxInput(attrs={'class':'form-control','required':'required'}),
+# 	'contact_person':TextInput(attrs={'class':'form-control','required':'required'}),
+# 	'contact_email':EmailInput(attrs={'class':'form-control','required':'required'}),
+# 	'phone_number':EmailInput(attrs={'class':'form-control','required':'required'})
+# 	})
 
 
 class ServiceRequestForm(forms.ModelForm):
-	service_type      =    forms.CharField(max_length = 100, widget=forms.Select(choices = SERVICE_TYPE, attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
+	# service_type      =    forms.CharField(max_length = 100, widget=forms.Select(choices = SERVICE_TYPE, attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
 	# sector            =    forms.CharField(max_length = 100, widget=forms.Select(choices = ECONOMY_SECTOR, attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
 	brief_description =    forms.CharField(max_length = 450, widget=forms.Textarea(attrs={'class' : 'form-control no-border-radius bg-white border-thick', 'required':'required','rows':5,'placeholder':"Briefly describe the service you want or the goal you're trying to achieve"}))
 	# sector            =    forms.CharField(max_length = 100, widget=forms.Select(choices = MEDIA_PLATFORM, attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
 	time_service_needed  =    forms.DateField(widget=forms.DateInput(attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
-	preferred_call_time  =    forms.CharField(max_length = 100, widget=forms.Select(attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
-	allow_call           =    forms.CharField(max_length = 100, widget=forms.CheckboxInput(attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
-	contact_person     	 =    forms.CharField(max_length = 200, widget=forms.TextInput(attrs={'class' : 'form-control no-border-radius title bg-white border-thick', 'required':'required'}))
-	contact_email     	 =    forms.CharField(max_length = 200, widget=forms.TextInput(attrs={'class' : 'form-control no-border-radius title bg-white border-thick', 'required':'required'}))
-	phone_number     	 =    forms.CharField(max_length = 200, widget=forms.TextInput(attrs={'class' : 'form-control no-border-radius title bg-white border-thick', 'required':'required'}))
+	# preferred_call_time  =    forms.CharField(max_length = 100, widget=forms.Select(attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
+	# allow_call           =    forms.CharField(max_length = 100, widget=forms.CheckboxInput(attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
+	contact_person     	 =    forms.CharField(max_length = 200, widget=forms.TextInput(attrs={'class' : 'form-control no-border-radius bg-white border-thick', 'required':'required'}))
+	contact_email     	 =    forms.CharField(max_length = 200, widget=forms.EmailInput(attrs={'class' : 'form-control no-border-radius bg-white border-thick', 'required':'required'}))
+	phone_number     	 =    forms.CharField(max_length = 200, widget=forms.TextInput(attrs={'class' : 'form-control no-border-radius bg-white border-thick', 'required':'required'}))
+	# ticket_number     	 =    forms.CharField(max_length = 14, widget=forms.TextInput(attrs={'class' : 'form-control no-border-radius bg-white border-thick', 'required':'required'}))
 
 	class Meta:
 		model = ServiceRequest
-		fields = ()
+		fields = ('brief_description','time_service_needed','contact_person','contact_email','phone_number')
+
+
+
+
+
+
+
+
+
+
+
+
+
 

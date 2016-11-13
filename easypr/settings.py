@@ -126,15 +126,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-DEFAULT_FROM_EMAIL      =   'EasyPR <info@yadelcommunications.com>'
+
 
 EMAIL_BACKEND           =   'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS           =    True
 EMAIL_HOST              =   'smtp.zoho.com'
-# EMAIL_HOST              =   'smtp.gmail.com'
-EMAIL_HOST_USER         =   'EasyPR <info@yadelcommunications.com>'
-EMAIL_HOST_PASSWORD     =   'admin123'
+# EMAIL_HOST            =   'smtp.gmail.com'
+EMAIL_HOST_USER         =   'hello@yadelcommunications.com'
+EMAIL_HOST_PASSWORD     =   'infoadmin'
 EMAIL_PORT              =   587
+DEFAULT_FROM_EMAIL      =   EMAIL_HOST_USER
+# DEFAULT_FROM_EMAIL      =   'hello@yadelcommunications.com'
 
 
 

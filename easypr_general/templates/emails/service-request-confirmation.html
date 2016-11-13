@@ -1,0 +1,54 @@
+{% load base_custom_filters %}
+
+<style>
+	blockquote {
+		background-color: #e8e8e8; 
+		border: thin solid #d8d8d8; 
+		padding: 7.5px; 
+		border-radius:5px;"
+	}
+	table {
+		background-color: #ffffff;
+	}
+	.text-red {
+		color: red;
+	}
+	.text-dark {
+		color: #444444;
+	}
+	.btn {
+		padding: 10px;
+		border: 2px solid #000000;
+		color: #ffffff;
+		background-color: #012e5b;
+	}
+	tr.border td {
+		border: thin solid #e0e0e0;
+		padding: 10px;
+	}
+</style>
+
+<h4> <strong></strong></h4>
+We have received your request for {{ service_type|title|strip_chars:"-" }} on EasyPR Nigeria. <br> A member of the EasyPR Team will contact you shortly.
+<br><br>
+<!-- Below is an extract from your request. -->
+<blockquote>
+	<table width="100%" class="text-dark">
+		<tr class = "border">
+			<td><strong>Ticket Number: </strong></td>
+			<td>#{{ ticket_number }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong>Request Type: </strong></td>
+			<td>{{ service_type|title|strip_chars:"-" }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong>Description: </strong></td>
+			<td>{{ brief_desc|capfirst }}</td>
+		</tr>
+	</table>
+</blockquote>
+
+PS: Please keep this email handy for future reference.
+
+

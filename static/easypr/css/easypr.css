@@ -82,11 +82,11 @@
 
 .bg-success {
 	background-color: #e7ffe1 !important;
-	/*background-color: lightgreen !important;*/
+	color: #666666;
 }
 
 .bg-error {
-	background-color: red !important;
+	background-color: #fdd6d3 !important;
 	color: #ffffff;
 }
 

@@ -12,7 +12,7 @@ from django.db.models import F
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from easypr_ng.models import *
-from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list, get_category_packages_dicts_list
+from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list, get_category_packages_dicts_list, easypr_send_mail
 from easypr_general.models import ServiceCategory
 # from easypr_ng.models import MediaHouse, MediaContact, PressMaterial, Redirect_url, Publication, PublicationImage, \
 # Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform, Comment, CommentReply
@@ -37,54 +37,18 @@ def get_recent_posts(post_count, order_by):
 
 def  indexView(request):
     context = {}
-    # press_materials = ["features","press_release","interview","photo_news"]
-    # for cate in press_materials:
-    #     search_str = cate.replace("_"," ")
-    #     context[cate] = Bouquet.objects.filter(press_material__media_type = search_str)
     context['recent_posts'] = get_recent_posts(50,"?")
     return render(request, 'easypr_general/index.html', context)
     
 
-
 def ourWorksView(request):
     return render(request, 'easypr_ng/our-works.html', {})
-
-
-
-# def create_post(request, press_material):
-#     transaction_id = transaction_ref("publication", Publication, 10)
-#     rp = request.POST
-#     title = rp['post_title']
-#     posted_by = request.user
-#     content = rp['post_body']
-#     person = rp['person_to_quote']
-#     position = rp['persons_position']
-#     platform = MediaPlatform.objects.get(pk = rp['platform'])
-#     sector = Sector.objects.get(pk = rp['sector'])
-#     press_material  =  PressMaterial.objects.get(name_slug = press_material)
-#     online = rp.get('publish_online', False)
-#     new_post = Publication.objects.create(transaction_id = transaction_id, post_title = title, post_body = content,person_to_quote = person, persons_position = position,
-#         posted_by = posted_by, platform = platform, sector = sector, publish_online = online, press_material = press_material)
-#     selected_media_houses = [ media for media in MediaHouse.objects.filter(pk__in = rp.getlist('selected_media[]'))]
-#     for media_pk    in  rp.getlist('selected_media[]'):
-#         media_house =   MediaHouse.objects.get(pk = media_pk )
-#         new_post.media_houses.add(media_house)
-#     new_post.save()
-
-#     for image in request.FILES.keys():
-#         pub_image = PublicationImage.objects.create(image = request.FILES[image], caption = request.POST["cap_"+ image], post = new_post)
-#         # new_post.pictures.add(pub_image)
-#     new_post.save()
-#     return new_post
-
-
 
 
 def create_post(request, press_material):
     transaction_id = transaction_ref("publication", Publication, 10)
     rp = request.POST
     title = rp['post_title']
-    # print "media house pk: ", rp.getlist('media_house[]')
     posted_by = request.user
     content = rp['post_body']
     person = rp['person_to_quote']
@@ -103,50 +67,17 @@ def create_post(request, press_material):
 
     for image in request.FILES.keys():
         pub_image = PublicationImage.objects.create(image = request.FILES[image], caption = request.POST["cap_"+ image], post = new_post)
-        # new_post.pictures.add(pub_image)
     new_post.save()
     return new_post
-
-
 
 
 def create_purchase_record(request, package,publication):
     tr_id       =  transaction_ref("purchase", Purchase, 10)
     pay_id      =  transaction_ref("payment",  PayDetails, 10)
     pay_details =  PayDetails.objects.create(user = request.user, transaction_id = pay_id)
-
     new_purchase = Purchase.objects.create(user = request.user, transaction_id = tr_id, package = package,
         publication = publication, payment_details = pay_details)
     return new_purchase
-
-
-
-# @login_required()
-# def buy_packageView(request, press_material,package):
-#     form = ContentUploadForm()
-#     context                =   {}
-#     bouquet                =   get_object_or_404(Packages, name_slug = package, press_material = PressMaterial.objects.get(name_slug = press_material))
-#     # bouquet                =   get_object_or_404(Bouquet, name_slug = package, press_material = PressMaterial.objects.get(name_slug = press_material))
-#     template               =  'easypr_ng/content-upload.html'
-#     context['sectors']     =   Sector.objects.filter(active = True)
-#     context['platforms']   =   MediaPlatform.objects.filter(active = True)
-#     context['package']     =   bouquet
-
-#     if request.method == "POST":
-#         form = ContentUploadForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             new_post       =    create_post(request, press_material)
-#             new_purchase   =   create_purchase_record(request, bouquet, new_post)
-#             return redirect(reverse('easypr_ng:preview-content', kwargs={'transaction_id':new_post.transaction_id}))
-#         else:
-#             print form.errors
-#             context['form'] = ContentUploadForm(data = request.POST)
-#             context.update({'press_material':press_material, 'package':package})
-#             return render(request, template, context)
-#     context['form'] = ContentUploadForm()
-#     return render(request, template, context)
-
-
 
 
 @login_required()
@@ -159,10 +90,7 @@ def buy_packageView(request, press_material,package):
     context['platforms']   =   MediaPlatform.objects.filter(active = True)
     context['package']     =   package
     if request.method == "POST":
-        # request.session['post-data'] = request.POST
-        # request.session['post-images']  = request.FILES
         form = ContentUploadForm(request.POST, request.FILES)
-        # request.session['form'] = serializers.serialize('json', form._meta.__dict__)
         if form.is_valid():
             new_post       =    create_post(request, press_material)
             new_purchase   =    create_purchase_record(request, package, new_post)
@@ -177,19 +105,12 @@ def buy_packageView(request, press_material,package):
     return render(request, template, context)
 
 
-
-
 @login_required()
 def previewPublicationView(request, **kwargs):
-    # post_data   = request.session.get('post-data', {})
-    # post_files  = request.session.get('post-images', {})
-    # form = ContentUploadForm(post_data, post_files)
     context = {}
-    post = Publication.objects.get(transaction_id = kwargs['transaction_id'])
+    post = get_object_or_404(Publication, transaction_id = kwargs['transaction_id'])
     previous_page  = request.META.get('HTTP_REFERER', "")
     return render(request, 'easypr_ng/content-preview.html', {'post':post, 'previous_page':previous_page})
-
-
 
 
 @login_required()
@@ -206,7 +127,6 @@ def Payment(request, **kwargs):
         request.session['pay_info_id']   =   purchase.payment_details.pk
         return redirect(reverse('easypr_ng:confirmation'))
     return render(request, template, {'post':publication, 'purchase':purchase, 'previous_page':previous_page})
-
 
 
 
@@ -229,9 +149,8 @@ def savePayInfo(request, transaction_id):
         pass
    
 
-
-
 def get_media_houses(request):
+    ''' ajax view fetches applicable media houses for selected platform '''
     media_platform  =   request.POST['media_platform']
     template        =  'snippets/media-options.html'
     platform        =   MediaPlatform.objects.filter(pk = media_platform)
@@ -248,12 +167,22 @@ def confirmationView(request):
         pay_info     =   get_object_or_404(PayDetails,  pk = request.session.get('pay_info_id', ''))
     except:
         post = purchase = pay_info = {}
-    print post, purchase, pay_info
+    mail_container = [
+                        ["Publication submission confirmation","emails/publication-confirmation.html",{'post':post}],
+                        ["Purchase Invoice","emails/purchase-invoice.html",{'post':post,'purchase':purchase,'pay_info':pay_info}]
+                    ]
+    for item in mail_container:
+        subject      = item[0]
+        template     = item[1]
+        mail_context = item[2]
+        easypr_send_mail(request, recipient = request.user.first_name, useremail= request.user.email, text=template,subject=subject, context = mail_context)
+    
+    # claer session variables
     for key in request.session.keys():
         if key in active_session_keys:
             del request.session[key]
-    return render(request, 'easypr_ng/confirmation.html', {'post':post,'purchase':purchase,'pay_info':pay_info})
 
+    return render(request, 'easypr_ng/confirmation.html', {'post':post,'purchase':purchase,'pay_info':pay_info})
 
 
 def newsRoomView(request):
@@ -261,13 +190,11 @@ def newsRoomView(request):
     template = 'easypr_general/newsroom.html'
     context['show_news_list'] = True
     context['show_news_details']   =  False
-
     published_articles       =  paginate_list(request, Publication.objects.published_articles().order_by('-date_posted'), 10)
     context['articles']      =  published_articles
     context['sectors']       =  get_sectors()
     context['recent_posts']  =  get_recent_posts(5,"-date_posted")
     return render(request, template, context)
-
 
 
 def newsRoomCatView(request, **kwargs):
@@ -282,15 +209,9 @@ def newsRoomCatView(request, **kwargs):
     return render(request, template, context)
 
 
-
-
-
-
-
 def  readnewsView(request, post_id, title_slug):
     context = {}
     context['post'] = get_object_or_404(Publication, title_slug = title_slug, pk = post_id)
-    # context['post'] = Publication.objects.get(title_slug = title_slug, pk = post_id)
     context['show_news_details']   =  True
     context['show_news_list'] = False
     context['sectors']   =  get_sectors()
@@ -298,10 +219,8 @@ def  readnewsView(request, post_id, title_slug):
     return render(request, 'easypr_general/newsroom.html', context)
 
 
-
 @login_required()
 def postCommentView(request):
-    # print "saving comment"
     context  =   {}
     if request.user.is_authenticated:
         if request.method == "POST" and not request.POST['msg'] == "":
@@ -312,7 +231,6 @@ def postCommentView(request):
         return render(request, 'snippets/post-comments.html', context)
     else:
         return JsonResponse({'error_msg': 'you have to be logged in to comment.'})
-
 
 
 # @login_required()
@@ -347,25 +265,9 @@ def get_current_strategy(request):
     except:
         return None
 
-# def validate_step_and_ID(request, step, ID):
-#     print "validating entries . . ."
-#     cstep = int(step)
-#     total_steps = 7
-#     if cstep <= 0 or cstep > total_steps:
-#         message = "The page number your are trying to view does not exist"
-#         return render(request, '404.html', {'response': message})
-#     elif not PRStrategy.objects.filter(anon_userID = ID).exists():
-#         link = '<a href="{% url "easypr_ng:strategy-planner-intro" %}"> Here </a>'
-#         message = "No strategy creation in progress for this ID, you can start a new strategy " + link
-#         return redirect(reverse('easypr_ng:strategy-planner-intro'))
-#     else:
-#         pass
-    
-def do_post_request(request, step, form):
-    pass
-
 
 def validate_post_keys(request, keys_dict):
+    ''' validates form values and sets defaults '''
     rp = request.POST
     r_dict = {}
     for key in keys_dict.keys():
@@ -377,6 +279,7 @@ def validate_post_keys(request, keys_dict):
         else:
             r_dict[key] = keys_dict[key][1]
     return r_dict
+
 
 
 def strategyPlannerView(request, step,  anon_userID):
@@ -406,10 +309,8 @@ def strategyPlannerView(request, step,  anon_userID):
         if step == 1:
             fields_dict_and_defaults = {'business_type':['unit', 'NA'],'company_type':['unit', 'NA'],'is_pr_agency':['unit','No'],'size_of_company':['unit',0]}
             valid_dict = validate_post_keys(request, fields_dict_and_defaults)
-            print "current strategy object: ", current_strategy
             current_strategy.update(business_type = valid_dict['business_type'], company_type = valid_dict['company_type'],
                 is_pr_agent = valid_dict['is_pr_agency'], size_of_pr_team = valid_dict['size_of_company'])
-            
             # context values for next step
             sectors = get_sectors()
             next_caption = "We are creating a unique experience for you!"
@@ -496,10 +397,12 @@ def  servicesView(request, service_category):
     return render(request, 'easypr_general/services-details.html', context)
 
 
+
 def bundlePlanView(request):
     context = {}
     template = 'easypr_ng/package-plans.html'
     return render(request, template, context)
+
 
 
 def get_startedView(request, category,item):
@@ -517,7 +420,6 @@ def get_startedView(request, category,item):
 
 
 
-
 def submitContentView(request, category, item):
     context = {}
     context['category']     =  category
@@ -526,15 +428,38 @@ def submitContentView(request, category, item):
 
 
 
-
-
 def requestServiceView(request, category, item):
     context = {}
     context['request_form'] = ServiceRequestForm
     context['category']     =  category
     context['item']         =  item
-
     template = "easypr_ng/request-service.html"
+    if request.method == "POST":
+        rp =  request.POST
+        ticket_number = transaction_ref("request", ServiceRequest, 6)
+        form = ServiceRequestForm(data = request.POST)
+        if form.is_valid():
+            form = ServiceRequestForm(request.POST)
+            form.save(commit = False)
+            form.ticket_number = ticket_number
+            new_request = form.save()
+            new_request.ticket_number = ticket_number
+            new_request.preferred_call_time = rp['preferred_call_time']
+            new_request.service_type = rp['service_type']
+            new_request.save()
+            msg = "Your service request with ticket number #%s has been received. An EasyPR agent will contact you shortly. Kindly keep the ticket number for reference" %(form.ticket_number)
+            messages.success(request, msg)
+
+            # send mail to client and admin.
+            subject = "Service Request Confirmation"
+            mail_context = {'ticket_number':ticket_number,'service_type':rp['service_type'],'brief_desc':rp['brief_description']}
+            easypr_send_mail(request, recipient = rp['contact_person'], useremail= rp['contact_email'], text="emails/service-request-confirmation.html",subject=subject, context = mail_context)
+        else:
+            msg = "Sorry, something went wrong while trying to save your request. Please reload the page and try again"
+            messages.error(request, msg)
+            context['request_form'] =  ServiceRequestForm(data = request.POST)
+            print form.errors
+            return render(request, template, context)
     return render(request, template, context)
 
 

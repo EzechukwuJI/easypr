@@ -342,8 +342,8 @@
 	{% if messages %}
 		<div class="row">
 			{% for msg in messages %}
-				<div id = "msg-div" class="panel bg-{{ msg.level_tag }}" style="color:#000000; padding: 30px;"> 
-					<span class="pull-right text-dark" style="cursor:pointer; margin-left:10px;" onclick='return hide_div("msg-div")'>
+				<div id = "msg-div" class="col-md-12 bg-{{ msg.level_tag }}" style="padding: 20px 40px;">
+					<span class="pull-right" style="cursor:pointer;" onclick='return hide_div("msg-div")'>
 						<i class="fa fa fa-times"></i></span>
 					<strong>{{ msg }}</strong> 
 				</div>

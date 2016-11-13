@@ -62,7 +62,6 @@ PAYMENT_STATUS = (
 			("verified", "verified"),
 			("pending","pending"),
 			("failed","failed"),
-
 	)
 
 
@@ -79,12 +78,10 @@ ECONOMY_SECTOR = (
 	)
 
 
-
-
 FEEDBACK_STATUS = (
-	("Open","Open"),
-	("Closed","Closed"),
-	("Pending","Pending"),
+		("Open","Open"),
+		("Closed","Closed"),
+		("Pending","Pending"),
 	)
 
 BUSINESS_TYPE = (   ('NA', 'NA',),
@@ -116,6 +113,7 @@ ACTION_STATUS = (
         	)
 
 REQUEST_OUTCOME   =  (
+				   ('pending', 'pending'),
 				   ('success', 'success',),
 				   ('declined','declined',),
 				   ('deferred','deferred',),

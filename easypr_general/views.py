@@ -11,29 +11,18 @@ from django.contrib import messages
 
 from easypr_general.models import UserAccount, Address, LatestNews, ClientFeedback, PwResetRecord, ServiceCategory
 from easypr_general.forms import  UserRegistrationForm,LoginForm #LoginForm, UserAccountForm,PublicationForm,DocumentUploadForm
-from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list
+from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list, easypr_send_mail
 from django.contrib.sites.shortcuts import get_current_site
 
-# Create your views here.
+
 
 def current_site(request):
     return get_current_site(request).domain
 
 
-
-
 def  indexView(request):
      return HttpResponse(get_current_site(request).domain)
-    # context = {}
-    # try:
-    #     context['latest_news'] = LatestNews.objects.all().order_by('-date_added')[0]
-    # except(IndexError):
-    #     context = {}
-    # return render(request, 'yadel/general/index.html', context)
-
-
-
-
+    
 
 def  createUserAccount(request):
     print "it came to this spot"
@@ -54,17 +43,13 @@ def  createUserAccount(request):
                 user.set_password(rp['password']) 
                 user.save()
                 UserAccount.objects.create(user = user, registration_code = reg_code, address = address)
-                confirmation_link = current_site(request) + "/confirm-registration/" + reg_code
-                message = "Hello " + rp['first_name'].title() + ",<br/><br/>"
-                message += "Thank you for signing up on our portal. Click <a href=" + confirmation_link + "> here </a> to confirm your email address."
-                message +=  "<br/> If the link above is not responding, copy the link below and paste into your browser. <br/><br/>" + confirmation_link
-                notify  = EmailMessage(subject= '[Easypr.ng] Confirm your registration', body = message, to =[rp['email']])
-                notify.content_subtype = 'html'
-                # notify.send(fail_silently = False)
+                confirmation_link = "http://" + current_site(request) + "/confirm-registration/" + reg_code
+
+                subject = "Confirm your email address"
+                mail_context = {'confirmation_link':confirmation_link}
+                easypr_send_mail(request, recipient = user.first_name, useremail= user.email, text="emails/registration-confirmation.html",subject=subject, context = mail_context)
                 context['user_is_created']  =    True
                 context['email']            =    rp['email']
-                # print "user creation for %s successful" %(user)
-                # print confirmation_link
                 return redirect(reverse('general:registration_success'))
             else:
                 return redirect(request.META['HTTP_REFERER'])
@@ -72,6 +57,7 @@ def  createUserAccount(request):
     # return redirect(request.META['HTTP_REFERER'])
 
 
+            
 def confirmEmail(request,code):
     user_to_confirm = UserAccount.objects.filter(registration_code = code, is_confirmed = False) # try get_object_or_404
     if user_to_confirm.exists():
@@ -82,12 +68,12 @@ def confirmEmail(request,code):
     return redirect(reverse('general:login'))
 
 
+
 def  loginView(request):
     form = LoginForm()
     context = {}
     username = ""
     context['loginform']  =  form
-    
     if request.method   ==  'POST':
         loginForm       =    LoginForm(data = request.POST)
         if loginForm.is_valid():
@@ -117,7 +103,6 @@ def  loginView(request):
                         return redirect(reverse('general:user-dashboard'))
                         # return redirect(reverse('general:homepage'))
                 else:
-                    # context['inactive'] = True
                     messages.warning(request, 'This account is inactive, send a mail to activate@easypr.ng to request an activation link.')
                     return render(request,  'easypr_general/login.html', context)
             else:
@@ -125,22 +110,26 @@ def  loginView(request):
                 messages.info(request, "No user matching this email and password found.")
                 return render(request,  'easypr_general/login.html', context)
         else:
-            context['invalid_form']  = True
+            context['invalid_form']  =     True
+            context['loginform']     =     LoginForm(data = request.POST)
             return render(request,  'easypr_general/login.html', context)
     else:
         return render(request,  'easypr_general/login.html', context)
     return render(request, 'easypr_general/login.html', {'form':form})
 
 
+
+
 def forgotPasswordView(request, **kwargs):
-    code = get_random_code(35)
+    code = get_random_code(45)
     message = ""
     reset_status = bool
     if request.method == "POST":
         useremail = request.POST['useremail']
-        user = User.objects.filter(email = useremail)
+        user = User.objects.filter(email = useremail) #check if user exists
         if user.exists():
             try:
+                # fetch password reset link record, get_or_create ensures only one active link is available at any time per user
                 reset_request,reset_status = PwResetRecord.objects.get_or_create(user = user[0])
                 reset_request.reset_code = code
                 reset_request.expired = False
@@ -148,21 +137,13 @@ def forgotPasswordView(request, **kwargs):
             except:
                 messages.warning(request, "A password reset link has already been sent to " + user[0].email)
                 return render(request, 'easypr_general/reset-password.html', {'search_user':True, 'reset_pw':False, 'link_sent':True, 'email':useremail,})
-            reset_link  =   current_site(request) + "/reset-password/Qcr=" + code
-            message  = "Hello " + user[0].first_name.title() 
-            message += ", <br/><br/> We are sorry to hear you lost your password, but not to worry it happens to the best of us *winks* "
-            message += ", <br/> Use this <a href=' " + reset_link + " '> Link </a> to reset your password. <br/>The link is active for one hour."
-            message += "<br/><br/>Please Note: If you did not request for a password reset kindly ignore this email.<br/>"
-            message += "If the link above is not responding, copy the link below and paste it in your browser. <br/>"
-            message += reset_link  + "<br/><br/> Yours in Service, <br/> The " + current_site(request) + " Team"
+            reset_link  =   "http://" + current_site(request) + "/reset-password/token=" + code
+        
+            subject = "Password Reset Link"
+            mail_context = {'reset_link':reset_link}
+            easypr_send_mail(request, recipient = user[0].first_name, useremail= user[0].email, text="emails/password-reset.html",subject=subject, context = mail_context)
             
-            # if reset_request == True:
-            notify  = EmailMessage(subject= '[Easypr.ng] Password Reset Link', body = message, to =[useremail])
-            notify.content_subtype = 'html'
-            notify.send()
             messages.success(request, "We have sent a password reset link to " + useremail + ". You should make use of this link within one hour.")
-            # else:
-            #     messages.info(request, "A pasword reset link has already been sent to " + useremail + ". Please check your mailbox.")
             return render(request, 'easypr_general/reset-password.html', {'search_user':True, 'reset_pw':False, 'link_sent':True})
         else:
             messages.warning(request, "Sorry! the email address you entered did not fetch any record.")
@@ -184,13 +165,12 @@ def resetPasswordView(request, **kwargs):
             user.set_password(rp['password'])
             reset_request.update(expired=True)
             user.save()
-            message  = "Hello " + user.first_name.title() 
-            message += ", <br/><br/> Congratulations, your password reset was successful"
-            message += "<br/><br/> Yours in Service, <br/> The " + current_site(request) + " Team"
-            notify  = EmailMessage(subject= '[Easypr.ng] Password Reset successful', body = message, to =[user.email])
-            notify.content_subtype = 'html'
-            notify.send()
-            messages.success(request, "Your password reset was successful")
+
+            # send email to user
+            subject = "Password Reset successful"
+            easypr_send_mail(request, recipient = user.first_name, useremail= user.email, text="emails/password-reset-success.html", subject=subject, context = {})
+            
+            messages.success(request, "Your password reset was successful. Login to continue")
             return redirect(reverse('general:login'))
         else:
             return render(request, 'easypr_general/reset-password.html', {'search_user':False, 'reset_pw':True,'reset_code':code})
@@ -198,10 +178,6 @@ def resetPasswordView(request, **kwargs):
         messages.error(request,"Sorry, this password reset link is invalid. You can request another one below.")
         return render(request, 'easypr_general/reset-password.html', {'search_user':True, 'reset_pw':False})
     return render(request, 'easypr_general/reset-password.html', {'search_user':False, 'reset_pw':True})
-
-
-
-
 
 
 
@@ -217,48 +193,23 @@ def logOutView(request):
 
 
 
-
-
 def  contactView(request):
     if request.method == "POST":
         rp = request.POST
         feedback = ClientFeedback.objects.create(sender = rp['sender'],email = rp['sender_email'], subject = rp['subject'], message = rp['message'])
         if feedback:
-            messages.info(request, "Thank you for reaching out to us. We will respond to your request shortly")
-            subject = '[Easypr.ng] - New message from ' + rp['sender'].title()
-            notify  = EmailMessage(subject= subject, body = rp['message'], to =['feedback@easypr.ng'])
-            notify.content_subtype = 'html'
-            # notify.send()
+            messages.success(request, "Thank you for reaching out to us. We will respond to your request shortly")
+            subject = "New Message from " + rp['sender'].title()
+            mail_context = {'message': rp['message'], 'sender_email':rp['sender_email']}
+            easypr_send_mail(request, recipient = 'Admin', useremail= 'feedback@easypr.ng', text="emails/client-feedback.html",subject=subject, context = mail_context)
         else:
             messages.warning(request, "Ooops! Sorry something went wrong while trying to post your message, please try again. If this error persists kindly shoot us a mail.")
     return render(request, 'easypr_general/contact-us.html', {})
 
 
 
-
-
-
-
-
 def  aboutUsView(request):
     return render(request, 'easypr_general/who-we-are.html', {})
-
-
-# def  TandCView(request):
-#     return render(request, 'yadel/general/tandc.html', {})
-
-# def  servicesView(request, service_category):
-#     context = {}
-#     service   =   ServiceCategory.objects.filter(name_slug = service_category)
-#     if not service.exists():
-#         message = "service not found"
-#         return render(request, 'easypr_general/coming-soon.html', {'response': message})
-    
-#     context['service-list'] = service[0].serviceitem_set.all()
-#     context['service'] = service[0]
-#     return render(request, 'easypr_general/services-details.html', context)
-
-
 
 
 def  careersView(request):
@@ -267,9 +218,11 @@ def  careersView(request):
 
 
 
-# def   productDetails(request):
-#     template = 'easypr_general/product-details.html'
-#     return render(request, template, {})
+
+
+
+
+
 
 
 

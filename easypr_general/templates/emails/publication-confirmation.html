@@ -1,0 +1,58 @@
+{% load base_custom_filters %}
+
+<style>
+	blockquote {
+		background-color: #e8e8e8; 
+		border: thin solid #d8d8d8; 
+		padding: 7.5px; 
+		border-radius:5px;"
+	}
+	table {
+		background-color: #ffffff;
+	}
+	.text-red {
+		color: red;
+	}
+	.text-dark {
+		color: #444444;
+	}
+
+	.btn {
+		padding: 10px;
+		border: 2px solid #000000;
+		color: #ffffff;
+		background-color: #012e5b;
+	}
+	tr.border td {
+		border: thin solid #e0e0e0;
+		padding: 10px;
+	}
+</style>
+
+
+We have received your submission with the following details; <br> <br>
+<blockquote>
+	<table width="100%" class="text-dark">
+		<tr class = "border">
+			<td><strong>Reference Number: </strong></td>
+			<td>#{{ post.transaction_id }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong>Date of Submission: </strong></td>
+			<td>{{ post.date_posted }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong>Media House: </strong></td>
+			<td>{{ post.get_media_houses|title }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong>Sector:</strong></td>
+			<td>{{ post.sector.name|title }}</td>
+		</tr>
+	</table>
+</blockquote>
+<p>You will get a notification when your submission is published on the selected media houses.</p>
+
+
+
+

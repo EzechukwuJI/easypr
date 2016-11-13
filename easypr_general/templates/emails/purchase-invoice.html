@@ -1,0 +1,92 @@
+{% load base_custom_filters %}
+{% load humanize %}
+<style>
+	blockquote {
+		background-color: #e8e8e8; 
+		border: thin solid #d8d8d8; 
+		padding: 7.5px; 
+		border-radius:5px;"
+	}
+	table {
+		background-color: #ffffff;
+	}
+	.text-red {
+		color: red;
+	}
+	.text-dark {
+		color: #444444;
+	}
+
+	.btn {
+		padding: 10px;
+		border: 2px solid #000000;
+		color: #ffffff;
+		background-color: #012e5b;
+	}
+	tr.border td {
+		border: thin solid #e0e0e0;
+		padding: 10px;
+	}
+</style>
+<p>See below an invoice of the Package purchase transaction you did on EasyPR Nigeria </p>
+<blockquote>
+	<table width="100%" class="text-dark">
+		<tr class = "border">
+			<td><strong>Invoice Number: </strong></td>
+			<td>#{{ purchase.transaction_id }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong>Date Purchased</strong></td>
+			<td>{{ post.date_posted }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong>Package: </strong></td>
+			<td>{{ purchase.get_package_name|title }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong>Media Outreach Credit: </strong></td>
+			<td>{{ purchase.media_outreach_credit }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong>Selected Payment Method</strong></td>
+			<td>{{ pay_info.payment_method }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong>Package Price:</strong></td>
+			<td>${{ purchase.price_dollar|floatformat:2|intcomma }}/&#8358;{{ purchase.price_naira|floatformat:2|intcomma }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong>VAT</strong></td>
+			<td>${{ purchase.package.VAT_D|floatformat:2|intcomma }}/&#8358;{{ purchase.package.VAT_N|floatformat:2|intcomma }}</td>
+		</tr>
+		<tr class = "border">
+			<td><strong class="text-red">Total Amount:</strong></td>
+			<td>${{ purchase.package.amount_payable_D|floatformat:2|intcomma }}/&#8358;{{ purchase.package.amount_payable_N|floatformat:2|intcomma }}</td>
+		</tr>
+	</table>
+</blockquote>
+
+{% if not pay_info.payment_method == "Card Payment" %}
+	<p> 
+		Pay into any of our bank account below.<br> 
+		<p class="text-red">
+			Please note that we will only commence work on your submission after we have received a notification of your payment, this is to provide our partner media houses the necessary payments for the publication of your submision.
+		</p>
+	</p>
+	<table>
+		<tr class = "border">
+			<td><b>Diamond bank</b></td>
+			<td>EasyPR Nigeria 0044556677</td>
+		</tr>
+		<tr class = "border">
+			<td><b>Guarantee Trust Bank</b></td>
+			<td>EasyPR Nigeria 0044556677</td>
+		</tr>
+	</table>
+	<p class="text-red">
+		<strong>NB:</strong> <br> After you've made the payment, kindly send a mail with the payment details to <b><span class="text-dark">paycenter@easypr.ng</span> </b>
+		<br> Or &nbsp;<a href="http://easypr.ng/user/dashboard" style="text-decoration:none;">Login</a> &nbsp; into your account, select the particular submission you want to update and click "update payment" 
+	<p>
+{% endif %}
+
+PS: Please keep this email handy for future reference.

@@ -173,7 +173,6 @@ class Publication(models.Model):
       except:
         return None
 
-
     def get_post_comments(self):
       return self.comment_set.all()
 
@@ -238,6 +237,9 @@ class Purchase(models.Model):
 
   def  price_naira(self):
     return self.package.price_naira
+
+  def get_package_name(self):
+    return '%s - %s' %(self.package.category.media_type, self.package.name)
 
   # def VAT_N(self):
   #   return  VAT * self.price_naira
@@ -395,61 +397,51 @@ class PRStrategy(models.Model):
 
 
 
-class  ServiceRequest(models.Model):
-  ticket_number           =     models.CharField(max_length = 14)
-  service_type            =     models.CharField(max_length = 100, choices = SERVICE_TYPE)
+class BaseRequest(models.Model):
+  ticket_number                =     models.CharField(max_length = 14)
+  date_requested               =     models.DateTimeField(auto_now_add = True)
+  date_closed                  =     models.DateTimeField()
+  status                       =     models.CharField(max_length = 25, choices = ACTION_STATUS, default = "new")
+  request_outcome              =     models.CharField(max_length = 25, choices = REQUEST_OUTCOME, default = "pending")
+  contact_person               =     models.CharField(max_length = 125)
+  contact_email                =     models.EmailField(max_length = 255)
+  phone_number                 =     models.CharField(max_length = 15)
+
+  class Meta:
+    abstract = True
+
+
+
+class  ServiceRequest(BaseRequest):
+  service_type            =     models.CharField(max_length = 100)
   sector                  =     models.CharField(max_length = 100, choices = ECONOMY_SECTOR)
   brief_description       =     models.TextField(max_length = 500, null = True, blank = True)
   target_media            =     models.CharField(max_length = 125, choices = MEDIA_PLATFORM)
   time_service_needed     =     models.CharField(max_length = 75)  
-  preffered_call_time     =     models.CharField(max_length = 50)
+  preferred_call_time     =     models.CharField(max_length = 50)
   allow_call              =     models.BooleanField(default = False)
-
-  contact_person          =     models.CharField(max_length = 125)
-  contact_email           =     models.EmailField(max_length = 255)
-  phone_number            =     models.CharField(max_length = 15)
-  
-  status                  =     models.CharField(max_length = 25, choices = ACTION_STATUS, default = "new")
-  request_outcome         =     models.CharField(max_length = 25, choices = REQUEST_OUTCOME)
-
   contacted_by            =     models.OneToOneField(User, related_name = "contacted_by", null = True, blank = True)
   closed_by               =     models.OneToOneField(User, related_name = "closed_by", null = True, blank = True)
-  date_requested          =     models.DateTimeField(auto_now_add = True)
-  date_closed             =     models.DateTimeField(null = True, blank = True)
 
 
   def __unicode__(self):
     return '%s - %s' %(self.ticket_number, self.service_type)
-
 
   class Meta:
     ordering = ('-date_requested',)
     verbose_name_plural = "Service request"
 
 
-
-
-class  InterviewRequest(models.Model):
-  ticket_number                =     models.CharField(max_length = 14)
+class  InterviewRequest(BaseRequest):
   preferred_interview_date     =     models.DateTimeField()
   preferred_media_house        =     models.ManyToManyField('MediaHouse')
   interview_venue              =     models.TextField(max_length =  300, null = True)
   interview_date               =     models.DateTimeField()
   interview_time               =     models.DateTimeField()
-
-  contact_person               =     models.CharField(max_length = 125)
-  contact_email                =     models.EmailField(max_length = 255)
-  phone_number                 =     models.CharField(max_length = 15)
   person_to_be_interviewed     =     models.CharField(max_length = 125)
-
-  status                       =     models.CharField(max_length = 25, choices = ACTION_STATUS, default = "new")
-  request_outcome              =     models.CharField(max_length = 25, choices = REQUEST_OUTCOME)
-
   contacted_by                 =     models.OneToOneField(User, related_name = "interview_contacted_by", null = True, blank = True)
   closed_by                    =     models.OneToOneField(User, related_name = "interview_closed_by", null = True, blank = True)
-  date_requested               =     models.DateTimeField(auto_now_add = True)
-  date_closed                  =     models.DateTimeField()
-
+ 
 
   def __unicode__(self):
     return '%s - %s' %(self.ticket_number, self.status)
@@ -457,7 +449,6 @@ class  InterviewRequest(models.Model):
   class Meta:
     ordering = ('-date_requested',)
     verbose_name_plural = "Interview request"
-
 
 
 class BasePackage(models.Model):

@@ -40,19 +40,13 @@
 									<div class="row">
 						                <div class="col-md-3">
 						                	<strong class="text-dark">
-						                		{{ request_form.service_type.label|title }}
+						                		Request Type:
 						                	</strong>
 						                </div>
 						                <div class="col-md-9">
-						                	<select name="service_type" class="form-control no-border-radius border-thick" required>
-						                		<option value="PR Distribution">Press Release Distribution</option>
-						                		<option value="content-writing">Content Writing and Marketing</option>
-						                		<option value="Advertising">Advertising</option>
-						                		<option value="sme-marketing">SME Marketing</option>
-						                		<option value="Sales and marketing">Sales and Marketing</option>
-						                		<option value="Blogger Distribution">Blogger Distribution</option>
-						                		<option value="Not sure">Not Sure</option>
-						                	</select>
+						                	<input type="text" class="form-control no-border-radius text-dark bg-white"  readonly value="{{ item|title|strip_chars:"-" }}" style="font-weight:bold" /> 
+
+						                	<input type="hidden" name = "service_type" value="{{ item }}" /> 
 						                </div>
 						            </div>
 						            <br>
@@ -80,9 +74,9 @@
 						                </div>
 						                <div class="col-md-9">
 						                	<select name="preferred_call_time" class="form-control no-border-radius border-thick" required>
-						                		<option value="office-hours">Mon-Fri (9am - 5pm)</option>
-						                		<option value="weekends">Saturdays</option>
-						                		<option value="send-mail">Prefer Email</option>
+						                		<option value="Mon-Fri (9am - 5pm)">Mon-Fri (9am - 5pm)</option>
+						                		<option value="Saturdays">Saturdays</option>
+						                		<option value="Prefer Email">Prefer Email</option>
 						                		<option value="Anytime">Anytime</option>
 						                	</select>
 						                </div>
