@@ -1,3 +1,5 @@
+# easypr_general.views.py
+
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
@@ -21,7 +23,7 @@ def current_site(request):
 
 
 def  indexView(request):
-     return HttpResponse(get_current_site(request).domain)
+     return HttpResponse(current_site(request))
     
 
 def  createUserAccount(request):

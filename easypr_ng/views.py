@@ -1,3 +1,5 @@
+# easypr_ng.views.py
+
 from django.core import serializers
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
@@ -219,6 +221,8 @@ def  readnewsView(request, post_id, title_slug):
     return render(request, 'easypr_general/newsroom.html', context)
 
 
+
+
 @login_required()
 def postCommentView(request):
     context  =   {}
@@ -229,8 +233,7 @@ def postCommentView(request):
             new_comment = Comment.objects.create(post= post, comment = rp['msg'], posted_by = request.user, website=rp['website'])
             context['comment'] = new_comment
         return render(request, 'snippets/post-comments.html', context)
-    else:
-        return JsonResponse({'error_msg': 'you have to be logged in to comment.'})
+    return JsonResponse({'error_msg': 'you have to be logged in to comment.'})
 
 
 # @login_required()
@@ -243,8 +246,9 @@ def postCommentReplyView(request):
             new_reply = CommentReply.objects.create(comment = comment, posted_by = request.user, reply = request.POST['msg'])
             context['reply'] = new_reply
         return render(request, 'snippets/comment-replies.html', context)
-    else:
-        return JsonResponse({'response':"<a href="" class= 'text-danger'><strong>Kindly login to post your comment</strong></a>"})
+    return JsonResponse({'response':"<a href="" class= 'text-danger'><strong>Kindly login to post your comment</strong></a>"})
+
+
 
 
 
@@ -391,7 +395,8 @@ def  servicesView(request, service_category):
     service   =   ServiceCategory.objects.filter(name_slug = service_category)
     if not service.exists():
         message = "service not found"
-        return render(request, 'easypr_general/coming-soon.html', {'response': message})
+        messages.info(request, "No Services found")
+        return render(request, 'easypr_general/services-details.html', {'response': message})
     context['service_list'] = service[0].serviceitem_set.all().exclude(active = False)
     context['service']      = service[0]
     return render(request, 'easypr_general/services-details.html', context)
