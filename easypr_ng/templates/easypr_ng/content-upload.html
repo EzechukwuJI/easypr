@@ -113,7 +113,7 @@
 									<span class="text-danger">
 										Max Allowed: {{ package.media_outreach_credit }} med{{ package.media_outreach_credit|pluralize:"ium,ia" }} 
 										<input type="hidden" name="max_media_credit" value ="{{ package.media_outreach_credit }}" id = "max-media-credit" />
-										<a href="{{ previous_page }}" >Change</a>
+										<a href="{% url 'easypr_ng:get-started' category item %}" >Change</a>
 									</span>
 								</div>
 							</div>

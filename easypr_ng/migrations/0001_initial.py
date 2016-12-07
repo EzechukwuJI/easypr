@@ -210,7 +210,7 @@ class Migration(migrations.Migration):
             name='PublicationImage',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('image', models.FileField(null=True, upload_to=b'publicaton_image/%Y/%M/%D', blank=True)),
+                ('image', models.FileField(null=True, upload_to=b'images/%Y/%M/%D', blank=True)),
                 ('caption', models.CharField(max_length=200, null=True, blank=True)),
                 ('post', models.ForeignKey(blank=True, to='easypr_ng.Publication', null=True)),
             ],
@@ -235,6 +235,14 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='RequestImage',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('image', models.FileField(null=True, upload_to=b'images/%Y/%M/%D', blank=True)),
+                ('caption', models.CharField(max_length=200, null=True, blank=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Sector',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -255,13 +263,17 @@ class Migration(migrations.Migration):
                 ('contact_person', models.CharField(max_length=125)),
                 ('contact_email', models.EmailField(max_length=255)),
                 ('phone_number', models.CharField(max_length=15)),
-                ('service_type', models.CharField(max_length=100, choices=[(b'Press Release Distribution', b'Press Release Distribution'), (b'Content Writing and Marketing', b'Content Marketing'), (b'Advertising', b'Advertising'), (b'SME Marketing', b'SME Marketing'), (b'Sales and Marketing', b'Sales and Marketing'), (b'Events Bureau', b'Events Bureau'), (b'Blogger Distribution', b'Blogger Distribution')])),
+                ('service_type', models.CharField(max_length=100)),
                 ('sector', models.CharField(max_length=100, choices=[(b'Finance', b'Finance')])),
                 ('brief_description', models.TextField(max_length=500, null=True, blank=True)),
-                ('target_media', models.CharField(max_length=125, choices=[(b'Newspaper', b'Newspaper'), (b'Blog', b'Blog')])),
-                ('time_service_needed', models.CharField(max_length=75)),
-                ('preferred_call_time', models.CharField(max_length=50)),
+                ('target_media', models.CharField(max_length=125, null=True, choices=[(b'Newspaper', b'Newspaper'), (b'Blog', b'Blog')])),
+                ('time_service_needed', models.CharField(max_length=75, null=True)),
+                ('preferred_call_time', models.CharField(max_length=50, null=True)),
                 ('allow_call', models.BooleanField(default=False)),
+                ('name_of_event', models.CharField(default=b'Not Applicable', max_length=100)),
+                ('event_date', models.DateTimeField(null=True)),
+                ('event_time', models.CharField(max_length=10, null=True)),
+                ('event_venue', models.CharField(max_length=225, null=True)),
                 ('closed_by', models.OneToOneField(related_name='closed_by', null=True, blank=True, to=settings.AUTH_USER_MODEL)),
                 ('contacted_by', models.OneToOneField(related_name='contacted_by', null=True, blank=True, to=settings.AUTH_USER_MODEL)),
             ],
@@ -278,6 +290,11 @@ class Migration(migrations.Migration):
                 ('invoice', models.FileField(null=True, upload_to=b'Invoices/%Y-%M-%D', blank=True)),
             ],
             bases=('easypr_ng.purchase',),
+        ),
+        migrations.AddField(
+            model_name='requestimage',
+            name='request',
+            field=models.ForeignKey(blank=True, to='easypr_ng.ServiceRequest', null=True),
         ),
         migrations.AddField(
             model_name='purchase',

@@ -55,7 +55,7 @@ EASYPR_APPS = (
     'easypr_admin',
     )
 
-EXTERNAL_APPS = ('coverage',)
+EXTERNAL_APPS = ('django_coverage',)
 
 INSTALLED_APPS =  DJANGO_APPS + EASYPR_APPS + EXTERNAL_APPS
 

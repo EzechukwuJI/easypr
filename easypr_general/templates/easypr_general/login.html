@@ -16,16 +16,16 @@
         <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
           <div class="panel panel-default">
             <div class="panel-body">
-              {% if messages %}
-                {% for message in messages %}
+              <!--  if messages %}
+                 for message in messages %}
                   <h5 class="text-{{ msg.level_tag }}"> {{ message }} 
                   </h5>
-                {% endfor %}
-              {% endif %}
+                 endfor %}
+               endif %} -->
               	<form action="{% url 'general:login' %}" method="POST">
 					{% csrf_token %}
 					{% if not_found %} 
-						<p class="text-danger">Incorrect username and/or password </p> 
+						<!-- <p class="text-danger">Incorrect username and/or password </p>  -->
 					{% endif %}
 					<div class="top-margin">
 						<label>Username/Email <span class="text-danger">*</span></label>

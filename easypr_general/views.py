@@ -109,7 +109,7 @@ def  loginView(request):
                     return render(request,  'easypr_general/login.html', context)
             else:
                 context['not_found']   =  True
-                messages.info(request, "No user matching this email and password found.")
+                messages.error(request, "No user matching this email and password found.")
                 return render(request,  'easypr_general/login.html', context)
         else:
             context['invalid_form']  =     True

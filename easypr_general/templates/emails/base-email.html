@@ -18,7 +18,7 @@
          <table> 
           <tr>
             <td width="25%">
-              <img src="{% static 'easypr/images/easyprlogo.jpg' %}" alt="Easypr Nigeria" width="195" height="55" style="display: block;" />
+              <img src="{{ request.get_path }}{% static 'easypr/images/easyprlogo.jpg' %}" alt="Easypr Nigeria" width="195" height="55" style="display: block;" />
             </td>
             <td width="25%"></td>
             <td width="50%">
@@ -78,11 +78,7 @@
        <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr bgcolor="orange">
          <td width="75%" style="color: #333333; font-family: Arial, sans-serif; font-size: 14px;">
-          &reg; EasyPR Nigeria 
-            <script>
-              var date = new Date();
-              document.write(date.getFullYear());
-            </script>
+          &reg; EasyPR Nigeria  {% now "Y" %}
             <br/>
          </td>
          <td align="right">
@@ -90,13 +86,13 @@
             <tr bgcolor="orange">
              <td>
                 <a href="" target="_blank">
-                    <img src="{% static 'easypr/images/facebook.png' %}" />
+                    <img src="{{ request.get_path }}{% static 'easypr/images/facebook.png' %}" />
                 </a>
              </td>
              <td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td>
              <td>
-                <a href="{{ request.marketing_member.twitter_link }}" target="_blank">
-                  <img src="{% static 'easypr/images/twitter.png' %}" />
+                <a href="{{ request.get_path }}{{ request.marketing_member.twitter_link }}" target="_blank">
+                  <img src="{{ request.get_path }}{% static 'easypr/images/twitter.png' %}" />
                 </a>
              </td>
 

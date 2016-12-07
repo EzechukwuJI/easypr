@@ -1,12 +1,9 @@
 {% extends 'easypr_general/base.html' %}
 {% load staticfiles %}
-
 {% block title %} {{ service.name|title }} Services{% endblock title %}
 
 
-
 {% block inner_content %}
-
 	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner2.jpg' %})">
 		<div class="banner-text">
      		<div class="container">
@@ -22,7 +19,6 @@
     	</div><!-- Banner text end -->
 	</div><!-- Banner area end --> 
 
-
 	<section id="main-container" class="main-container">
 		<div class="container">
 			<div class="row">
@@ -30,7 +26,7 @@
 					<div class="col-md-4">
 					   <div class="ts-service-box" id="{{ item.name_slug }}">
 					      <div class="ts-service-image-wrapper">
-					         	<img class="img-responsive" src="{{ item.image.url }}" alt="easypr-services">
+					         <img class="img-responsive" src="{{ item.image.url }}" alt="easypr-services">
 					      </div>
 					      <div class="ts-service-info">
 					      	<div class="ts-service-icon">

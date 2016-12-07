@@ -37,6 +37,14 @@ def get_recent_posts(post_count, order_by):
     return recent_posts
 
 
+def save_uploaded_images(request, image_model_object, model_field_name, related_model_instance):
+    for image in request.FILES.keys():
+        if model_field_name == "post": # images are from publication submission process
+            pub_image = image_model_object.objects.create(image = request.FILES[image], caption = request.POST["cap_"+ image], post = related_model_instance)
+        else: # images are from service request action
+            pub_image = image_model_object.objects.create(image = request.FILES[image], caption = request.POST["cap_"+ image], request = related_model_instance)
+
+
 def  indexView(request):
     context = {}
     context['recent_posts'] = get_recent_posts(50,"?")
@@ -67,8 +75,8 @@ def create_post(request, press_material):
         new_post.media_houses.add(media_house)
     new_post.save()
 
-    for image in request.FILES.keys():
-        pub_image = PublicationImage.objects.create(image = request.FILES[image], caption = request.POST["cap_"+ image], post = new_post)
+    save_uploaded_images(request, PublicationImage, "post", new_post) #saves uploaded image files to the appropriate model
+
     new_post.save()
     return new_post
 
@@ -83,7 +91,7 @@ def create_purchase_record(request, package,publication):
 
 
 @login_required()
-def buy_packageView(request, press_material,package):
+def buy_packageView(request, press_material, package):
     form = ContentUploadForm()
     context                =   {}
     package                =   get_object_or_404(Package, name = package, category = PressMaterial.objects.get(name_slug = press_material))
@@ -103,8 +111,12 @@ def buy_packageView(request, press_material,package):
             context.update({'press_material':press_material, 'package':package})
             return render(request, template, context)
     context['form'] = ContentUploadForm()
-    context['previous_page']  =  request.META.get('HTTP_REFERER', "/")
+    # context['previous_page']  =  request.META.get('HTTP_REFERER', "/")
+    category_and_item_dict   =   request.session.get('category_item_dict', {})
+    print "category and item dict ", category_and_item_dict
+    context.update(category_and_item_dict)
     return render(request, template, context)
+
 
 
 @login_required()
@@ -113,6 +125,7 @@ def previewPublicationView(request, **kwargs):
     post = get_object_or_404(Publication, transaction_id = kwargs['transaction_id'])
     previous_page  = request.META.get('HTTP_REFERER', "")
     return render(request, 'easypr_ng/content-preview.html', {'post':post, 'previous_page':previous_page})
+
 
 
 @login_required()
@@ -169,22 +182,19 @@ def confirmationView(request):
         pay_info     =   get_object_or_404(PayDetails,  pk = request.session.get('pay_info_id', ''))
     except:
         post = purchase = pay_info = {}
-    mail_container = [
-                        ["Publication submission confirmation","emails/publication-confirmation.html",{'post':post}],
-                        ["Purchase Invoice","emails/purchase-invoice.html",{'post':post,'purchase':purchase,'pay_info':pay_info}]
-                    ]
+    mail_container = [["Publication submission confirmation","emails/publication-confirmation.html",{'post':post}],
+                     ["Purchase Invoice","emails/purchase-invoice.html",{'post':post,'purchase':purchase,'pay_info':pay_info}]]
     for item in mail_container:
         subject      = item[0]
         template     = item[1]
         mail_context = item[2]
-        easypr_send_mail(request, recipient = request.user.first_name, useremail= request.user.email, text=template,subject=subject, context = mail_context)
-    
+        return easypr_send_mail(request, recipient = request.user.first_name, useremail= request.user.email, text=template,subject=subject, context = mail_context)
     # claer session variables
     for key in request.session.keys():
         if key in active_session_keys:
             del request.session[key]
-
     return render(request, 'easypr_ng/confirmation.html', {'post':post,'purchase':purchase,'pay_info':pay_info})
+
 
 
 def newsRoomView(request):
@@ -222,7 +232,6 @@ def  readnewsView(request, post_id, title_slug):
 
 
 
-
 @login_required()
 def postCommentView(request):
     context  =   {}
@@ -249,9 +258,6 @@ def postCommentReplyView(request):
     return JsonResponse({'response':"<a href="" class= 'text-danger'><strong>Kindly login to post your comment</strong></a>"})
 
 
-
-
-
 @csrf_exempt
 def strategyPlannerIntroView(request):
     if request.POST.has_key('start-strategy'):
@@ -260,6 +266,7 @@ def strategyPlannerIntroView(request):
         request.session['strategy_in_session']   =  new_strategy.pk
         return redirect(reverse('easypr_ng:strategy-planner', kwargs={'step':1, 'anon_userID':anon_userID}))
     return render(request,'easypr_ng/strategy-planner-info.html', {})
+
 
 
 def get_current_strategy(request):
@@ -283,6 +290,7 @@ def validate_post_keys(request, keys_dict):
         else:
             r_dict[key] = keys_dict[key][1]
     return r_dict
+
 
 
 
@@ -389,7 +397,6 @@ def strategyPlannerView(request, step,  anon_userID):
 
 
 
-
 def  servicesView(request, service_category):
     context = {}
     service   =   ServiceCategory.objects.filter(name_slug = service_category)
@@ -411,16 +418,18 @@ def bundlePlanView(request):
 
 
 def get_startedView(request, category,item):
-    ''' show price list'''
+
+    ''' show price list '''
     template                                =   "easypr_ng/pricing.html"
     context                                 =   {}
     context['form']                         =   ServiceRequestForm
     pkg_details_dicts_list, press_material  =   get_category_packages_dicts_list(item)
     context['press_material']               =   press_material
     if pkg_details_dicts_list:
-        context['plan_names']                   =   pkg_details_dicts_list[0]['name']
+        context['plan_names']               =   pkg_details_dicts_list[0]['name']
         pkg_details_dicts_list.pop(0)
     context['pkg_dict']                     =   pkg_details_dicts_list
+    request.session['category_item_dict']   =   {'category':category, 'item':item}
     return render(request, template, context)
 
 
@@ -446,18 +455,30 @@ def requestServiceView(request, category, item):
         if form.is_valid():
             form = ServiceRequestForm(request.POST)
             form.save(commit = False)
-            form.ticket_number = ticket_number
             new_request = form.save()
             new_request.ticket_number = ticket_number
-            new_request.preferred_call_time = rp['preferred_call_time']
             new_request.service_type = rp['service_type']
-            new_request.save()
-            msg = "Your service request with ticket number #%s has been received. An EasyPR agent will contact you shortly. Kindly keep the ticket number for reference" %(form.ticket_number)
-            messages.success(request, msg)
+            new_request.brief_description = rp['brief_description']
+            
+            if not rp['service_type']  == "photo-news":
+                new_request.preferred_call_time = rp['preferred_call_time']
+                new_request.time_service_needed = rp['time_service_needed']
+            else:
+                if rp['need_photographer']  ==  "No":
+                    if request.FILES:
+                        save_uploaded_files(request, RequestImage, "request", new_request) #saves uploaded image files to the appropriate model
+                else:
+                    new_request.name_of_event = rp['name_of_event']
+                    new_request.event_date    = rp['event_date']
+                    new_request.event_time    = rp['event_time']
+                    new_request.event_venue   = rp['event_venue']
 
+            new_request.save()
+            msg = "Your service request with ticket number #%s has been received. An EasyPR agent will contact you shortly. Kindly keep the ticket number for reference" %(new_request.ticket_number)
+            messages.success(request, msg)
             # send mail to client and admin.
-            subject = "Service Request Confirmation"
             mail_context = {'ticket_number':ticket_number,'service_type':rp['service_type'],'brief_desc':rp['brief_description']}
+            subject = "Service Request Confirmation"
             easypr_send_mail(request, recipient = rp['contact_person'], useremail= rp['contact_email'], text="emails/service-request-confirmation.html",subject=subject, context = mail_context)
         else:
             msg = "Sorry, something went wrong while trying to save your request. Please reload the page and try again"

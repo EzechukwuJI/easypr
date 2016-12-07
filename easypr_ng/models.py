@@ -76,8 +76,6 @@ class MediaHouse(models.Model):
   	return self.mediacontact_set.all()
 
 
-
-
 class PressMaterial(models.Model):
   name_slug                =         models.CharField(max_length = 150)
   media_type               =         models.CharField(max_length = 150)
@@ -91,7 +89,6 @@ class PressMaterial(models.Model):
   def save(self, *args, **kwargs):
     self.name_slug  = slugify(self.media_type)
     super(PressMaterial, self).save(*args, **kwargs)
-
 
 
 class PublicationManager(models.Manager):
@@ -180,15 +177,25 @@ class Publication(models.Model):
     	pass
 
 
+# class UploadedImage(models.Model):
+#   image     =    models.FileField(upload_to ='images/%Y/%M/%D', null = True, blank = True)      
+#   caption   =    models.CharField(max_length = 200, null = True, blank =  True)
+
 
 
 class PublicationImage(models.Model):
-  post      =    models.ForeignKey('Publication', null = True, blank = True)
-  image     =    models.FileField(upload_to ='publicaton_image/%Y/%M/%D', null = True, blank = True)      
-  caption   =    models.CharField(max_length = 200, null = True, blank =  True)
+  post       =     models.ForeignKey('Publication', null = True, blank = True)
+  image      =     models.FileField(upload_to ='images/%Y/%M/%D', null = True, blank = True)      
+  caption    =     models.CharField(max_length = 200, null = True, blank =  True)
+
+
+class RequestImage(models.Model):
+  request     =     models.ForeignKey('ServiceRequest', null = True, blank = True)
+  image       =     models.FileField(upload_to ='images/%Y/%M/%D', null = True, blank = True)      
+  caption     =     models.CharField(max_length = 200, null = True, blank =  True)
+  
 
  
-
 class Redirect_url(models.Model):
   url     =        models.CharField(max_length = 200, blank = True, null = True, default= None)
   post    =        models.ForeignKey('Publication', null=True, blank = True)
@@ -211,7 +218,6 @@ class CommentReply(models.Model):
   date_posted     =     models.DateTimeField(auto_now_add = True)
   reply           =     models.TextField(max_length = 1000)
   
-
 
 class Purchase(models.Model):
   user              		=     models.ForeignKey(User, verbose_name = "Purchased By")
@@ -241,26 +247,7 @@ class Purchase(models.Model):
   def get_package_name(self):
     return '%s - %s' %(self.package.category.media_type, self.package.name)
 
-  # def VAT_N(self):
-  #   return  VAT * self.price_naira
-
-  # def VAT_D(self):
-  #   return float(VAT * self.price_dollar)
-
-
-  # def   amount_payable_D(self):
-  #   total = self.VAT_D + self.price_dollar
-  #   return total
-
-  # def   amount_payable_N(self):
-  #   total = float(self.VAT_N + self.price_naira)
-  #   return total
-
-
-
-
-
-
+  
 class PayDetails(models.Model):
     user                    =     models.ForeignKey(User, verbose_name = "Payment By")
     transaction_id          =     models.CharField(max_length = 25, null = True)
@@ -276,8 +263,6 @@ class PayDetails(models.Model):
 
     def __unicode__(self):
       return "%s, %s, %s" %(self.transaction_id, self.amount_paid, self.pay_status)
-
-
 
 
 class PurchaseInvoice(Purchase):
@@ -400,7 +385,7 @@ class PRStrategy(models.Model):
 class BaseRequest(models.Model):
   ticket_number                =     models.CharField(max_length = 14)
   date_requested               =     models.DateTimeField(auto_now_add = True)
-  date_closed                  =     models.DateTimeField()
+  date_closed                  =     models.DateTimeField(null = True, blank = True)
   status                       =     models.CharField(max_length = 25, choices = ACTION_STATUS, default = "new")
   request_outcome              =     models.CharField(max_length = 25, choices = REQUEST_OUTCOME, default = "pending")
   contact_person               =     models.CharField(max_length = 125)
@@ -416,20 +401,28 @@ class  ServiceRequest(BaseRequest):
   service_type            =     models.CharField(max_length = 100)
   sector                  =     models.CharField(max_length = 100, choices = ECONOMY_SECTOR)
   brief_description       =     models.TextField(max_length = 500, null = True, blank = True)
-  target_media            =     models.CharField(max_length = 125, choices = MEDIA_PLATFORM)
-  time_service_needed     =     models.CharField(max_length = 75)  
-  preferred_call_time     =     models.CharField(max_length = 50)
+  target_media            =     models.CharField(max_length = 125, choices = MEDIA_PLATFORM, null = True)
+  time_service_needed     =     models.CharField(max_length = 75, null = True)  
+  preferred_call_time     =     models.CharField(max_length = 50, null = True)
   allow_call              =     models.BooleanField(default = False)
   contacted_by            =     models.OneToOneField(User, related_name = "contacted_by", null = True, blank = True)
   closed_by               =     models.OneToOneField(User, related_name = "closed_by", null = True, blank = True)
+  # for photo news
+  name_of_event           =     models.CharField(max_length = 100, default = "Not Applicable")
+  event_date              =     models.DateTimeField(null = True)
+  event_time              =     models.CharField(max_length =  10, null = True)
+  event_venue             =     models.CharField(max_length = 225, null = True)
+
 
 
   def __unicode__(self):
     return '%s - %s' %(self.ticket_number, self.service_type)
 
+
   class Meta:
     ordering = ('-date_requested',)
     verbose_name_plural = "Service request"
+
 
 
 class  InterviewRequest(BaseRequest):
@@ -449,6 +442,8 @@ class  InterviewRequest(BaseRequest):
   class Meta:
     ordering = ('-date_requested',)
     verbose_name_plural = "Interview request"
+
+
 
 
 class BasePackage(models.Model):

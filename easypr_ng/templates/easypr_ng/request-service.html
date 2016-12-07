@@ -26,9 +26,9 @@
 	<section id="main-container" class="main-container">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-1 bg-white"></div>
+				<div class="col-md-2 bg-white"></div>
 				<div class="col-md-8 bg-white">
-					<form action = "" method = "post">
+					<form action = "" method = "post" class="text-dark">
 
 						{% csrf_token %}
 						<div class="panel panel-primary">
@@ -45,8 +45,6 @@
 						                </div>
 						                <div class="col-md-9">
 						                	<input type="text" class="form-control no-border-radius text-dark bg-white"  readonly value="{{ item|title|strip_chars:"-" }}" style="font-weight:bold" /> 
-
-						                	<input type="hidden" name = "service_type" value="{{ item }}" /> 
 						                </div>
 						            </div>
 						            <br>
@@ -117,16 +115,26 @@
 						                	</strong>
 						                </div>
 						                <div class="col-md-8">
-						                	<select name="service_type" class="form-control no-border-radius border-thick" required>
-						                		<option value="PR Distribution">Press Release Distribution</option>
-						                		<option value="content-writing">Content Writing and Marketing</option>
-						                		<option value="Advertising">Advertising</option>
-						                		<option value="sme-marketing">SME Marketing</option>
-						                		<option value="Sales and marketing">Sales and Marketing</option>
-						                		<option value="Blogger Distribution">Blogger Distribution</option>
-						                		<option value="Not sure">Not Sure</option>
-						                	</select>
+						                	<input type="text" name="name_of_event" class="form-control no-border-radius border-thick" placeholder = "Eg. Annual General Reunion" required/>
 						                </div>
+						            </div>
+						            <br>
+
+						            <!-- <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">Brief Description of The Event</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<textarea name="brief_description" placeholder="...Briefly describe the event" class="form-control no-border-radius border-thick" rows="5" required></textarea>
+						                </div>
+						            </div>
+						            <br> -->
+
+						            <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">{{ request_form.brief_description.label|title }}</strong>
+						                </div>
+						                <div class="col-md-8">{{ request_form.brief_description }}</div>
 						            </div>
 						            <br>
 
@@ -135,7 +143,7 @@
 						                	<strong class="text-dark">Do you need an experienced photo-journalist?</strong>
 						                </div>
 						                <div class="col-md-8">
-						                	<select name="service_type" class="form-control no-border-radius border-thick" id="id_need_a_journalist" required>
+						                	<select name="need_photographer" class="form-control no-border-radius border-thick" id="id_need_a_journalist" required>
 						                		<option value = "">-----</option>
 						                		<option value="yes">Yes</option>
 						                		<option value="No">No</option>
@@ -149,7 +157,7 @@
 							                	<strong class="text-dark">Event Venue</strong>
 							                </div>
 							                <div class="col-md-8">
-							                	<textarea name="event_venue" class="form-control no-border-radius border-thick"></textarea>
+							                	<textarea name="event_venue" class="form-control no-border-radius border-thick" id = "event_venue" ></textarea>
 							                </div>
 							            </div>
 							            <br>
@@ -159,43 +167,58 @@
 							                	<strong class="text-dark">Event Date</strong>
 							                </div>
 							                <div class="col-md-4">
-							                	<input type="date" name="event_date" class="form-control no-border-radius border-thick" required/>
+							                	<input type="date" name="event_date" class="form-control no-border-radius border-thick" id ="event_date" required/>
 							                </div>
 							                <div class="col-md-1">
 							                	<strong class="text-dark">Time</strong>
 							                </div>
 							                <div class="col-md-3">
-							                	<input type="time" name="event_time" class="form-control no-border-radius border-thick" required/>
+							                	<input type="time" name="event_time" class="form-control no-border-radius border-thick" id ="event_time" required/>
 							                </div>
 							            </div>
 							            <br>
 						            </span>
 
 						            <span id="upload_photo" class="hidden">
-						            	<div class="panel-heading no-border-radius bg-royal text-white"> <strong>Upload Images</strong></div>
-						            	<div class="row">
-						                	<!-- <strong class="text-dark">Upload Images</strong><br> -->
-						                	<div class="col-md-3">
-						                		{% include 'snippets/file_upload.html' with file_id="image_1" %}
-						                	</div>
-						                	<div class="col-md-3">
-						                		{% include 'snippets/file_upload.html' with file_id="image_2" %}
-						                	</div>
-						                	<div class="col-md-3">
-						                		{% include 'snippets/file_upload.html' with file_id="image_3" %}
-						                	</div>
-						                	<!-- <div class="col-md-3">
-						                		{% include 'snippets/file_upload.html' with file_id="image_4" %}
-						                	</div> -->
-							            </div>
-							            <br>
+							            <div class="panel panel-info">
+							            	<div class="panel-heading no-border-radius bg-royal text-white"> <strong>Upload Images</strong></div>
+								            <div class="row">
+								            	<br/>
+								            	<div class="col-md-12">
+								                	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_1" %}
+								                	</div>
+								                	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_2" %}
+								                	</div>
+								                	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_3" %}
+								                	</div>
+									            </div>
+									        </div>
+									        <br>
+									        <div class="row">
+									            <div class="col-md-12">
+									            	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_4" %}
+								                	</div>
+								                	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_5" %}
+								                	</div>
+								                	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_6" %}
+								                	</div>
+									            </div>
+									        </div>
+								            <br>
+								        </div>
 						            </span>
 						            <div class="row">
 						                <div class="col-md-4">
 						                	<strong class="text-dark">Contact Person</strong>
 						                </div>
 						                <div class="col-md-8">
-						                	<input type="text" name="contact_person" class="form-control no-border-radius border-thick" required/>
+						                	<input type="text" name="contact_person" class="form-control no-border-radius border-thick" placeholder ="Who can we call for enquiries" required/>
 						                </div>
 						            </div>
 						            <br>
@@ -205,7 +228,7 @@
 						                	<strong class="text-dark">Email</strong>
 						                </div>
 						                <div class="col-md-8">
-						                	<input type="email" name="contact_person" class="form-control no-border-radius border-thick" required/>
+						                	<input type="email" name="contact_email" class="form-control no-border-radius border-thick" required/>
 						                </div>
 						            </div>
 						            <br>
@@ -215,7 +238,7 @@
 						                	<strong class="text-dark">Phone Number</strong>
 						                </div>
 						                <div class="col-md-8">
-						                	<input type="text" name="contact_person" class="form-control no-border-radius border-thick" required/>
+						                	<input type="text" name="phone_number" class="form-control no-border-radius border-thick" required/>
 						                </div>
 						            </div>
 						            <br>
@@ -224,7 +247,7 @@
 							<!--  submit button  -->
 							<div class="row">
 				            	<div class="col-md-8">
-				            		<input type="hidden" name="request_type" value={{ item }} class="form-control no-border-radius border-thick"/>
+				            		<input type="hidden" name="service_type" value="{{ item }}" class="form-control no-border-radius border-thick"/>
 				            	</div>
 				            	<div class="col-md-4">
 									<input type="submit" value="Submit Request" name="submit-request" class="btn btn-easypr bg-royal text-white pull-right" />
@@ -233,7 +256,9 @@
 						</div>
 					</form>
 					</div>
-				<div class="col-md-3 bg-royal shadow-box"> descriptive text here </div>
+
+				<!-- <div class="col-md-2"> </div> -->
+
 			</div><!-- Main row end -->
 		</div><!-- Conatiner end -->
 	</section><!-- Main container end -->
@@ -252,9 +277,20 @@
 				if (option == "yes"){
 					$("#event_date_venue").removeClass('hidden');
 					$("#upload_photo").addClass('hidden');
+					$("#event_venue").attr('required',true)
+					$("#event_time").attr('required',true)
+					$("#event_date").attr('required',true)
+					$("#upload_photo img").each(function(){
+						$(this).src = "";
+						$(this).trigger('reset');
+					})
 				} else {
 					$("#upload_photo").removeClass('hidden');
 					$("#event_date_venue").addClass('hidden');
+					$("#event_venue").attr('required',false)
+					$("#event_time").attr('required',false)
+					$("#event_date").attr('required',false)
+					
 				}
 			} else {
 				$("#event_date_venue").removeClass('hidden');

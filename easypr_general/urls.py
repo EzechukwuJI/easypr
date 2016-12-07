@@ -25,7 +25,7 @@ urlpatterns  =  [
 	# # url(r'^client/feedback/$',                          views.clientFeedback,           name = 'user-feedback'),
 	# url(r'^article/create/new/$',      					views.createArticleView,  name='create-article'),
 	url(r'^forgot-password/$', 						views.forgotPasswordView,  	name='forgot-password'),
-    url(r'^reset-password/Qcr=(?P<code>[-\w]+)/$', 	views.resetPasswordView,  	name='reset-password'),
+    url(r'^reset-password/token=(?P<code>[-\w]+)/$', 	views.resetPasswordView,  	name='reset-password'),
 	url(r'^confirm-registration/(?P<code>[-\w]+)/$',    		        views.confirmEmail, 			name = 'confirm-email'),
 	url(r'^thank-you/$',      					    TemplateView.as_view(template_name = "easypr_general/thank-you.html"), name='registration_success'),
 	# url(r'^services/$',       views.servicesView,  name='services'),
