@@ -545,6 +545,30 @@ class Package(models.Model):
 
 
 
+class Testimonial(models.Model):
+  comment           =   models.CharField(max_length = 165)
+  date_posted       =   models.DateTimeField(auto_now_add = True)
+  posted_by         =   models.CharField(max_length = 150)
+  persons_position  =   models.CharField(max_length = 75)
+  persons_company   =   models.CharField(max_length = 125)
+  persons_image     =   models.FileField(upload_to = "testimonial/images")
+
+  def __unicode__(self):
+    return self.posted_by
+
+
+class Blogs(models.Model):
+  name        =  models.CharField(max_length = 200)
+  name_slug   =  models.CharField(max_length = 275)
+  category    =  models.CharField(max_length = 125, choices = BLOG_CATEGORIES)
+  price       =  models.FloatField(default = 0.0),
+  active      =  models.BooleanField(default = True)
+
+  def __unicode__(self):
+    return self.name
+
+
+
 
 
 

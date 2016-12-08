@@ -87,9 +87,6 @@ class PwResetRecord(models.Model):
         return '%s, %s'  %(self.user, self.expired)
 
 
-
-
-
 class ServiceCategory(models.Model):
   name          =    models.CharField(max_length = 175, choices = SERVICE_TYPE, default = "Press Release Distribution")
   name_slug     =    models.CharField(max_length = 175)
@@ -103,9 +100,6 @@ class ServiceCategory(models.Model):
   def save(self, *args, **kwargs):
     self.name_slug = slugify(self.name)
     super(ServiceCategory, self).save(*args, **kwargs)
-
-
-
 
 
 class ServiceItem(models.Model):
@@ -129,8 +123,11 @@ class ServiceItem(models.Model):
     super(ServiceItem, self).save(*args, **kwargs)
 
 
+class MailingList(models.Model):
+  email    =    models.CharField(max_length = 175)
 
-
+  def __unicode__(self):
+    return '%' %(self.email)
 
 
 

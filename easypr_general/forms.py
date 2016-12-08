@@ -53,4 +53,16 @@ class LoginForm(forms.ModelForm):
 
 
 
+
+class MailListForm(forms.ModelForm):
+	email     	 =    forms.CharField(max_length = 200, widget=forms.EmailInput())
+
+	class Meta:
+		model = MailingList
+		fields = ('email',)
+
+
+
+
+
 		

@@ -134,8 +134,13 @@ a.read-more:hover{
   color: #222;
 }
 
-section, .section-padding{
+.section-padding{
    padding: 70px 0;
+   position: relative;
+}
+
+section {
+  padding: 40px;
    position: relative;
 }
 
@@ -249,10 +254,11 @@ img.pull-left {
 .title-border{
    font-size: 16px;
    display: block;
-   font-weight: 700;
+   font-weight: 500;
    position: relative;
    text-transform: uppercase;
-   margin: 0 0 60px;
+   margin: 0 0 30px;
+   /*margin: 0 0 60px;*/
    color: #666;
 }
 
@@ -441,7 +447,8 @@ cite {
 .list-arrow{
    list-style: none;
    margin: 0;
-   padding: 0 0 0 15px;
+   padding: 0;
+   /*padding: 0 0 0 15px;*/
 }
 
 .list-round li{
@@ -463,12 +470,14 @@ cite {
 
 .list-arrow{
    padding: 0;
+   line-height: 20px;
+   display: block;
 }
 
 ul.list-arrow li:before {
   font-family: FontAwesome;
-  content: "\f105";
-  margin-right: 10px;
+  /*content: "\f105";*/
+  /*margin-right: 10px;*/
 }
 
 
@@ -478,7 +487,7 @@ ul.list-arrow li:before {
 
 .top-bar {
    background: #012e5b;
-   padding: 10px 0;
+   padding: 7.5px 0;
 }
 
 /* Top menu */
@@ -1204,7 +1213,8 @@ ul.navbar-nav > li > a i{
 }
 
 .page-slider .item{
-   min-height: 700px;
+   min-height: 550px;
+   /*min-height: 700px;*/
    background-position: 50% 50%;
    -webkit-background-size: cover;
    background-size: cover;
@@ -1850,7 +1860,7 @@ ul.navbar-nav > li > a i{
 .news{
    background: transparent url(../images/newsletter-icon.png) no-repeat 100% 100% !important;
    /*background: #f9f9f9;*/
-   padding-bottom: 85px;
+   padding-bottom: 30px;
 }
 
 .latest-post{
@@ -2013,17 +2023,18 @@ img.testimonial-thumb{
 
 .footer-main{
    background: #e5e5e5;
-   /*background: #242427;*/
-   padding: 70px 0 60px;
+   padding: 15px 0 10px;
+   border-top: thin solid #c7c7c7;
 }
 
 .footer .widget-title {
-   color: #a0a0a0;
+   color: #666666;
+   /*color: #a0a0a0;*/
    font-size: 16px;
    letter-spacing: .5px;
    text-transform: uppercase;
    margin-top: 0;
-   margin-bottom: 20px;
+   margin-bottom: 7.5px;
    position: relative;
 }
 
@@ -2075,17 +2086,23 @@ img.testimonial-thumb{
 .newsletter-form input{
    width: 80%;
    margin: 15px 0;
-   background: rgba(0,0,0,.1);
+   background: #ffffff;
+   /*background: rgba(0,0,0,.1);*/
    font-size: 12px;
    height: 45px;
-   border: 1px solid rgba(255, 255, 255, 0.1);
+   border: 1px solid #888888;
+   /*border: 1px solid rgba(255, 255, 255, 0.1);*/
+   border-top-left-radius: 10px;
+   border-bottom-left-radius: 10px;
 }
 
 .newsletter-form button {
    position: absolute;
    right: 0;
    top: 0;
-   border-radius: 0;
+   /*border-radius: 0;*/
+   border-top-right-radius: 10px;
+   border-bottom-right-radius: 10px;
    background: #012e5b url(../images/newsletter-icon.png) no-repeat 20px 50% !important;
    text-indent: -9999em;
 }
@@ -2094,13 +2111,13 @@ img.testimonial-thumb{
 /* Footer social */
 
 .footer-social{
-   margin-top: 40px;
-   padding-bottom: 20px;
+   margin-top: 15px;
+   padding-bottom: 15px;
 }
 
 .footer-social .widget-title{
    font-size: 14px;
-   margin-bottom: 10px;
+   margin-bottom: 5px;
 }
 
 .footer-social ul{
@@ -2169,8 +2186,9 @@ img.testimonial-thumb{
 
 .copyright{
    background: #1e1e21;
-   color: #747474;
-   padding: 40px 0;
+   color: #e0e0e0;
+   /*color: #747474;*/
+   padding: 10px 0;
 }
 
 .footer-logo{
@@ -2207,7 +2225,7 @@ img.testimonial-thumb{
 }
 
 #back-to-top.affix {
-   bottom: 40px;
+   bottom: 5px;
 }
 
 #back-to-top .btn.btn-primary{
@@ -3260,7 +3278,7 @@ h4.panel-title a.collapsed:before {
 }
 
 .header-white .logo{
-   padding: 25px 0;
+   padding: 10px 0;
 }
 
 .header-white .site-navigation{
@@ -3274,7 +3292,7 @@ h4.panel-title a.collapsed:before {
 
 .header-white ul.navbar-nav > li > a{
    color: #3d4049;
-   line-height: 60px;
+   line-height: 40px;
 }
 
 .header-white ul.navbar-nav > li:last-child{

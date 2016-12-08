@@ -18,22 +18,24 @@
 
 .btn-easypr {
 	width: 90% !important;
-	font-weight: bold;
+	font-weight: normal;
 	color: #e7ffe1 !important;
 	/*color: blue !important;*/
 	text-transform: uppercase !important;
-	border: 2px solid orange !important;
+	border: 1px solid orange !important;
 	background-color: transparent; !important;
-	/*background-color: #777777 !important;*/
-	border-radius: 5px;
-	padding: 15px;
+	border-radius: 15px;
+	padding: 10px;
 	margin: 7.5px;
+	opacity: 0.8;
 }
 
 .btn-easypr:hover,
 .btn-easypr:active {
-	background-color: #ffffff !important;
-	color: #012e5b !important;
+	/*background-color: #ffffff !important;*/
+	color: #ffffff !important;
+	/*color: #012e5b !important;*/
+	opacity: 1;
 
 }
 

@@ -142,6 +142,9 @@ BOOLEAN_CHOICES = (('yes','yes'),
 					('no','no'),
 					)
 
-
+BLOG_CATEGORIES   =   (
+				('Top_blogs', 'Top_blogs'),
+				('Technology','technology'),
+				)
 
 

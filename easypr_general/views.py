@@ -11,8 +11,8 @@ from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.db.models import F
 from django.contrib import messages
 
-from easypr_general.models import UserAccount, Address, LatestNews, ClientFeedback, PwResetRecord, ServiceCategory
-from easypr_general.forms import  UserRegistrationForm,LoginForm #LoginForm, UserAccountForm,PublicationForm,DocumentUploadForm
+from easypr_general.models import UserAccount, Address, LatestNews, ClientFeedback, PwResetRecord, ServiceCategory, MailingList
+from easypr_general.forms import  UserRegistrationForm,LoginForm, MailListForm  #LoginForm, UserAccountForm,PublicationForm,DocumentUploadForm
 from easypr_general.custom_functions import transaction_ref, get_random_code, paginate_list, easypr_send_mail
 from django.contrib.sites.shortcuts import get_current_site
 
@@ -27,7 +27,6 @@ def  indexView(request):
     
 
 def  createUserAccount(request):
-    print "it came to this spot"
     template = 'easypr_general/sign-up.html'
     form = UserRegistrationForm()
     context = {}
@@ -56,9 +55,7 @@ def  createUserAccount(request):
             else:
                 return redirect(request.META['HTTP_REFERER'])
     return render(request, template, {})
-    # return redirect(request.META['HTTP_REFERER'])
-
-
+   
             
 def confirmEmail(request,code):
     user_to_confirm = UserAccount.objects.filter(registration_code = code, is_confirmed = False) # try get_object_or_404
@@ -121,7 +118,6 @@ def  loginView(request):
 
 
 
-
 def forgotPasswordView(request, **kwargs):
     code = get_random_code(45)
     message = ""
@@ -151,7 +147,6 @@ def forgotPasswordView(request, **kwargs):
             messages.warning(request, "Sorry! the email address you entered did not fetch any record.")
             return render(request, 'easypr_general/reset-password.html', {'search_user':True, 'reset_pw':False, 'email':useremail,'link_sent':False})
     return render(request, 'easypr_general/reset-password.html', {'search_user':True, 'reset_pw':False})
-
 
 
 def resetPasswordView(request, **kwargs):
@@ -217,6 +212,17 @@ def  aboutUsView(request):
 def  careersView(request):
     context = {}
     return render(request, 'easypr_general/careers.html', {})
+
+
+def mailListView(request):
+    if request.method == "POST":
+        if MailListForm.is_valid:
+             MailingList.objects.create(email = request.POST['email'])
+             messages.success(request, "Thank you for subcribing to our mailing list")
+        else:
+            pass
+    return redirect(request.META['HTTP_REFERER'])
+
 
 
 
