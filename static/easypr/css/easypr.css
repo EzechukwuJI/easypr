@@ -45,6 +45,10 @@
 	border-radius:0px;
 }
 
+.no-border {
+	border: none !important;
+}
+
 .title {
 	color:#000000; 
 	font-weight:bold; 
@@ -973,4 +977,15 @@ section, .section-padding{
 	border: 2px solid #012e5b !important;
 }
 
+.custom-checkbox {
+	width:17px; 
+	height:17px; 
+	line-height:17px;
+}
 
+.custom-radio-btn {
+	width:15px; 
+	height:15px; 
+	line-height:15px;
+	border-radius: 100%;
+}

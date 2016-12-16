@@ -125,7 +125,7 @@ SERVICE_TYPE = (
 		('Press Release Distribution', 'Press Release Distribution'),
 		('Content Writing and Marketing', 'Content Marketing'),
 		('Advertising', 'Advertising'),
-		('SME Marketing', 'SME Marketing'),
+		('SME Start Up Toolkit', 'SME Start Up Toolkit'),
 		('Sales and Marketing', 'Sales and Marketing'),
 		('Events Bureau','Events Bureau'),
 		('Blogger Distribution', 'Blogger Distribution'),
@@ -143,8 +143,8 @@ BOOLEAN_CHOICES = (('yes','yes'),
 					)
 
 BLOG_CATEGORIES   =   (
-				('Top_blogs', 'Top_blogs'),
-				('Technology','technology'),
+				('top-blogs', 'Top Blogs'),
+				('technology','Technology'),
 				)
 
 

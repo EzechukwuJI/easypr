@@ -112,8 +112,9 @@
 									<br/>
 									<span class="text-danger">
 										Max Allowed: {{ package.media_outreach_credit }} med{{ package.media_outreach_credit|pluralize:"ium,ia" }} 
-										<input type="hidden" name="max_media_credit" value ="{{ package.media_outreach_credit }}" id = "max-media-credit" />
-										<a href="{% url 'easypr_ng:get-started' category item %}" >Change</a>
+
+										<input type="hidden" name="max_media_credit" value ="{{ package.media_outreach_credit }}" id = "selected_package_details" pkg_long_name = "{{ package.category }} - {{ package.name|title }}" max_allowed = "{{package.media_outreach_credit }}" />
+										<a href="{% url 'easypr_ng:get-started' category item %}" ><small>Choose another package</small></a>
 									</span>
 								</div>
 							</div>
@@ -142,7 +143,9 @@
 {% block inline_scripts %}
 <script type="text/javascript" src="{% static 'easypr/js/jquery.js' %}"></script>
 <script>
-	function fetch_media(select_input_id, div_to_populate){	
+
+	function fetch_media(select_input_id, div_to_populate){
+		var media_selection_count  =  0; // set selected media house count to zero	
 		$("#" + div_to_populate).html('<option value="" style="color:green;">Fetching media ...</option>');
 		var platform      = $("#" + select_input_id).find(':selected').attr('value');
 		if (platform.length == 0){
@@ -179,22 +182,20 @@
 
 
 <script>
-	$('.selected-media-house').click(function(){
-		alert("this was clickedd");
-	})
-
+var media_selection_count  =  0;
+$('body').on('click', '.selected-media-house', function(){
+	var package = $("#selected_package_details");
+	var selected_media = package.attr('pkg_long_name'); 
+	var max_allowed_media = package.attr('max_allowed');
+	var media_selection_count = $(".selected-media-house:checked").length;
+	if (media_selection_count > max_allowed_media){
+		var msg = "You can only select " + max_allowed_media  + " media house for " + selected_media + "\n Uncheck one or more media to make changes or choose another package";
+			alert(msg);
+			return false;
+		}
+})	
 </script>
 
-
-
-
-// <script>
-// 	function countSelectedMedia(){
-// 	  var max_media   =    $("#max-media-credit").val();
-//       var selected_media_houses = $(".selected-media-houses").find(":checked").length;
-  
-// }
-// </script>
 
 {% endblock inline_scripts %}
 

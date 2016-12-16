@@ -7,11 +7,10 @@
 			<div class="row text-center text-white">
 				<h3 class="title-border">
 					<span id="packages"></span>
-					<span class="title-head" style="padding-bottom: 5px;">Affordable Targetted Marketing Solutions </span>
-					<p style="font-size: 30px; padding-top:15px; text-transform:none;">To Help Build Your Brand</p>
+					<span class="title-head" style="padding-bottom: 2px; color:#666666;">AFFORDABLE AND TARGETED MARKETING SOLUTIONS </span>
+					<p style="font-size: 25px; padding-top:7.5px; text-transform:none;">To Help Build Your Brand</p>
 				</h3>
 			</div><!--/ Title row end -->
-
 			<div class="row">
 				<div class="col-md-12">
 					<!-- left pane -->
@@ -65,7 +64,7 @@
 						<div class="col-md-12">
 							<div class="col-md-4"> 
 								<div class="feature-tile-sm">
-									<a href="{% url 'easypr_ng:service-details' 'events-bureau' %}">
+									<a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}">
 										<img class="feature-img-sm" src="{% static 'easypr/images/services/sales-marketing.jpg' %}" alt="image events bureau" />
 									</a>
 								</div>
@@ -75,7 +74,7 @@
 							</div>
 							<div class="col-md-4"> 
 								<div class="feature-tile-sm bg-info">
-									<a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}">
+									<a href="{% url 'easypr_ng:service-details' 'events-bureau' %}">
 										<img class="feature-img-sm" src="{% static 'easypr/images/services/events-bureau.jpg' %}" alt="image sales and marketing" />
 									</a>
 								</div>
@@ -98,9 +97,9 @@
 						
 					</div>
 				</div>
-				<div class="gap-30"></div>
+				<div class="gap-10"></div>
 				<div class="col-md-12 text-center">
-					<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="slider btn btn-easypr bg-royal" style="font-size:25px;">Not Sure? Find The Right Strategy For Your Brand.</a>
+					<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="slider btn btn-easypr bg-royal" style="font-size:20px;">Not Sure? Find The Right Strategy For Your Brand.</a>
 				</div>
 			</div>
 		</div><!-- Conatiner end -->
@@ -109,7 +108,7 @@
 
 {% block latest-news %}
 	{% if recent_posts %}
-		<div class="gap-10"></div>
+		<!-- <div class="gap-10"></div> -->
 		<section id="news" class="news">
 			<div class="container">
 				<div class="row text-center">

@@ -1,0 +1,6 @@
+{% for blog in active_blogs %}
+	<input class = "custom-checkbox selected-blog-house" type="checkbox" name="selected_blog[]" value={{ blog.name_slug }} blog_name = "{{ blog.name|title }}" price="{{ blog.price }}" /> {{ blog.name }} <br/>
+{% empty %}
+	<p>No blogs found </p>
+{% endfor %}
+				

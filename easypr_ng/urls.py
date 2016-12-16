@@ -25,6 +25,7 @@ urlpatterns  =  [
 	url(r'^buy-package/press_material=(?P<press_material>[-\w]+)/package=(?P<package>[-\w]+)/$', views.buy_packageView, name = "buy-package"),
 	url(r'^content-upload/preview/ref=(?P<transaction_id>[-\w]+)$',      views.previewPublicationView,  name = "preview-content"),
 	url(r'^fetch-media-houses/$',                                        views.get_media_houses,        name = 'get-media-houses'),
+	url(r'^fetch-blog-list/$',                                           views.get_blog_list,           name = 'get-blog-list'),
 	url(r'^payment/ref=(?P<transaction_id>[-\w]+)$',                     views.Payment,                 name = 'payment'),
 	url(r'^payment/save-details/ref=(?P<transaction_id>[-\w]+)/$',       views.savePayInfo,             name = 'save-pay-details'),
 	url(r'^content-submission/success/$',                                views.confirmationView,        name = 'confirmation'),

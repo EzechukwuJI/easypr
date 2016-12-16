@@ -65,7 +65,7 @@ class TargetAudienceForm(forms.ModelForm):
 class ServiceRequestForm(forms.ModelForm):
 	# service_type      =    forms.CharField(max_length = 100, widget=forms.Select(choices = SERVICE_TYPE, attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
 	# sector            =    forms.CharField(max_length = 100, widget=forms.Select(choices = ECONOMY_SECTOR, attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
-	brief_description =    forms.CharField(max_length = 450, widget=forms.Textarea(attrs={'class' : 'form-control no-border-radius bg-white border-thick', 'required':'required','rows':5,'placeholder':"Briefly describe the service you want."}))
+	# brief_description =    forms.CharField(max_length = 450, widget=forms.Textarea(attrs={'class' : 'form-control no-border-radius bg-white border-thick', 'required':'required','rows':5,'placeholder':"Briefly describe the service you want."}))
 	# sector            =    forms.CharField(max_length = 100, widget=forms.Select(choices = MEDIA_PLATFORM, attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
 	# time_service_needed  =    forms.DateField(widget=forms.DateInput(attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
 	# preferred_call_time  =    forms.CharField(max_length = 100, widget=forms.Select(attrs={'class' : 'form-control no-border-radius border-thick', 'required':'required'}))
@@ -77,7 +77,8 @@ class ServiceRequestForm(forms.ModelForm):
 
 	class Meta:
 		model = ServiceRequest
-		fields = ('brief_description', 'contact_person','contact_email','phone_number')
+		fields = ('contact_person','contact_email','phone_number')
+		# fields = ('brief_description', 'contact_person','contact_email','phone_number')
 
 
 

@@ -1,11 +1,12 @@
 from django.contrib import admin
-from easypr_ng.models import  MediaHouse, MediaContact,PressMaterial, Redirect_url, \
-Publication,PublicationImage,Purchase,PayDetails,PurchaseInvoice,MediaPlatform, Sector, \
-Comment, CommentReply, PRStrategy, InterviewRequest, ServiceRequest, Package
+from easypr_ng.models import * # MediaHouse, MediaContact,PressMaterial, Redirect_url, \
+#Publication,PublicationImage,Purchase,PayDetails,PurchaseInvoice,MediaPlatform, Sector, \
+#Comment, CommentReply, PRStrategy, InterviewRequest, ServiceRequest, Package
 
 
 class MediaHouseAdmin(admin.ModelAdmin):
 	list_display = ('name',)
+	prepopulated_fields = {'name_slug':('name',)}
 
 
 class PublicationAdmin(admin.ModelAdmin):
@@ -14,8 +15,11 @@ class PublicationAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'title_slug':('post_title',)}
 
 
-
 class SectorAdmin(admin.ModelAdmin):
+	prepopulated_fields = {'name_slug':('name',)}
+
+
+class BlogsAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'name_slug':('name',)}
 
 
@@ -37,13 +41,9 @@ class PurchaseAdmin(admin.ModelAdmin):
 	list_filter  = ('package','status',)
 
 
-
-
 class PRStrategyAdmin(admin.ModelAdmin):
 	list_display = ('company_name','business_type','company_type','is_pr_agent','contact_name','email','phone_number',)
 	list_filter  = ('action_status',)
-
-
 
 
 class InterviewRequestAdmin(admin.ModelAdmin):
@@ -51,15 +51,10 @@ class InterviewRequestAdmin(admin.ModelAdmin):
 	list_filter = ('status','contacted_by','closed_by')
 
 
-
-
 class ServiceRequestAdmin(admin.ModelAdmin):
 	list_display = ('ticket_number','service_type', 'contact_person','contact_email','phone_number','status')
 	list_filter = ('service_type','status','contacted_by','closed_by')
 	
-
-
-
 
 class PackageAdmin(admin.ModelAdmin):
 	list_display = ('name', 'category','price_naira', 'price_dollar', 'active')
@@ -84,6 +79,8 @@ admin.site.register(PRStrategy, PRStrategyAdmin)
 admin.site.register(InterviewRequest, InterviewRequestAdmin)
 admin.site.register(ServiceRequest, ServiceRequestAdmin)
 admin.site.register(Package, PackageAdmin)
+admin.site.register(Testimonial)
+admin.site.register(Blogs, BlogsAdmin)
 
 
 

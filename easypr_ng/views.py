@@ -20,7 +20,7 @@ from easypr_general.models import ServiceCategory
 # Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform, Comment, CommentReply
 
 from easypr_ng.forms import ContentUploadForm, BizInfoForm, TargetAudienceForm,ServiceRequestForm
-from easypr_general.models_field_choices import PR_FREQUENCY
+from easypr_general.models_field_choices import PR_FREQUENCY, BLOG_CATEGORIES
 import datetime
 from easypr.settings import NAIRA_DOLLAR_RATE as exchange_rate
 
@@ -171,6 +171,19 @@ def get_media_houses(request):
     platform        =   MediaPlatform.objects.filter(pk = media_platform)
     media_houses    =   MediaHouse.objects.filter(platform__icontains = platform)
     return render(request, template, {'available_media': media_houses})
+
+
+
+def get_blog_list(request):
+    ''' ajax view fetches applicable blogs for selected category '''
+    selected_category  =   request.GET.get('blog_category', "all")
+
+    print "selected category: ", selected_category
+    template           =  'snippets/blog_list.html'
+    blog_list          =   Blogs.objects.filter(category = selected_category)
+    return render(request, template, {'active_blogs': blog_list})
+
+
 
 
 @login_required()
@@ -447,23 +460,42 @@ def requestServiceView(request, category, item):
     context['request_form'] = ServiceRequestForm
     context['category']     =  category
     context['item']         =  item
+    if item == "blogger-distribution":
+        context['active_blogs']  =  Blogs.objects.filter(active = True) # load all active blog houses
+        context['blog_categories'] = [name[1] for name in BLOG_CATEGORIES] # fetch list of blogs
     template = "easypr_ng/request-service.html"
     if request.method == "POST":
         rp =  request.POST
-        ticket_number = transaction_ref("request", ServiceRequest, 6)
+        service_type  =  rp['service_type']
+        print rp
+        ticket_number = transaction_ref("request", ServiceRequest, 6) # generates six characters ticket number
         form = ServiceRequestForm(data = request.POST)
+        # if rp['service_type']   == "blogger-distribution":
+        #     rp['brief_description'] = ""
         if form.is_valid():
             form = ServiceRequestForm(request.POST)
             form.save(commit = False)
             new_request = form.save()
             new_request.ticket_number = ticket_number
             new_request.service_type = rp['service_type']
-            new_request.brief_description = rp['brief_description']
+            if not rp['service_type']  == "blogger-distribution":
+                new_request.brief_description = rp['brief_description']
             
-            if not rp['service_type']  == "photo-news":
-                new_request.preferred_call_time = rp['preferred_call_time']
-                new_request.time_service_needed = rp['time_service_needed']
-            else:
+            # if not service_type  == "photo-news":
+            #     if not service_type == "blogger-distribution":
+            #         new_request.preferred_call_time = rp['preferred_call_time']
+            #         new_request.time_service_needed = rp['time_service_needed']
+            # else:
+            #     if rp['need_photographer']  ==  "No":
+            #         if request.FILES:
+            #             save_uploaded_files(request, RequestImage, "request", new_request) #saves uploaded image files to the appropriate model
+            #     else:
+            #         new_request.name_of_event = rp['name_of_event']
+            #         new_request.event_date    = rp['event_date']
+            #         new_request.event_time    = rp['event_time']
+            #         new_request.event_venue   = rp['event_venue']
+
+            if service_type == "photo-news":
                 if rp['need_photographer']  ==  "No":
                     if request.FILES:
                         save_uploaded_files(request, RequestImage, "request", new_request) #saves uploaded image files to the appropriate model
@@ -472,8 +504,29 @@ def requestServiceView(request, category, item):
                     new_request.event_date    = rp['event_date']
                     new_request.event_time    = rp['event_time']
                     new_request.event_venue   = rp['event_venue']
+            else:
+                if not service_type == "blogger-distribution":
+                    new_request.preferred_call_time = rp['preferred_call_time']
+                    new_request.time_service_needed = rp['time_service_needed']
 
+            if rp['service_type']  == "blogger-distribution":
+                new_request.total_price   =   rp['total_price']
+                selected_blogs    =   request.POST.getlist('selected_blog[]')
+                blog_objects  =   Blogs.objects.filter(name_slug__in = selected_blogs)
+
+                for blog in Blogs.objects.filter(name_slug__in = selected_blogs):
+                    new_request.blog_list.add(blog)
+                
+                if rp['submission-type'] == "upload_file":
+                    new_request.uploaded_post_content = request.FILES.get('uploaded_post_content',None)
+                    print "uploaded file " , request.FILES.get('uploaded_post_content', None)
+                else:
+                    new_request.post_content  =   rp['post_content']
+
+                if rp['check_upload_images'] == True: # if images were uploaded
+                        save_uploaded_files(request, RequestImage, "request", new_request)
             new_request.save()
+
             msg = "Your service request with ticket number #%s has been received. An EasyPR agent will contact you shortly. Kindly keep the ticket number for reference" %(new_request.ticket_number)
             messages.success(request, msg)
             # send mail to client and admin.

@@ -26,16 +26,19 @@
 	<section id="main-container" class="main-container">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-2 bg-white"></div>
+				<div class="col-md-1 bg-white"></div>
 				<div class="col-md-8 bg-white">
-					<form action = "" method = "post" class="text-dark">
+					<form action = "" method = "post" class="text-dark" enctype="multipart/form-data">
 
 						{% csrf_token %}
 						<div class="panel panel-primary">
 							<div class="panel-heading bg-royal no-border-radius text-white">
 								<strong>Service Request Form</strong>
 							</div>
-							{% if not item == "photo-news" %}
+							{% if item == "blogger-distribution" %}
+								{% include 'snippets/blogger-dist.html' %}
+
+							{% elif not item == "photo-news" %}
 								<div class="panel-body">
 									<div class="row">
 						                <div class="col-md-3">
@@ -257,7 +260,26 @@
 					</form>
 					</div>
 
-				<!-- <div class="col-md-2"> </div> -->
+				<!-- Conditional right panel -->
+				<div class="col-md-3">
+					{% if item == "blogger-distribution" %}
+						<div class="panel panel-danger hidden" id ="blog_summary_table_div">
+							<div class="panel-heading bg-danger"><b>Seleted Blogs</b></div>
+							<div class="panel-body" id="blog_summary">
+								<table  class="table table-stripped class='no-border'" id="blog_summary_table">
+									
+								</table>
+								<hr style="margin-bottom: 2px;"/>
+								<span class="pull-left">
+									<strong class="text-danger">Total:</strong>
+								</span>
+								<span class="text-danger pull-right" id="id_total_amout">
+									
+								</span>
+							</div>
+						</div>
+					{% endif %}
+				</div>
 
 			</div><!-- Main row end -->
 		</div><!-- Conatiner end -->
@@ -271,6 +293,7 @@
 {% block inline_scripts %}
 	<script type="text/javascript" src="{% static 'easypr/js/jquery.js' %}"></script>
 	<script>
+		var total_amount = 0.0;
 		$("#id_need_a_journalist").on('change', function(){
 			var option = $(this).val()
 			if (option != ""){
@@ -298,7 +321,78 @@
 				alert('select a valid option');
 			}
 		})
+
+
+
+		$("#blog-category").change(function(){
+			total_amount = 0.0;
+			$("#blog_summary_table").html(""); // empty selected blogs summary table
+			$("#id_total_amout").html('0.0'); // reset total amount
+			var selected_category = $(this).find(':selected').val();
+			$.ajax({
+			url: "{% url 'easypr_ng:get-blog-list' %}",
+			type: "GET",
+			data: {blog_category: selected_category},
+			success: function(data){
+				$("#id_blog_list").removeClass('hidden');
+				$("#cate_blog_list").html(data);
+			},
+			error: function(data){
+				$("#cate_blog_list").html('<option value="" style="color:#6734ee;">An error occured while fetching blog list! Please reload the page.</option>');	
+				}
+			});
+		})
+
+		
+		// User wants to upload images
+		$("#chk_upload_images").on('click', function(){
+			$(this).is(':checked') ? $("#id_upload_images").removeClass('hidden') : $("#id_upload_images").addClass('hidden');
+		})
+
+		$(".cls_submission_format").click(function(){
+			var selected = $(this).val();
+			if(selected == "upload_file"){
+				$("#id_content_upload").removeClass('hidden');
+				$("#id_content_textarea").addClass('hidden');
+			} else {
+				$("#id_content_upload").addClass('hidden');
+				$("#id_content_textarea").removeClass('hidden');
+			}
+		})
+
+
+		$('body').on('click', '#cate_blog_list .selected-blog-house', function(){
+			var summary_div   =  $("#blog_summary");
+			var price = $(this).attr('price');
+			var blog  = $(this).attr('blog_name');
+			var blog_name_slug =  $(this).val();
+			var new_row = "";
+			var selected_blog  =  $(".selected-blog-house:checked").length;
+			selected_blog > 0 ? $("#blog_summary_table_div").removeClass('hidden') : $("#blog_summary_table_div").addClass('hidden');
+				
+
+			// alert(selected_blog);
+
+			if ($(this).is(':checked')){
+				total_amount += parseFloat(price);
+				new_row = "<tr id='id_'" + blog_name_slug + "'><td><b>" + blog + "</b></td><td> &#8358;" + price + "</td></tr>";
+				$("#blog_summary_table").append(new_row);
+				$("#id_total_amout").html("<strong class='text-danger'>&#8358;" + total_amount + "</strong>");
+				
+			} else {
+				total_amount -= parseFloat(price);
+				$("#id_total_amout").html("<strong class='text-danger'>&#8358;" + total_amount + "</strong>");
+				// var tr_to_delete = $("#id_" + blog_name_slug);
+				var id_tr_to_delete  =  "#id_" + blog_name_slug;
+
+				$('table#blog_summary_table tr' + id_tr_to_delete).remove();
+			}
+			$("#form_total_price").val(total_amount);
+
+		})
+		
 	</script>
+	
 
 {% endblock inline_scripts %}
 

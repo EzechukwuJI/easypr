@@ -101,6 +101,7 @@ def easypr_send_mail(request, **kwargs):
     msg = EmailMessage(subject, message, from_email, [to])
     msg.content_subtype = 'html'
     try:
+        print "Sending mail ..."
         msg.send()
     except Exception as e:
         print "email not sent because %s" %(e)
