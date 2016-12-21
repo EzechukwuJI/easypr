@@ -1,0 +1,137 @@
+{% load base_custom_filters %}
+
+<div class="panel-body">
+	<div class="row">
+        <div class="col-md-3">
+        	<strong class="text-dark">
+        		Request Type:
+        	</strong>
+        </div>
+        <div class="col-md-9">
+        	<input type="text" class="form-control no-border-radius text-dark bg-white"  readonly value="{{ item|title|strip_chars:"-" }}" style="font-weight:bold" /> 
+        </div>
+    </div>
+    <br>
+ 	<div class="row">
+        <div class="col-md-3">
+        	<strong class="text-dark">Select Page Size</strong>
+        </div>
+        <div class="col-md-9">
+        	<select name ="page_size" id = "adv_page_size" class="form-control">
+        		<option style="display:none;">select</option>
+        		{% for size in advert_page_sizes %}
+        			<option value = "{{ size }}" >{{ size }}</option>
+        		{% endfor %}
+        	</select>
+        </div>
+    </div>
+    <br>
+
+    <div class="row" id="id_blog_list">
+        <div class="col-md-3">
+            <strong class="text-dark">Select Media</strong>
+        </div>
+        <div class="col-md-9">
+            <div class="item-display-box text-dark" id="media_list">
+                {% for media in active_paper_media_house %}
+                    <input class = "custom-checkbox selected-media-house" type="checkbox" name="media_house" value={{ media.name_slug }} /> {{ media.name }} <br/>
+                {% empty %}
+                    <p>No Media found </p>
+                {% endfor %}
+                
+            </div>
+        </div>
+    </div>
+    <br/>
+
+	<div class="row">
+		<div class="col-md-3">
+			&nbsp;
+		</div>
+		<div class="col-md-3">
+			<input type = "radio" name="page_color" id="id_black_and_white" class="custom-radio-btn page_style" value="black_and_white" checked />&nbsp; <strong>Black &amp; White</strong>
+		</div>
+		<div class="col-md-6">
+			<input type = "radio" name="page_color" id="id_colour"  class="custom-radio-btn page_style_option" value="colour" /> <strong>Colour</strong>
+		</div>
+	</div>
+	<br/>
+
+	<div class="row">
+		<!-- upload file content -->
+		<div class="col-md-3">
+            Upload Advert Content and enter any additional instructions.
+        </div>
+        <div class="col-md-9">
+        <!-- <input type="hidden" name="total_price" id="form_total_price" /> -->
+        	<span class="" id ="id_content_upload">
+	        	<strong class="text-dark" id="">
+	        		<label>Upload Advert Content</label>
+	        	</strong>
+	        	 <small class="text-danger"> (*.jpeg, *.jpg, *.png, *.psd formats only)</small><br/>
+	        	 <input type="file" name = "advert_image_file" id="id_post_content" accept=".jpeg, .jpg, .png, .psd"/>
+	        </span>
+            <br/>
+        	 <!-- or copy and paste content -->
+        	 <textarea name= "adv_additional_message" rows='4' placeholder="Any additional message or instructions" class="form-control border-thick" id="id_additional_message"></textarea>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row">
+		<div class="col-md-3">
+			&nbsp;
+		</div>
+		<div class="col-md-9">
+			<input type = "checkbox" name="allow_content_editing" id="id_allow_content_editing">&nbsp; <strong>Allow Content Editing?</strong>
+		</div>
+	</div>
+	<br/>
+
+	<div class="row hidden" role="file-upload and title section" id="id_upload_images">
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-11">
+			<div class="row">
+				<div class="col-md-4">
+					{% include 'snippets/file_upload.html' with file_id="image_1" %}
+				</div>
+				<div class="col-md-4">
+					{% include 'snippets/file_upload.html' with file_id="image_2" %}
+				</div>
+				<div class="col-md-4">
+					{% include 'snippets/file_upload.html' with file_id="image_3" %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<br/>
+
+    <div class="row">
+        <div class="col-md-3">
+        	<strong class="text-dark">{{ request_form.contact_person.label|title }}</strong>
+        </div>
+        <div class="col-md-9">{{ request_form.contact_person }}</div>
+    </div>
+    <br>
+
+
+    
+    <input type="hidden" name="brief_description"  value="" />
+    
+    <div class="row">
+        <div class="col-md-3">
+        	<strong class="text-dark">{{ request_form.contact_email.label|title }}</strong>
+        </div>
+        <div class="col-md-9">{{ request_form.contact_email }}</div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-md-3">
+        	<strong class="text-dark">{{ request_form.phone_number.label|title }}</strong>
+        </div>
+        <div class="col-md-9">{{ request_form.phone_number }}</div>
+    </div>
+    <br>
+</div>

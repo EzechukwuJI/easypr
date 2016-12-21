@@ -8,6 +8,13 @@ class UserAccountAdmin(admin.ModelAdmin):
 	list_filter    =   ('economy_sector',)
 
 
+class ServiceItemAdmin(admin.ModelAdmin):
+	prepopulated_fields = {'name_slug':('name',)}
+
+
+class ServiceCategoryAdmin(admin.ModelAdmin):
+	prepopulated_fields = {'name_slug':('name',)}
+
 
 
 
@@ -16,6 +23,6 @@ admin.site.register(Address)
 admin.site.register(LatestNews)
 admin.site.register(ClientFeedback)
 admin.site.register(PwResetRecord)
-admin.site.register(ServiceCategory)
-admin.site.register(ServiceItem)
+admin.site.register(ServiceCategory, ServiceCategoryAdmin)
+admin.site.register(ServiceItem, ServiceItemAdmin)
 admin.site.register(MailingList)

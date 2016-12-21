@@ -26,7 +26,11 @@
 	<section id="main-container" class="main-container">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-1 bg-white"></div>
+				{% if item == "blogger-distribution" %}
+					<div class="col-md-1 bg-white"></div>
+				{% else %}
+					<div class="col-md-2 bg-white"></div>
+				{% endif %}
 				<div class="col-md-8 bg-white">
 					<form action = "" method = "post" class="text-dark" enctype="multipart/form-data">
 
@@ -37,7 +41,12 @@
 							</div>
 							{% if item == "blogger-distribution" %}
 								{% include 'snippets/blogger-dist.html' %}
-
+							{% elif item == "newspaper" %}
+								{% include 'snippets/newspaper-adv-request.html' %}
+							{% elif item == "radio" %}
+								{% include 'snippets/radio-adv-request.html' %}
+							{% elif item == "television" %}
+								{% include 'snippets/tv-adv-request.html' %}
 							{% elif not item == "photo-news" %}
 								<div class="panel-body">
 									<div class="row">
@@ -133,11 +142,19 @@
 						            </div>
 						            <br> -->
 
-						            <div class="row">
+						            <!-- <div class="row">
 						                <div class="col-md-4">
 						                	<strong class="text-dark">{{ request_form.brief_description.label|title }}</strong>
 						                </div>
 						                <div class="col-md-8">{{ request_form.brief_description }}</div>
+						            </div> -->
+						            <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">Brief Description</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<textarea class="form-control no-border-radius bg-white border-thick" cols="40" id="id_brief_description" maxlength="450" name="brief_description" placeholder="Briefly describe the service you want." required="required" rows="5"></textarea>
+						                </div>
 						            </div>
 						            <br>
 
@@ -147,7 +164,7 @@
 						                </div>
 						                <div class="col-md-8">
 						                	<select name="need_photographer" class="form-control no-border-radius border-thick" id="id_need_a_journalist" required>
-						                		<option value = "">-----</option>
+						                		<option style="display:none;">-----</option>
 						                		<option value="yes">Yes</option>
 						                		<option value="No">No</option>
 						                	</select>
@@ -261,26 +278,27 @@
 					</div>
 
 				<!-- Conditional right panel -->
-				<div class="col-md-3">
 					{% if item == "blogger-distribution" %}
-						<div class="panel panel-danger hidden" id ="blog_summary_table_div">
-							<div class="panel-heading bg-danger"><b>Seleted Blogs</b></div>
-							<div class="panel-body" id="blog_summary">
-								<table  class="table table-stripped class='no-border'" id="blog_summary_table">
-									
-								</table>
-								<hr style="margin-bottom: 2px;"/>
-								<span class="pull-left">
-									<strong class="text-danger">Total:</strong>
-								</span>
-								<span class="text-danger pull-right" id="id_total_amout">
-									
-								</span>
+						<div class="col-md-3">
+							<div class="panel panel-danger hidden" id ="blog_summary_table_div">
+								<div class="panel-heading bg-danger"><b>Seleted Blogs</b></div>
+								<div class="panel-body" id="blog_summary">
+									<table  class="table table-stripped class='no-border'" id="blog_summary_table">
+										
+									</table>
+									<hr style="margin-bottom: 2px;"/>
+									<span class="pull-left">
+										<strong class="text-danger">Total:</strong>
+									</span>
+									<span class="text-danger pull-right" id="id_total_amout">
+										
+									</span>
+								</div>
 							</div>
 						</div>
+					{% else %}
+						<div class="col-md-2"></div>
 					{% endif %}
-				</div>
-
 			</div><!-- Main row end -->
 		</div><!-- Conatiner end -->
 	</section><!-- Main container end -->
@@ -360,7 +378,7 @@
 			}
 		})
 
-
+		//  CODE FOR BLOG SELECTION SUMMARY AND PRICE DISPLAY  
 		$('body').on('click', '#cate_blog_list .selected-blog-house', function(){
 			var summary_div   =  $("#blog_summary");
 			var price = $(this).attr('price');
@@ -369,9 +387,6 @@
 			var new_row = "";
 			var selected_blog  =  $(".selected-blog-house:checked").length;
 			selected_blog > 0 ? $("#blog_summary_table_div").removeClass('hidden') : $("#blog_summary_table_div").addClass('hidden');
-				
-
-			// alert(selected_blog);
 
 			if ($(this).is(':checked')){
 				total_amount += parseFloat(price);
@@ -382,15 +397,65 @@
 			} else {
 				total_amount -= parseFloat(price);
 				$("#id_total_amout").html("<strong class='text-danger'>&#8358;" + total_amount + "</strong>");
-				// var tr_to_delete = $("#id_" + blog_name_slug);
 				var id_tr_to_delete  =  "#id_" + blog_name_slug;
-
 				$('table#blog_summary_table tr' + id_tr_to_delete).remove();
 			}
 			$("#form_total_price").val(total_amount);
-
 		})
-		
+
+	 // CODE FOR AUDIO DURATION SELECT BOX SELECTION
+	 $("#id_material_duration").on('change', function(){
+	 	var selected   =     $(this).find(':selected').val();
+	 	var message2 = "Upload a " + selected + " long audio file";
+	 	var message1 = "You'll have to Upload a " + selected + " long audio file";
+	 	if(!(selected == "empty")){
+	 		$("#id_audio_duration").html(message2);
+	 		$("#id_duration_warning").html(message1);
+	 	} else {
+	 		var error_msg = "<strong class='text-danger>Select a Valid duration</strong>";
+	 		$("#id_duration_warning").html(error_msg);
+	 		$("#id_audio_duration").html(error_msg);
+	 	}
+	 })
+
+	 //  ENSURES AUDIO ADVERT DURATION IS SELECTED BEFORE AUDIO FILE UPLOAD
+	 $("#id_audio_file").on('click',function(){
+	 	var selected_duration = $("#id_material_duration").find(':selected').val().split(" ")[0];
+	 	if (selected_duration === "empty"){
+	 		var msg = "You have to select an advert duration to proceed.";
+	 		alert(msg);
+	 		$("#id_duration_warning").html("<strong class='text-danger'>Select A duration to proceed </strong>");
+	 		$("#id_duration_warning").focus();
+	 		return false;
+	 	}
+	 })
+
+
+	 $("#id_audio_file").on('change', function(e){
+	 	var audio_url   =    $("#id_audio_file");
+	 	// alert(audio_url[0].name);
+	 	var selected_duration = $("#id_material_duration").find(':selected').val().split(" ")[0];
+	 	var audio_file = e.currentTarget.files[0];
+	 	var ext = audio_file.type.split('/')[1];
+	 	var max_file_size  = 5.00;
+	 	
+	 	var file_size_mb   = parseFloat(audio_file.size / 1048576).toFixed(2); // 1mb = 1048576 bytes, to 2 decimal places
+	 	if (ext === "mp3" || ext === "wav") {
+	 		// check and compare file duration here
+	 		var file_duration = get_audio_file_duration(audio_file); // get file duration
+	 		alert(selected_duration);
+	 	} else {
+	 		var msg =  ext + " is not a supported audio file type. \n Only *.mp3 and *.wav files are allowed";
+	 		alert(msg);
+	 		return false;
+	 	} if (file_size_mb > max_file_size){
+	 		var msg = "File size exceeds " + max_file_size + "MB. Please select a smaller file";
+	 		$("#file_size_info").html(msg);
+	 		alert(msg);
+	 		return false;
+	 	}
+	 })
+
 	</script>
 	
 

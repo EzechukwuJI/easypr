@@ -1,0 +1,105 @@
+{% load base_custom_filters %}
+
+<div class="panel-body">
+    <div class="row">
+        <div class="col-md-3">
+            <strong class="text-dark">
+                Request Type:
+            </strong>
+        </div>
+        <div class="col-md-9">
+            <input type="text" class="form-control no-border-radius text-dark bg-white"  readonly value="{{ item|title|strip_chars:"-" }}" style="font-weight:bold" /> 
+        </div>
+    </div>
+    <br>
+    
+    <div class="row">
+        <div class="col-md-3">
+            <strong class="text-dark">Select Service Type</strong>
+        </div>
+        <div class="col-md-9">
+            <select name ="adv_service_type" id = "service_type" class="form-control">
+                <option value="Advertisement">Advertisement</option>
+                <option value="TV tour">TV Tour</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    
+    <div class="row">
+        <div class="col-md-3">
+            <strong class="text-dark">Duration of Material</strong>
+        </div>
+        <div class="col-md-9">
+            <span id ="id_duration_warning"></span>
+            <select name ="adv_duration" id = "id_material_duration" class="form-control">
+                <option value ="empty" style="display: none;">------</option>
+                {% for duration in duration_list %}
+                    <option value= "{{duration}}">{{ duration }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-md-3">
+            <strong class="text-dark">Select Region</strong>
+        </div>
+        <div class="col-md-9">
+            <select name ="region" id = "id_region" class="form-control">
+                <option value= "Abuja">Abuja</option>
+                <option value= "Enugu">Enugu</option>
+                <option value= "port harcourt">Port Harcourt</option>
+                <option value= "Lagos">Lagos</option>
+            </select>
+        </div>
+    </div>
+    <br>
+ 
+    <div class="row">
+        <!-- upload file content -->
+        <div class="col-md-3">
+            <strong class="text-dark" id="">
+                <label for "id_post_content">Upload Video File:</label>
+            </strong>
+            <small class="text-danger"> (*.vob or *.mp4 format only)</small>
+        </div>
+        <div class="col-md-9">
+            <small id="id_audio_duration"></small>
+            <audio id="video_file_placeholder" class=""></audio>
+            <span class="text-danger" id = "file_size_info"> </span>
+            <input type="file" class="form-control" name = "video_file" id="id_audio_file" accept=".vob, .mp4"/>
+        </div>
+    </div>
+    <br/>
+    
+
+    <div class="row">
+        <div class="col-md-3">
+            <strong class="text-dark">{{ request_form.contact_person.label|title }}</strong>
+        </div>
+        <div class="col-md-9">{{ request_form.contact_person }}</div>
+    </div>
+    <br>
+
+
+    
+    <input type="hidden" name="brief_description"  value="" />
+    
+    <div class="row">
+        <div class="col-md-3">
+            <strong class="text-dark">{{ request_form.contact_email.label|title }}</strong>
+        </div>
+        <div class="col-md-9">{{ request_form.contact_email }}</div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-md-3">
+            <strong class="text-dark">{{ request_form.phone_number.label|title }}</strong>
+        </div>
+        <div class="col-md-9">{{ request_form.phone_number }}</div>
+    </div>
+    <br>
+</div>

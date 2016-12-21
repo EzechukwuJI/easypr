@@ -56,22 +56,17 @@ PAYMENT_OPTIONS  =  (
 			("Bank Transfer", "Bank Transfer"),
 	)
 
-
-
 PAYMENT_STATUS = (
 			("verified", "verified"),
 			("pending","pending"),
 			("failed","failed"),
 	)
 
-
-
 BANKS     =   (
 			("Diamond Bank", "Diamond Bank"),
 			("GTB","GTB")
 
 	)
-
 
 ECONOMY_SECTOR = (
 		("Finance", "Finance"),
@@ -101,8 +96,7 @@ PR_FREQUENCY  = (
 					('several-times-a-month', 'Several Times a Month',),
 					('quartely', 'Quartely',),
 	                ('annually', 'Annually',),
-	                ('first-time-user', 'First Time User',),
-                
+	                ('first-time-user', 'First Time User',),        
         )
 
 ACTION_STATUS = (
@@ -147,4 +141,11 @@ BLOG_CATEGORIES   =   (
 				('technology','Technology'),
 				)
 
+
+NEWSPAPER_ADV_SIZES  = ['Center Spread', 'Double Spread','Center Spread Half page',
+	'Double Spread Half Page','Full Page','Half Page','Quarter Page',
+	 '10 X 6','10 X 5','10 X 4','10 X 3','9 X 6','9 X 4','9 X 3','8 X 6',
+	 '8 X 5','7 X 5','7 X 4','6 X 5']
+
+AUDIO_ADV_DURATION = ['20 Seconds','30 Seconds','40 Seconds','45 Seconds','60 Seconds']
 

@@ -11,9 +11,6 @@ urlpatterns  =  [
 	url(r'^$',                         					                views.indexView,                	     name='index'),
 	url(r'^planner/step(?P<step>[-\d]+)/UID=(?P<anon_userID>[-\w\d]+)$',      	    views.strategyPlannerView,   name='strategy-planner'),
 	url(r'^planner/$',      	                                        views.strategyPlannerIntroView,          name='strategy-planner-intro'),
-	# url(r'^planner/$',      	                                        TemplateView.as_view(template_name = "easypr_ng/strategy-planner-info.html"),     name='strategy-planner-intro'),
-	# url(r'^request-a-service/$',      				                views.requestServiceView,      name='request-service'),
-	
 	url(r'^news/(?P<post_id>[-\d]+)/(?P<title_slug>[-\w]+)/$',  		 views.readnewsView,            name = 'news-details'),
 	url(r'^newsroom/$',                				                     views.newsRoomView,            name = 'newsroom'),
 	url(r'^newsroom/category=(?P<category>[-\w\d]+)$',                	 views.newsRoomCatView,         name = 'newsroom-cat-view'),
@@ -26,6 +23,7 @@ urlpatterns  =  [
 	url(r'^content-upload/preview/ref=(?P<transaction_id>[-\w]+)$',      views.previewPublicationView,  name = "preview-content"),
 	url(r'^fetch-media-houses/$',                                        views.get_media_houses,        name = 'get-media-houses'),
 	url(r'^fetch-blog-list/$',                                           views.get_blog_list,           name = 'get-blog-list'),
+	
 	url(r'^payment/ref=(?P<transaction_id>[-\w]+)$',                     views.Payment,                 name = 'payment'),
 	url(r'^payment/save-details/ref=(?P<transaction_id>[-\w]+)/$',       views.savePayInfo,             name = 'save-pay-details'),
 	url(r'^content-submission/success/$',                                views.confirmationView,        name = 'confirmation'),
@@ -36,6 +34,9 @@ urlpatterns  =  [
 	url(r'^(?P<category>[-\w]+)/(?P<item>[-\w]+)/pricing/$',             views.get_startedView,         name = 'get-started'),
 	url(r'^(?P<category>[-\w]+)/(?P<item>[-\w]+)/submit-content/$',      views.submitContentView,       name = 'submit-content'),
 	url(r'^(?P<category>[-\w]+)/(?P<item>[-\w]+)/submit-request/$',      views.requestServiceView,      name = 'request-service'),
+
+	# url(r'^planner/$',      	                                        TemplateView.as_view(template_name = "easypr_ng/strategy-planner-info.html"),     name='strategy-planner-intro'),
+	# url(r'^request-a-service/$',      				                views.requestServiceView,      name='request-service'),
 	
 	
 

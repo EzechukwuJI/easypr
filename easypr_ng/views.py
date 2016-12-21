@@ -20,7 +20,7 @@ from easypr_general.models import ServiceCategory
 # Purchase, PayDetails, PurchaseInvoice, Bouquet, Sector, MediaPlatform, Comment, CommentReply
 
 from easypr_ng.forms import ContentUploadForm, BizInfoForm, TargetAudienceForm,ServiceRequestForm
-from easypr_general.models_field_choices import PR_FREQUENCY, BLOG_CATEGORIES
+from easypr_general.models_field_choices import PR_FREQUENCY, BLOG_CATEGORIES, NEWSPAPER_ADV_SIZES, AUDIO_ADV_DURATION
 import datetime
 from easypr.settings import NAIRA_DOLLAR_RATE as exchange_rate
 
@@ -40,10 +40,10 @@ def get_recent_posts(post_count, order_by):
 def save_uploaded_images(request, image_model_object, model_field_name, related_model_instance):
     for image in request.FILES.keys():
         if model_field_name == "post": # images are from publication submission process
-            pub_image = image_model_object.objects.create(image = request.FILES[image], caption = request.POST["cap_"+ image], post = related_model_instance)
+            image_model_object.objects.create(image = request.FILES[image], caption = request.POST["cap_" + image], post = related_model_instance)
         else: # images are from service request action
-            pub_image = image_model_object.objects.create(image = request.FILES[image], caption = request.POST["cap_"+ image], request = related_model_instance)
-
+            image_model_object.objects.create(image = request.FILES[image], caption = request.POST["cap_" + image], request = related_model_instance)
+           
 
 def  indexView(request):
     context = {}
@@ -69,14 +69,14 @@ def create_post(request, press_material):
     online = rp.get('publish_online', False)
     new_post = Publication.objects.create(transaction_id = transaction_id, post_title = title, post_body = content,person_to_quote = person, persons_position = position,
         posted_by = posted_by, platform = platform, sector = sector, publish_online = online, press_material = press_material)
-    selected_media_houses = [ media for media in MediaHouse.objects.filter(pk__in = rp.getlist('media_house[]'))]
+    
+    # selected_media_houses = [ media for media in MediaHouse.objects.filter(pk__in = rp.getlist('media_house[]'))]
+
     for media_pk    in  rp.getlist('media_house[]'):
         media_house =   MediaHouse.objects.get(pk = media_pk )
         new_post.media_houses.add(media_house)
     new_post.save()
-
-    save_uploaded_images(request, PublicationImage, "post", new_post) #saves uploaded image files to the appropriate model
-
+    save_uploaded_images(request, PublicationImage, "post", new_post) #saves uploaded image files
     new_post.save()
     return new_post
 
@@ -111,9 +111,7 @@ def buy_packageView(request, press_material, package):
             context.update({'press_material':press_material, 'package':package})
             return render(request, template, context)
     context['form'] = ContentUploadForm()
-    # context['previous_page']  =  request.META.get('HTTP_REFERER', "/")
     category_and_item_dict   =   request.session.get('category_item_dict', {})
-    print "category and item dict ", category_and_item_dict
     context.update(category_and_item_dict)
     return render(request, template, context)
 
@@ -177,8 +175,6 @@ def get_media_houses(request):
 def get_blog_list(request):
     ''' ajax view fetches applicable blogs for selected category '''
     selected_category  =   request.GET.get('blog_category', "all")
-
-    print "selected category: ", selected_category
     template           =  'snippets/blog_list.html'
     blog_list          =   Blogs.objects.filter(category = selected_category)
     return render(request, template, {'active_blogs': blog_list})
@@ -201,7 +197,8 @@ def confirmationView(request):
         subject      = item[0]
         template     = item[1]
         mail_context = item[2]
-        return easypr_send_mail(request, recipient = request.user.first_name, useremail= request.user.email, text=template,subject=subject, context = mail_context)
+        # send mail to client
+        easypr_send_mail(request, recipient = request.user.first_name, useremail= request.user.email, text=template,subject=subject, context = mail_context)
     # claer session variables
     for key in request.session.keys():
         if key in active_session_keys:
@@ -417,6 +414,7 @@ def  servicesView(request, service_category):
         message = "service not found"
         messages.info(request, "No Services found")
         return render(request, 'easypr_general/services-details.html', {'response': message})
+        
     context['service_list'] = service[0].serviceitem_set.all().exclude(active = False)
     context['service']      = service[0]
     return render(request, 'easypr_general/services-details.html', context)
@@ -447,6 +445,19 @@ def get_startedView(request, category,item):
 
 
 
+
+
+
+# page_size              =     models.CharField(max_length = 125, default = None)
+# page_color             =     models.CharField(max_length = 125, null= True, blank = True, choices = (('black and white', 'black and white',),('color','color',)))
+# media_house            =     models.CharField(max_length = 125, null = True)
+# region                 =     models.CharField(max_length = 125, null = True)
+# adv_duration           =     models.CharField(max_length = 125, null = True)
+# adv_service_type       =     models.CharField(max_length = 125, null = True)
+# audio_file             =     models.FileField(upload_to = "uploads/audio/", null = True)
+# video_file             =     models.FileField(upload_to = "uploads/video/", null = True)
+
+
 def submitContentView(request, category, item):
     context = {}
     context['category']     =  category
@@ -455,31 +466,61 @@ def submitContentView(request, category, item):
 
 
 
+
+def save_extra_fields(request, new_request, service_type):
+    print request.POST
+# def save_extra_fields(service_type, extra_field_list):
+    extra_field_dict = {'radio_extra_fields':['adv_service_type','adv_duration','region','audio_file'],
+    'television_extra_fields':['adv_service_type','adv_duration','region','video_file'],
+    'newspaper_extra_fields': ['page_size','media_house','page_color','advert_image_file',
+    'adv_instructions','allow_content_editing','allow_content_editing'] }   
+
+    extra_fields_to_use =    extra_field_dict[service_type + '_extra_fields'] # get the extra field list to use
+    
+    for field_name in extra_fields_to_use:
+        print "field name ", field_name
+
+        model_field = ServiceRequest._meta.get_field(field_name) 
+
+        print "model field ", request.POST[model_field]
+
+        if request.FILES:
+            new_request.model_field = request.FILES.get(field_name, None) #save files first
+        new_request.model_field     = request.POST.get(field_name, None) # save other field contents
+        new_request.save() # save changes to new request
+        print "newly assigned field ", new_request.model_field
+
+
 def requestServiceView(request, category, item):
     context = {}
-    context['request_form'] = ServiceRequestForm
-    context['category']     =  category
-    context['item']         =  item
+    context['duration_list']     =  AUDIO_ADV_DURATION
+    context['request_form']      =  ServiceRequestForm
+    context['category']          =  category
+    context['item']              =  item
+
     if item == "blogger-distribution":
-        context['active_blogs']  =  Blogs.objects.filter(active = True) # load all active blog houses
-        context['blog_categories'] = [name[1] for name in BLOG_CATEGORIES] # fetch list of blogs
+        context['active_blogs']               =   Blogs.objects.filter(active = True) # load all active blog houses
+        context['blog_categories']            =   [name[1] for name in BLOG_CATEGORIES] # fetch list of blogs
+    if item == "newspaper":
+        context['advert_page_sizes']          =   NEWSPAPER_ADV_SIZES
+        context['active_paper_media_house']   =   MediaHouse.objects.filter(platform__name = "newspaper")
+   
     template = "easypr_ng/request-service.html"
+
     if request.method == "POST":
         rp =  request.POST
-        service_type  =  rp['service_type']
-        print rp
+        service_type        =   rp['service_type']
+        brief_description   =   rp.get('brief_description', None)
         ticket_number = transaction_ref("request", ServiceRequest, 6) # generates six characters ticket number
-        form = ServiceRequestForm(data = request.POST)
-        # if rp['service_type']   == "blogger-distribution":
-        #     rp['brief_description'] = ""
+        form = ServiceRequestForm(request.POST, request.FILES)
         if form.is_valid():
-            form = ServiceRequestForm(request.POST)
+            form = ServiceRequestForm(request.POST, request.FILES)
             form.save(commit = False)
             new_request = form.save()
             new_request.ticket_number = ticket_number
             new_request.service_type = rp['service_type']
             if not rp['service_type']  == "blogger-distribution":
-                new_request.brief_description = rp['brief_description']
+                new_request.brief_description = brief_description
             
             # if not service_type  == "photo-news":
             #     if not service_type == "blogger-distribution":
@@ -495,19 +536,26 @@ def requestServiceView(request, category, item):
             #         new_request.event_time    = rp['event_time']
             #         new_request.event_venue   = rp['event_venue']
 
+            non_timed_list = ['bloggger-distribution','newspaper','radio','television']
+
             if service_type == "photo-news":
                 if rp['need_photographer']  ==  "No":
                     if request.FILES:
-                        save_uploaded_files(request, RequestImage, "request", new_request) #saves uploaded image files to the appropriate model
+                        print "saving images ..."
+                        save_uploaded_images(request, RequestImage, "request", new_request) #saves uploaded image files to the appropriate model
                 else:
                     new_request.name_of_event = rp['name_of_event']
                     new_request.event_date    = rp['event_date']
                     new_request.event_time    = rp['event_time']
                     new_request.event_venue   = rp['event_venue']
             else:
-                if not service_type == "blogger-distribution":
+                # if not service_type == "blogger-distribution":
+                if service_type not in non_timed_list:
                     new_request.preferred_call_time = rp['preferred_call_time']
                     new_request.time_service_needed = rp['time_service_needed']
+                else:
+                    # SAVE EXTRA FIELDS 
+                    save_extra_fields(request, new_request, service_type) # save extra fields for active service type
 
             if rp['service_type']  == "blogger-distribution":
                 new_request.total_price   =   rp['total_price']
@@ -519,7 +567,6 @@ def requestServiceView(request, category, item):
                 
                 if rp['submission-type'] == "upload_file":
                     new_request.uploaded_post_content = request.FILES.get('uploaded_post_content',None)
-                    print "uploaded file " , request.FILES.get('uploaded_post_content', None)
                 else:
                     new_request.post_content  =   rp['post_content']
 
@@ -527,10 +574,18 @@ def requestServiceView(request, category, item):
                         save_uploaded_files(request, RequestImage, "request", new_request)
             new_request.save()
 
-            msg = "Your service request with ticket number #%s has been received. An EasyPR agent will contact you shortly. Kindly keep the ticket number for reference" %(new_request.ticket_number)
+
+            msg = "Your service request with ticket number #%s has been received. A member of the EasyPR team will contact you shortly. Kindly keep the ticket number for reference" %(new_request.ticket_number)
             messages.success(request, msg)
+
+
+
+
             # send mail to client and admin.
-            mail_context = {'ticket_number':ticket_number,'service_type':rp['service_type'],'brief_desc':rp['brief_description']}
+            mail_context = {'ticket_number':ticket_number,'service_type':rp['service_type']}
+            if not brief_description == None:
+                mail_context.update({'brief_desc':brief_description}) 
+
             subject = "Service Request Confirmation"
             easypr_send_mail(request, recipient = rp['contact_person'], useremail= rp['contact_email'], text="emails/service-request-confirmation.html",subject=subject, context = mail_context)
         else:

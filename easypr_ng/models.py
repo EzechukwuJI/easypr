@@ -110,7 +110,7 @@ class Publication(models.Model):
     person_to_quote                 =              models.CharField(max_length = 125, null = True, blank = True)
     persons_position                =              models.CharField(max_length = 125, null = True, blank = True)
     
-    uploaded_text                   =              models.FileField(upload_to ='publication/%Y-%M-%D', null=True, blank = True)
+    uploaded_text                   =              models.FileField(upload_to ='uploads/publication/%Y-%M-%D', null=True, blank = True)
     
     posted_by                       =              models.ForeignKey(User)
     platform                        =              models.ForeignKey('MediaPlatform', verbose_name = "Media platform", null = True, blank = True)
@@ -184,13 +184,18 @@ class Publication(models.Model):
 
 class PublicationImage(models.Model):
   post       =     models.ForeignKey('Publication', null = True, blank = True)
-  image      =     models.FileField(upload_to ='images/publication/%Y/%M/%D', null = True, blank = True)      
+  image      =     models.ImageField(upload_to ='uploads/images/publication', null = True, blank = True)      
+  # image      =     models.FileField(upload_to ='images/publication/%Y/%M/%D', null = True, blank = True)      
   caption    =     models.CharField(max_length = 200, null = True, blank =  True)
+
+  def __unicode__(self):
+    return '%s' %(self.post.post_title)
 
 
 class RequestImage(models.Model):
   request     =     models.ForeignKey('ServiceRequest', null = True, blank = True)
-  image       =     models.FileField(upload_to ='images/request/%Y/%M/%D', null = True, blank = True)      
+  image       =     models.ImageField(upload_to ='uploads/images/request', null = True, blank = True)      
+  # image       =     models.FileField(upload_to ='images/request/%Y/%M/%D', null = True, blank = True)      
   caption     =     models.CharField(max_length = 200, null = True, blank =  True)
 
 
@@ -414,7 +419,21 @@ class  ServiceRequest(BaseRequest):
   blog_list              =     models.ManyToManyField('Blogs')
   total_price            =     models.FloatField(default = 0.0)
   post_content           =     models.TextField(max_length = 3000)
-  uploaded_post_content  =     models.FileField(upload_to = "images/blogger_distribution/contents/")
+  uploaded_post_content  =     models.FileField(upload_to = "uploads/images/blogger_distribution/contents/", help_text = 'for blogger distibution submission')
+
+  # Radio and TV advert request
+  page_size              =     models.CharField(max_length = 125, null = True, blank = True)
+  page_color             =     models.CharField(max_length = 125, null= True, blank = True, choices = (('black and white', 'black and white',),('color','color',)))
+  media_house            =     models.CharField(max_length = 125, null = True)
+  region                 =     models.CharField(max_length = 125, null = True)
+  adv_duration           =     models.CharField(max_length = 125, null = True)
+  adv_service_type       =     models.CharField(max_length = 125, null = True)
+  audio_file             =     models.FileField(upload_to = "uploads/audio/", null = True, help_text = 'for Radio advert submission')
+  video_file             =     models.FileField(upload_to = "uploads/video/", null = True,help_text = 'for TV advert submission')
+  advert_image_file      =     models.FileField(upload_to = "uploads/newspaper/advert", null = True, help_text = 'for newpaper advert submission')
+  adv_instructions       =     models.TextField(max_length = 250, null = True)
+  allow_content_editing  =     models.BooleanField(default = False, help_text = 'for newpaper advert submission')
+
 
 
   def __unicode__(self):
@@ -564,7 +583,7 @@ class Testimonial(models.Model):
   posted_by         =   models.CharField(max_length = 150)
   persons_position  =   models.CharField(max_length = 75)
   persons_company   =   models.CharField(max_length = 125)
-  persons_image     =   models.FileField(upload_to = "testimonial/images")
+  persons_image     =   models.FileField(upload_to = "uploads/testimonial/images")
 
   def __unicode__(self):
     return self.posted_by

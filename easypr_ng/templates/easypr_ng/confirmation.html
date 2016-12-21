@@ -24,30 +24,26 @@
 						</div>
 						<div class="panel-body">
 							<div class="col-md-7 text-dark">
-								<div class="input-group">
-					                <span class="input-group-addon"><strong>Press Material</strong></span>
-					                <span class"pull-right">{{ post.press_material }}</span>
-					            </div>
-								<br>
-
-								<div class="input-group">
-					                <span class="input-group-addon"><strong>Package:</strong></span>
-					                <span class"pull-right">{{ purchase.package }}</span>
-					            </div>
-								<br>
-
-								<div class="input-group">
-					                <span class="input-group-addon"><strong>Selected Media: </strong></span>
-					                <span class"pull-right">{{ post.get_media_houses }}</span>
-					            </div>
-								<br>
-
-								<div class="input-group">
-					                <span class="input-group-addon"><strong>Media Outreach Credit:</strong></span>
-					                <span class"pull-right">{{ purchase.media_outreach_credit }}</span>
-					            </div>
-								<br>
+								<table class="table table-striped text-dark table-border">
+									<tr>
+										<td><strong>Press Material</strong></td>
+										<td>{{ post.press_material }}</td>
+									</tr>
+									<tr>
+										<td><strong>Package</strong></td>
+										<td>{{ purchase.package|title }}</td>
+									</tr>
+									<tr>
+										<td><strong>Selected Media</strong></td>
+										<td>{{ post.get_media_houses }}</td>
+									</tr>
+									<tr>
+										<td><strong>Media Outreach Credit</strong></td>
+										<td>{{ purchase.media_outreach_credit }}</td>
+									</tr>
+								</table>
 							</div>
+
 							<div class="col-md-5 left-border-dashed"> 
 								<div class="shadow-box bg-royal text-white">
 									If you need further assistance, kindly reach us on<br><br>

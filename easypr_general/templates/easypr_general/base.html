@@ -44,16 +44,6 @@
 	<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300|Roboto+Condensed" rel="stylesheet"> -->
 	<link href="https://fonts.googleapis.com/css?family=Dosis|Lato" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-
-	<script>
-		// $document.ready(function(){
-		// 	var adjusted_height = 400;
-		// 	$(".page-slider .item").css({'min-height': 600});
-		// });
-		// function adjustedScreenHeight(){
-		// 	return (screen.height - 150);
-		// }
-	</script>
 </head>
 	
 <body>
@@ -359,32 +349,7 @@
 				</div>
 			{% endfor %}
 		</div>
-
-
-
-		<!--  for msg in messages %}
-	        <script>
-	        	alert('wait');
-	            function show_alert(){
-
-	            var alert = '<div id = "msg-div" class="panel bg-{{ msg.level_tag }}" style="color:#000000; padding: 30px;"> 
-					<span class="pull-right text-primary" style="cursor:pointer; margin-left:10px;">close</span>
-					<strong>{{ msg }}</strong> 
-				</div>';
-				alert(alert);
-	            	// var close_box = '<span class="pull-right text-primary" style="cursor:pointer; margin-left:10px;" onclick="return hide_div("' + '"msg-div"' + ')">close</span>'
-	            // var alert = '<p style="padding-left:400px;" class="text-{{ msg.tags }} bg-{{ msg.tags }}">{{ msg }}</p>';
-	            document.write(alert);
-	            
-	            }
-
-	            display = window.setTimeout(show_alert(), 10000);
-	            window.clearTimeout(display);
-	        </script>              
-	     endfor %}
-	</div> -->
-
-	{% endif %}
+{% endif %}
 {% endblock header %}
 
 {% block inner_content %}

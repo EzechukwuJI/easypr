@@ -43,7 +43,7 @@ function load_image(pic_id, img_placeholder_id,cap_id){
         image_placeholder.src = e.target.result;
       }
       reader.readAsDataURL(input.files[0]);
-      document.getElementById(cap_id).focus();
+      document.getElementById(cap_id).focus(); // give focus to imagecaption field
     }
     else {
       image_placeholder.src = "";
@@ -51,7 +51,6 @@ function load_image(pic_id, img_placeholder_id,cap_id){
       input.value=""
     }
   }
-
 
 
 var div_ids = ['bank_deposit','debit_card','bank_transfer','ewallet'];
@@ -199,3 +198,13 @@ function  countSelectedMedia(){
 
 
 
+// function validate_audio_file(file_id){
+//   var file_url =  $("#" + file_id).val();
+//   var input    =  $("#" + file_id);
+//   var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+
+//   if (input.files && input.files[0] && file[0].name.match(/\(wav|mp3)$/i)){
+//     var file_duration  =  input.duration;
+//       alert(file_duration);
+//     }
+//   }

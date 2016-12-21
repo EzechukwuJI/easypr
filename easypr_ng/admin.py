@@ -81,6 +81,7 @@ admin.site.register(ServiceRequest, ServiceRequestAdmin)
 admin.site.register(Package, PackageAdmin)
 admin.site.register(Testimonial)
 admin.site.register(Blogs, BlogsAdmin)
+admin.site.register(RequestImage)
 
 
 
