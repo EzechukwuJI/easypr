@@ -37,6 +37,7 @@
 								<div><strong>Package:<span class="pull-right text-yellow">{{ purchase.package|upper }}</span></strong></div>
 								<div><strong>Media Outreach Credit:<span class="pull-right text-yellow">{{ purchase.media_outreach_credit }}</span></strong></div>
 								<div><strong>Price:<span class="pull-right text-yellow"> $ {{ purchase.package.price_dollar|floatformat:2|intcomma }}/ &#8358;{{ purchase.package.price_naira|floatformat:2|intcomma }}</span></strong></div>
+								<input type="hidden" name="amount_due_n" id="id_amount_due_n" value ="{{ purchase.package.price_naira }}">
 								<div><strong>VAT:<span class="pull-right text-yellow"> ${{ purchase.package.VAT_D|floatformat:2|intcomma }}/&#8358;{{ purchase.package.VAT_N|floatformat:2|intcomma }}</span></strong></div>
 								<hr style="margin-bottom: 10px;"/>
 								<div><h4><strong class="text-white">Total: <span class="pull-right text-yellow">${{ purchase.package.amount_payable_D|floatformat:2|intcomma }}/&#8358;{{ purchase.package.amount_payable_N|floatformat:2|intcomma }}</span></strong></h4></div>
@@ -175,6 +176,51 @@
 					  	{% endif %}
 					</form>
 					<hr/>
+
+
+					<!-- PAYSTACK TEST CENTER -->
+					<form >
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+	  <button type="button" class="hidden" id="id_btn_paywithpaystack" onclick="payWithPaystack()"> Pay </button> 
+	</form>
+	 
+	<script>
+	  function payWithPaystack(){
+	  	var amount_due  =  parseFloat($("#id_amount_due_n").val()) * 100;
+	  	alert(amount_due);
+	    var handler = PaystackPop.setup({
+	      key: 'pk_test_136f461b27217d612eb72b6e3d1fd452bbafaf95',
+	      email: 'hypermatrixtechnologies@gmail.com',
+	      amount: amount_due.toString(),
+	      ref: "{{ purchase.transaction_ref }}", 
+	      metadata: {
+	         custom_fields: [
+	            {
+	                display_name: "Mobile Number",
+	                variable_name: "mobile_number",
+	                value: "+2348012345678"
+	            }
+	         ]
+	      },
+	      callback: function(response){
+	          alert('success. transaction ref is ' + response.reference);
+	      },
+	      onClose: function(){
+	          // alert('window closed');
+	      }
+	    });
+	    handler.openIframe();
+	  }
+	</script>
+
+
+
+
+
+
+
+
+
 					<div class="row no-border-radius bg-gray">
 						<a href="{% url 'easypr_ng:payment' post.transaction_id %}" class="btn btn-primary pull-right" id="id_proceed" {% if not purchase.ordered %} disabled {% endif %}> Proceed </a>
 						<!-- <a href="{% url 'easypr_ng:confirmation' %}" class="btn btn-primary pull-right" id="id_proceed" {% if not purchase.ordered %} disabled {% endif %}> Proceed </a> -->

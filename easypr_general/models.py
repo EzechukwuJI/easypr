@@ -3,14 +3,9 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User 
-from models_field_choices import TITLE, COUNTRIES, FEEDBACK_STATUS, SERVICE_TYPE, ACTION_TYPE
+from models_field_choices import TITLE, COUNTRIES, FEEDBACK_STATUS, SERVICE_ITEM, SERVICE_TYPE, ACTION_TYPE
 # , ECONOMY_SECTOR
 from easypr.settings import VAT
-
-
-# class User(User):
-#   username   =    models.CharField(max_length = 75, unique = True)
-
 
 
 class UserAccount(models.Model):
@@ -104,7 +99,7 @@ class ServiceCategory(models.Model):
 
 class ServiceItem(models.Model):
   category           =    models.ForeignKey(ServiceCategory)
-  name               =    models.CharField(max_length = 100)
+  name               =    models.CharField(max_length = 150, choices = SERVICE_ITEM)
   name_slug          =    models.CharField(max_length = 175)
   image              =    models.FileField(upload_to ='services_image', null = True, blank = True)
   description        =    models.TextField(max_length = 750)

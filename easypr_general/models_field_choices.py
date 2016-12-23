@@ -125,6 +125,11 @@ SERVICE_TYPE = (
 		('Blogger Distribution', 'Blogger Distribution'),
 	)
 
+SERVICE_ITEM  =  (
+		('Radio Advertising', 'Radio Advertising',),
+		('Television Advertisement', 'Television Advert',),
+
+	) #Add others here
 
 ACTION_TYPE = (
 		('select_service',  'select service'),

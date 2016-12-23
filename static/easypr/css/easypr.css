@@ -977,6 +977,10 @@ section, .section-padding{
 	border: 2px solid #012e5b !important;
 }
 
+.form-field-error {
+	border: thin solid red !important;
+}
+
 .custom-checkbox {
 	width:17px; 
 	height:17px; 

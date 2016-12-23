@@ -123,11 +123,11 @@
 								<div class="col-md-12">
 									{{ form.post_body }}
 									<span class="text-danger pull-right">
-										{{ form.post_body.max_length }}
-										1000 characters 
+										3000 characters 
 									</span>
 									<br/>
-									<input type ="submit" value = "proceed" onclick='return countSelectedMedia()' class="btn btn-primary pull-right" />
+									<input type ="submit" value = "proceed" onclick='return countTextChar("id_post_body",3000); countSelectedMedia();' class="btn btn-primary pull-right" />
+									<!-- <input type ="submit" value = "proceed" onclick='return countSelectedMedia()' class="btn btn-primary pull-right" /> -->
 								</div>
 							</div>
 						</div>
@@ -194,6 +194,14 @@ $('body').on('click', '.selected-media-house', function(){
 			return false;
 		}
 })	
+
+
+function countMediaSelection(){
+	alert('we are here');
+	var media_selection_count = $(".selected-media-house:checked").length;
+	media_selection_count > 0 ? return true : return false;
+}
+
 </script>
 
 

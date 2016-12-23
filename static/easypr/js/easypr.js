@@ -53,17 +53,23 @@ function load_image(pic_id, img_placeholder_id,cap_id){
   }
 
 
-var div_ids = ['bank_deposit','debit_card','bank_transfer','ewallet'];
+  var div_ids = ['bank_deposit','debit_card','bank_transfer','ewallet'];
   function select_payment(div_id){
     $('#id_proceed').attr('disabled', true);
     var chosen_box  =   $('#' + div_id);
-    var option   =   $('#check_' + div_id);
+    var option      =   $('#check_' + div_id);
+
     if (option.is(':checked')){
       option.prop('checked', false);
       chosen_box.removeClass('selected');
     } else {
       option.prop('checked', true);
       chosen_box.addClass('selected');
+
+      // trigger paystack payment button
+      if (option.attr('id') === "check_debit_card"){
+        $("#id_btn_paywithpaystack").click(); 
+      }
     }
     var selected_div = div_ids.indexOf(div_id);
     for (id = 0; id < div_ids.length; id++){
@@ -79,6 +85,37 @@ var div_ids = ['bank_deposit','debit_card','bank_transfer','ewallet'];
       $('#pay-details').addClass('hidden');
     }
   }
+
+
+
+// var div_ids = ['bank_deposit','debit_card','bank_transfer','ewallet'];
+  // function select_paymentr(div_id){
+  //   alert('we are here');
+  //   $('#id_proceed').attr('disabled', true);
+  //   var chosen_box  =   $('#' + div_id);
+  //   var option   =   $('#check_' + div_id);
+  //   if (option.is(':checked')){
+  //     option.prop('checked', false);
+  //     chosen_box.removeClass('selected');
+  //   } else {
+  //     option.prop('checked', true);
+  //     chosen_box.addClass('selected');
+  //   }
+  //   var selected_div = div_ids.indexOf(div_id);
+  //   for (id = 0; id < div_ids.length; id++){
+  //       if (id !== selected_div ){
+  //       $('#check_' + div_ids[id]).prop('checked',false);
+  //       $('#' + div_ids[id]).removeClass('selected');
+  //     }
+  //   }
+  //   if ($('#check_bank_deposit').is(':checked') || $('#check_bank_transfer').is(':checked')){
+  //     $('#pay-details').removeClass('hidden');
+  //     $("#id_payment_method").val(div_id); 
+  //   } else {
+  //     $('#pay-details').addClass('hidden');
+  //   }
+  // }
+
 
 
 function hide_div(div){
@@ -98,34 +135,6 @@ function show_search_div(){
         $("#id_search").html("<i class='fa fa-search search text-center'></i>"); 
       }
     }
-
-
-// var div_ids = ['bank_deposit','debit_card','bank_transfer','ewallet'];
-  function select_payment(div_id){
-    $('#id_proceed').attr('disabled', true);
-    var chosen_box  =   $('#' + div_id);
-    var option   =   $('#check_' + div_id);
-    if (option.is(':checked')){
-      option.prop('checked', false);
-      chosen_box.removeClass('selected');
-    } else {
-      option.prop('checked', true);
-      chosen_box.addClass('selected');
-    }
-    var selected_div = div_ids.indexOf(div_id);
-    for (id = 0; id < div_ids.length; id++){
-        if (id !== selected_div ){
-        $('#check_' + div_ids[id]).prop('checked',false);
-        $('#' + div_ids[id]).removeClass('selected');
-      }
-    }
-    if ($('#check_bank_deposit').is(':checked') || $('#check_bank_transfer').is(':checked')){
-      $('#pay-details').removeClass('hidden');
-      $("#id_payment_method").val(div_id); 
-    } else {
-      $('#pay-details').addClass('hidden');
-    }
-  }
 
 
 function select_option(option_classname, selected_id, select_multiple){
@@ -186,11 +195,26 @@ function counter(action, display_id){
   }
 }
 
-
-function  countSelectedMedia(){
-  var selected = $(".selected-media-house").find(":checked").length;
-  // alert(selected);
+// CODE TO COUNTER INPUT FIELD CHARACTER AND COMPARE AGAINST MAX_ALLOWED LENGTH
+function countTextChar(text_field_id, max_length){
+  var  max_chars   =  parseInt(max_length);
+  var text_field   =  $("#" + text_field_id);
+  var text_length  =  text_field.val().length;
+  var field_name   =  text_field.attr('display_name');
+  if(text_length > max_chars) {
+    alert("Maximum character length exceeded.");
+    text_field.addClass('form-field-error');
+    return false;
+  }
+  return true;
 }
+
+
+
+// function  countSelectedMedia(){
+//   var selected = $(".selected-media-house").find(":checked").length;
+//   // alert(selected);
+// }
 
 // $(".selected-media-house").click(function(){
 //   alert('this is it');

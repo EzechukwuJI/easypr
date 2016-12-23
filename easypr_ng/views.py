@@ -467,28 +467,24 @@ def submitContentView(request, category, item):
 
 
 
-def save_extra_fields(request, new_request, service_type):
-    print request.POST
-# def save_extra_fields(service_type, extra_field_list):
-    extra_field_dict = {'radio_extra_fields':['adv_service_type','adv_duration','region','audio_file'],
-    'television_extra_fields':['adv_service_type','adv_duration','region','video_file'],
-    'newspaper_extra_fields': ['page_size','media_house','page_color','advert_image_file',
-    'adv_instructions','allow_content_editing','allow_content_editing'] }   
+# def save_extra_fields(request, new_request, service_type):
+#     print "transferred new request ", new_request
+#     extra_field_dict = {'radio_extra_fields':['adv_service_type','adv_duration','region','audio_file'],
+#     'television_extra_fields':['adv_service_type','adv_duration','region','video_file'],
+#     'newspaper_extra_fields': ['page_size','media_house','page_color','advert_image_file',
+#     'adv_instructions','allow_content_editing','allow_content_editing'] }   
 
-    extra_fields_to_use =    extra_field_dict[service_type + '_extra_fields'] # get the extra field list to use
-    
-    for field_name in extra_fields_to_use:
-        print "field name ", field_name
+#     extra_fields_to_use =    extra_field_dict[service_type + '_extra_fields'] # get the extra field list to use
+#     for field_name in extra_fields_to_use:
+#         model_field = ServiceRequest._meta.get_field(field_name)
+#         if request.FILES:
+#             new_request.model_field = request.FILES.get(field_name, None) #save files first
+#         else:
+#             new_request.model_field     = request.POST.get(field_name, None) # save other field contents
+#     print "save status", new_request.save() # save changes to new request
+#     return new_request
+        
 
-        model_field = ServiceRequest._meta.get_field(field_name) 
-
-        print "model field ", request.POST[model_field]
-
-        if request.FILES:
-            new_request.model_field = request.FILES.get(field_name, None) #save files first
-        new_request.model_field     = request.POST.get(field_name, None) # save other field contents
-        new_request.save() # save changes to new request
-        print "newly assigned field ", new_request.model_field
 
 
 def requestServiceView(request, category, item):
@@ -501,7 +497,7 @@ def requestServiceView(request, category, item):
     if item == "blogger-distribution":
         context['active_blogs']               =   Blogs.objects.filter(active = True) # load all active blog houses
         context['blog_categories']            =   [name[1] for name in BLOG_CATEGORIES] # fetch list of blogs
-    if item == "newspaper":
+    if item == "newspaper-advertising":
         context['advert_page_sizes']          =   NEWSPAPER_ADV_SIZES
         context['active_paper_media_house']   =   MediaHouse.objects.filter(platform__name = "newspaper")
    
@@ -536,7 +532,7 @@ def requestServiceView(request, category, item):
             #         new_request.event_time    = rp['event_time']
             #         new_request.event_venue   = rp['event_venue']
 
-            non_timed_list = ['bloggger-distribution','newspaper','radio','television']
+            non_timed_list = ['bloggger-distribution','newspaper-advertising','radio-advertising','television-advertising'] # decouple this - make list dynamic
 
             if service_type == "photo-news":
                 if rp['need_photographer']  ==  "No":
@@ -549,14 +545,35 @@ def requestServiceView(request, category, item):
                     new_request.event_time    = rp['event_time']
                     new_request.event_venue   = rp['event_venue']
             else:
-                # if not service_type == "blogger-distribution":
                 if service_type not in non_timed_list:
                     new_request.preferred_call_time = rp['preferred_call_time']
                     new_request.time_service_needed = rp['time_service_needed']
                 else:
+                    # new_request.save() 
                     # SAVE EXTRA FIELDS 
-                    save_extra_fields(request, new_request, service_type) # save extra fields for active service type
+                    # save_extra_fields(request, new_request, service_type) # save extra fields for active service type
 
+                    extra_field_dict = {'radio-advertising_extra_fields':['adv_service_type','adv_duration','region','audio_file'],
+                    'television-advertising_extra_fields':['adv_service_type','adv_duration','region','video_file'],
+                    'newspaper-advertising_extra_fields': ['page_size','media_house','page_color','advert_image_file',
+                    'adv_instructions','allow_content_editing'] }   
+
+                    extra_fields_to_use =    extra_field_dict[service_type + '_extra_fields'] # get the extra field list to use
+                    for field_name in extra_fields_to_use:
+                        model_field = ServiceRequest._meta.get_field(field_name)
+                        if request.FILES:
+                            new_request.model_field = request.FILES.get(field_name, None) #save files first
+                        else:
+                            if field_name == 'media_house':
+                                new_request.model_field     = request.POST.getlist(field_name, None) # save other field contents
+                            
+                            new_request.model_field     = request.POST.get(field_name, None) # save other field contents
+                        new_request.save()
+                    
+
+
+            
+            #  FOR BLOGGER DISTRIBUTION SUBMISSION 
             if rp['service_type']  == "blogger-distribution":
                 new_request.total_price   =   rp['total_price']
                 selected_blogs    =   request.POST.getlist('selected_blog[]')
@@ -587,7 +604,7 @@ def requestServiceView(request, category, item):
                 mail_context.update({'brief_desc':brief_description}) 
 
             subject = "Service Request Confirmation"
-            easypr_send_mail(request, recipient = rp['contact_person'], useremail= rp['contact_email'], text="emails/service-request-confirmation.html",subject=subject, context = mail_context)
+            return easypr_send_mail(request, recipient = rp['contact_person'], useremail= rp['contact_email'], text="emails/service-request-confirmation.html",subject=subject, context = mail_context)
         else:
             msg = "Sorry, something went wrong while trying to save your request. Please reload the page and try again"
             messages.error(request, msg)
